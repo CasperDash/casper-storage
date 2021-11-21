@@ -66,8 +66,8 @@ Regardless that we emphasize to use mnemonic phrases as secret keys, this packag
 - `convertToSeed(key | entropy)` converts a key to a seed as an input of the HD wallet
 
 Refs:
-https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-https://www.npmjs.com/package/bip39
+- https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+- https://www.npmjs.com/package/bip39
 
 ### cryptography
 
@@ -76,8 +76,8 @@ https://www.npmjs.com/package/bip39
 The `Crypto` should be initialized with a password as `let c = new Cryto(password)`
 and then we can use it to encrypt and decrypt values
 
-`c.encrypt(value)`
-`c.decrypt(value)`
+- `c.encrypt(value)` 
+- `c.decrypt(value)`
 
 The encrypted value (by the AES method, an industry standard for encryption) should only be able to be decypted when users provide the same password
 
@@ -86,8 +86,7 @@ Utilities
 `CrytoUtils.computeChecksum(data): string`
 
 Refs:
-https://www.npmjs.com/package/crypto-js
-
+- https://www.npmjs.com/package/crypto-js
 
 ### wallet
 
@@ -96,8 +95,8 @@ Supports key types (but not limited to) which are supported by Casper (secp256k1
 `import { WalletManager, IWallet, IHDWallet, ILegacyWallet } from "caspter-storage/wallet"`
 
 The `WalletManager` provides 2 main actions:
-`createLegacyWallet(privateKey, keyType): ILegacyWallet`
-`createHDWalet(masterKey, keyType): IHDWallet`
+- `createLegacyWallet(privateKey, keyType): ILegacyWallet`
+- `createHDWalet(masterKey, keyType): IHDWallet`
 
 `keyType` which is either secp256k1 or ed25519
 
@@ -105,13 +104,13 @@ The `WalletManager` provides 2 main actions:
 `IHDWallet` presents a hierarchical deterministic wallet (BIP32)
 
 Both kinds of wallet inherits from `IWallet`
-`IWallet.getID(): string` returns a computed id from the wallet key
+- `IWallet.getID(): string` returns a computed id from the wallet key
 
 Refs:
-https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
-https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
-https://github.com/alepop/ed25519-hd-key
-https://fission.codes/blog/everything-you-wanted-to-know-about-elliptic-curve-cryptography/
+- https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+- https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
+- https://github.com/alepop/ed25519-hd-key
+- https://fission.codes/blog/everything-you-wanted-to-know-about-elliptic-curve-cryptography/
 
 ### account
 
@@ -123,34 +122,34 @@ Create a new account with user's password
 `let acc = Account(password)`
 
 Propreties
-`wallets: IWallet[]` presents legacy wallets
-`hdWallet: IHDWallet` presents HD wallet
-`walletsInfo: Map<string, IWalletInfo>` presents wallet information
+- `wallets: IWallet[]` presents legacy wallets
+- `hdWallet: IHDWallet` presents HD wallet
+- `walletsInfo: Map<string, IWalletInfo>` presents wallet information
 
 Methods to serialize, deserialize account to integrate with storage
-`acc.serialize(): string`
-`acc.deserialize(data: string)`
+- `acc.serialize(): string`
+- `acc.deserialize(data: string)`
 
 Methods to work with HDWallet
-`acc.getHDWallet(): IHDWallet`
-`acc.setHDWallet(wallet: IHDWallet)`
-`acc.addHDWalletDerive(index: number, info?: string | WalletInfo)`
-`acc.removeHDWalletDerive(index: number)`
+- `acc.getHDWallet(): IHDWallet`
+- `acc.setHDWallet(wallet: IHDWallet)`
+- `acc.addHDWalletDerive(index: number, info?: string | WalletInfo)`
+- `acc.removeHDWalletDerive(index: number)`
 
 Methods to work with legacy wallets
-`acc.addLegacyWallet(wallet: IWallet, info?: string | WalletInfo)`
-`acc.getLegacyWallets(): IWallet[]`
-`acc.hasLegacyWallets(): bool`
+- `acc.addLegacyWallet(wallet: IWallet, info?: string | WalletInfo)`
+- `acc.getLegacyWallets(): IWallet[]`
+- `acc.hasLegacyWallets(): bool`
 
 Methods to work with wallet information
-`acc.setWalletInfo(id: string, name: string)`
-`acc.getWalletInfo(id: string): WalletInfo`
+- `acc.setWalletInfo(id: string, name: string)`
+- `acc.getWalletInfo(id: string): WalletInfo`
 
-an account to be encrypted and keep in storage should have following format:
+An account to be saved in storage (encrypted) should have following format:
 ```json
 {
     hdWallet: IHDWallet,
-    wallets: [ IWallet, IWallet],
+    wallets: [ IWallet, IWallet ],
     walletsInfo: {
        "0c2fe3fe": {
            Name: "My simple account 1"
