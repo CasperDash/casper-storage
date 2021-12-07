@@ -1,6 +1,6 @@
 # Caspter storage
 
-> Following crypto standard libraries, BIPs, etc., this library provides a generic solution which lets developers have a standard way to manage wallets, store and retrieve users' information.
+> Following crypto standard libraries, BIPs, SLIPs. etc this library provides a generic solution which lets developers have a standard way to manage wallets, store and retrieve users' information.
 
 ## Scenarios
 
@@ -38,14 +38,14 @@ When Alice comes back next time with his right password, he will able to access 
 This library contains 5 main packages
 
 - master-key: utilities to generate secret keys (phrases) which can then be used as seeds to create wallets
-- account: manage user information, HDWalletwallet  and legacy wallets, enriched wallet information (name, icon, etc)
+- user: manage user's information, HDWalletwallet and legacy wallets, enriched wallet information (name, icon, etc)
 - wallet: import and export HD wallet (or legacy wallets) from keys
-- cryptography: utilities to encrypt and decrypt data, or security related tools
-- storage: provide the ability to store key-value pairs, depending on environments (web / mobile)
+- cryptography: utilities to encrypt, decrypt data and security related tools
+- storage: provide the ability to store key-value pairs, depending on environments (web or mobile)
 
 ## Architecture overview
 
-![](https://i.imgur.com/y1SNGPK.jpg)
+![](https://i.imgur.com/fi5Miz4.jpg)
 
 
 ## Packages
@@ -76,17 +76,19 @@ Refs:
 The `Crypto` should be initialized with a password as `let c = new Cryto(password)`
 and then we can use it to encrypt and decrypt values
 
-- `c.encrypt(value)` 
+- `c.encrypt(value)`
 - `c.decrypt(value)`
 
 The encrypted value (by the AES method, an industry standard for encryption) should only be able to be decypted when users provide the same password
 
 Utilities
-- Compute a checksum value
-`CrytoUtils.computeChecksum(data): string`
+- CryptoUtils.createHmac(key: string | Uint8Array)
+- CryptoUtils.digestData(key: string | Uint8Array, data: string | Uint8Array)
+- CryptoUtils.hash160(data: Uint8Array)
 
 Refs:
-- https://www.npmjs.com/package/crypto-js
+https://www.npmjs.com/package/crypto-js
+
 
 ### wallet
 
@@ -97,11 +99,9 @@ Supports key types (but not limited to) which are supported by Casper (secp256k1
 The `WalletManager` provides 2 main actions:
 - `createLegacyWallet(privateKey, keyType): ILegacyWallet`
 - `createHDWalet(masterKey, keyType): IHDWallet`
-
-`keyType` which is either secp256k1 or ed25519
-
-`ILegacyWallet` presents for a legacy wallet, which works with a specific private key
-`IHDWallet` presents a hierarchical deterministic wallet (BIP32)
+- `keyType` which is either secp256k1 or ed25519
+- `ILegacyWallet` presents for a legacy wallet, which works with a specific private key
+- `IHDWallet` presents a hierarchical deterministic wallet (BIP32)
 
 Both kinds of wallet inherits from `IWallet`
 - `IWallet.getID(): string` returns a computed id from the wallet key
@@ -112,61 +112,67 @@ Refs:
 - https://github.com/alepop/ed25519-hd-key
 - https://fission.codes/blog/everything-you-wanted-to-know-about-elliptic-curve-cryptography/
 
-### account
+### user
 
-Provides a high level class, let us easily work with wallets
+Provides a high level class, let us easily work with 
 
-`import { Account } from "caspter-storage/account"`
+`import { User } from "caspter-storage/user"`
 
 Create a new account with user's password
-`let acc = Account(password)`
+- `let user = User(password)`
 
 Propreties
 - `wallets: IWallet[]` presents legacy wallets
-- `hdWallet: IHDWallet` presents HD wallet
+- `hdWallet: IHDWallet` presents a HD wallet
 - `walletsInfo: Map<string, IWalletInfo>` presents wallet information
 
 Methods to serialize, deserialize account to integrate with storage
-- `acc.serialize(): string`
-- `acc.deserialize(data: string)`
+- `user.serialize(): string`
+- `user.deserialize(data: string)`
 
 Methods to work with HDWallet
-- `acc.getHDWallet(): IHDWallet`
-- `acc.setHDWallet(wallet: IHDWallet)`
-- `acc.addHDWalletDerive(index: number, info?: string | WalletInfo)`
-- `acc.removeHDWalletDerive(index: number)`
+- `user.getHDWallet(): IHDWallet`
+- `user.setHDWallet(wallet: IHDWallet)`
+- `user.addHDWalletAccount(index: number, info?: string | WalletInfo)`
+- `user.removeHDWalletAccount(index: number)`
 
 Methods to work with legacy wallets
-- `acc.addLegacyWallet(wallet: IWallet, info?: string | WalletInfo)`
-- `acc.getLegacyWallets(): IWallet[]`
-- `acc.hasLegacyWallets(): bool`
+- `user.addLegacyWallet(wallet: IWallet, info?: string | WalletInfo)`
+- `user.getLegacyWallets(): IWallet[]`
+- `user.hasLegacyWallets(): bool`
 
 Methods to work with wallet information
-- `acc.setWalletInfo(id: string, name: string)`
-- `acc.getWalletInfo(id: string): WalletInfo`
+- `user.setWalletInfo(id: string, name: string)`
+- `user.getWalletInfo(id: string): WalletInfo`
 
-An account to be saved in storage (encrypted) should have following format:
+An instance of User to be encrypted and keep in storage should have following format:
 ```json
 {
-    hdWallet: IHDWallet,
-    wallets: [ IWallet, IWallet ],
-    walletsInfo: {
-       "0c2fe3fe": {
-           Name: "My simple account 1"
-       },
-       "0ace82fa": {
-           Name: "My simple account 2"
-       },
-       "02fea22c_0": {
-           Name: "My account 1"
-       },
-       "02fea22c_1": {
-           Name: "My account 2"
-       }
-   }
+    "wallet": {
+        "key": "the hex seed of master key",
+        "derives": [
+            {
+                "key": "m/44'/X'/0'/0/0",
+                "name": "Account 1"
+            },
+            {
+                "key": "m/44'/X'/1'/0/0",
+                "name": "Account 2"
+            }
+        ]
+    },
+    "wallets": [
+        {
+            "key": "privateKey01",
+            "name": "Legacy wallet 1"
+        },
+        {
+            "key": "privateKey02",
+            "name": "Legacy wallet 2"
+        }
+    ]
 }
 ```
-> 0c2fe3fe, 0ace82fa, 02fea22c are id of wallets
 
 ### storage
 
@@ -180,8 +186,44 @@ The `Storage.getInstance()` provides an instance of `IStorage`, depending on the
 - `remove(key)` removes the stored value by key
 - `clear()` removes all keys which are managed by this storage
 
->each method should also have a variant of Async mode
-
 e.g:
 on web applications - the `IStorage` would be implemented by `WebStorage` which is a wrapper of `localStorage`
 on mobile application, TBD
+
+
+# Javascript
+## Mnemonic - BIP39
+- https://github.com/bitcoinjs/bip39
+## HDWallet
+- https://github.com/cryptocoinjs/hdkey
+- https://github.com/alepop/ed25519-hd-key
+
+# Java
+## Mnemonic - BIP39
+BitcoinJ
+- https://github.com/bitcoinj/bitcoinj/blob/master/core/src/main/java/org/bitcoinj/crypto/MnemonicCode.java
+
+NovaCrypto
+- https://github.com/NovaCrypto
+Others
+- https://stackoverflow.com/questions/55622851/seed-from-bip39-mnemonic-not-matching-test-vectors
+- https://yenhuang.gitbooks.io/blockchain/content/hd-wallet.html
+- https://github.com/btchip/wallet/blob/master/public/bitlib/src/main/java/com/mrd/bitlib/crypto/Bip39.java
+
+## HDWallet 
+- https://github.com/orogvany/BIP32-Ed25519-java
+- https://github.com/NovaCrypto/BIP32
+
+# Swift
+- https://github.com/skywinder/web3swift (secp)
+- https://github.com/binance-chain/wallet-core-carthage/tree/master/wallet-core/swift/Sources/Generated/Enums
+
+# C#
+For references
+- https://github.com/farukterzioglu/HDWallet
+
+# Our very first proposal implementation for js
+| Once done for js, we can easily port code to any platform (java, swift, etc)
+
+https://github.com/codsay/blockchainjs/
+Cover all test vectors which are provided by BIP32 and SLIP10
