@@ -37,7 +37,7 @@ When Alice comes back next time with his right password, he will able to access 
 
 This library contains 5 main packages
 
-- master-key: utilities to generate secret keys (phrases) which can then be used as seeds to create wallets
+- key: utilities to generate secret keys (phrases) which can then be used as seeds to create wallets
 - user: manage user's information, HDWalletwallet and legacy wallets, enriched wallet information (name, icon, etc)
 - wallet: import and export HD wallet (or legacy wallets) from keys
 - cryptography: utilities to encrypt, decrypt data and security related tools
@@ -50,18 +50,19 @@ This library contains 5 main packages
 
 ## Packages
 
-### master-key
+### key
 
 Regardless that we emphasize to use mnemonic phrases as secret keys, this package provides a generic solution to easily swich between key providers if needed.
 
-`import { MasterKeyProvider } from "casper-storage/master-key"`
+`import { KeyFactory } from "casper-storage/key"`
 
-`MasterKeyProvider.getInstance()` returns an instance of `IMasterKeyProvider`
->`MenomonicKeyProvider` by default
+`KeyFactory.getInstance()` returns an instance of `IKeyManager`
+>`MnemonicKey` by default
 
-`IMasterKeyProvide` provides methods:
+`IKeyManager` provides methods:
 - `generate()` generates a secret key for each call
-- `convertToEntropy(key)` converts the key to an entropy value
+- `validate(key: string)` validate if the given key is a valid standard mnemonic key
+- `convertToEntropy(key: string)` converts the key to an entropy value
 - `convertToKey(entropy)` converts the entropy to a human-readable key (phrase)
 - `convertToSeed(key | entropy)` converts a key to a seed as an input of the HD wallet
 
@@ -71,46 +72,39 @@ Refs:
 
 ### cryptography
 
-`import { Crypto, CrytoUtils } from "casper-storage/cryptography"`
+`import { EncryptionType, CrytoUtils } from "casper-storage/cryptography"`
 
-The `Crypto` should be initialized with a password as `let c = new Cryto(password)`
-and then we can use it to encrypt and decrypt values
+The `EncryptionType` defines 2 modes: Ed25519 and Secp256k1
 
-- `c.encrypt(value)`
-- `c.decrypt(value)`
-
-The encrypted value (by the AES method, an industry standard for encryption) should only be able to be decypted when users provide the same password
-
-Utilities
-- CryptoUtils.createHmac(key: string | Uint8Array)
-- CryptoUtils.digestData(key: string | Uint8Array, data: string | Uint8Array)
-- CryptoUtils.hash160(data: Uint8Array)
-
-Refs:
-https://www.npmjs.com/package/crypto-js
-
+The `CryptoUtils` provide convenience encryption methods like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
 
 ### wallet
 
 Supports key types (but not limited to) which are supported by Casper (secp256k1 and ed25519)
 
-`import { WalletManager, IWallet, IHDWallet, ILegacyWallet } from "caspter-storage/wallet"`
+`import { IWallet, IHDWallet, ILegacyWallet } from "caspter-storage/wallet"`
 
-The `WalletManager` provides 2 main actions:
-- `createLegacyWallet(privateKey, keyType): ILegacyWallet`
-- `createHDWalet(masterKey, keyType): IHDWallet`
+The `WalletManager` provides main actions:
+`createHDWalet(masterKey, keyType): IHDWallet`
+`createLegacyWallet(privateKey, keyType): ILegacyWallet`
+`importLegacyWalletFromFile(file, keyType): ILegacyWallet`
+
 - `keyType` which is either secp256k1 or ed25519
+- `IHDWallet` presents a hierarchical deterministic wallet (BIP32 / SLIP10)
 - `ILegacyWallet` presents for a legacy wallet, which works with a specific private key
-- `IHDWallet` presents a hierarchical deterministic wallet (BIP32)
-
-Both kinds of wallet inherits from `IWallet`
-- `IWallet.getID(): string` returns a computed id from the wallet key
+- `IWallet` presents for a basic wallet which provide common methods for both legacy and HD wallet
+  - `getPrivateKey()`
+  - `getPublicKey()`
+  - `getPublicAddress()`
+  - `getPublicHash()`
+  - `sign(message)`
 
 Refs:
 - https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 - https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 - https://github.com/alepop/ed25519-hd-key
 - https://fission.codes/blog/everything-you-wanted-to-know-about-elliptic-curve-cryptography/
+- https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 
 ### user
 
@@ -122,9 +116,10 @@ Create a new account with user's password
 - `let user = User(password)`
 
 Propreties
-- `wallets: IWallet[]` presents legacy wallets
-- `hdWallet: IHDWallet` presents a HD wallet
-- `walletsInfo: Map<string, IWalletInfo>` presents wallet information
+- `wallet: HDWalletInfo` presents a HD wallet and its information
+  - `HDWalletInfo: { key: string, derives: WalletInfo[] }`
+- `legacyWallets: WalletInfo[]` presents legacy wallets and their information
+   - `WalletInfo: { key: string, name: string }`
 
 Methods to serialize, deserialize account to integrate with storage
 - `user.serialize(): string`
@@ -142,8 +137,8 @@ Methods to work with legacy wallets
 - `user.hasLegacyWallets(): bool`
 
 Methods to work with wallet information
-- `user.setWalletInfo(id: string, name: string)`
-- `user.getWalletInfo(id: string): WalletInfo`
+- `user.setWalletInfo(id: string, name: string, legacyWallet: bool = false)`
+- `user.getWalletInfo(id: string, legacyWallet: bool = false): WalletInfo`
 
 An instance of User to be encrypted and keep in storage should have following format:
 ```json
@@ -161,7 +156,7 @@ An instance of User to be encrypted and keep in storage should have following fo
             }
         ]
     },
-    "wallets": [
+    "legacyWallets": [
         {
             "key": "privateKey01",
             "name": "Legacy wallet 1"
