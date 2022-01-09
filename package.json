@@ -1,0 +1,53 @@
+{
+  "name": "casper-storage",
+  "version": "1.0.0",
+  "description": "Provides standard implementation of wallet workflow, following standards BIPs, SLIPs",
+  "author": "Hoang DANG <hoangdh91@gmail.com>",
+  "repository": "https://github.com/CasperDash/casper-storage",
+  "license": "MIT",
+  "keywords": [
+    "casper",
+    "storage",
+    "casper-storage"
+  ],
+  "main": "./dist/tsc/index.js",
+  "types": "./dist/tsc/index.d.ts",
+  "browser": "./dist/esbuild/browser.js",
+  "scripts": {
+    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
+    "test": "jest",
+    "clean": "rimraf dist build package",
+    "docs": "typedoc --entryPoints src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "build-all": "yarn clean && yarn build && yarn esbuild-node && yarn esbuild-browser",
+    "esbuild-browser": "esbuild src/browser.ts --bundle --minify --sourcemap=external --outfile=dist/esbuild/browser.js",
+    "esbuild-node": "esbuild src/cli.ts --bundle --platform=node --minify --sourcemap=external --outfile=dist/esbuild/cli.js",
+    "ts-node": "ts-node"
+  },
+  "dependencies": {
+    "@noble/ed25519": "^1.4.0",
+    "@noble/hashes": "^0.5.9",
+    "@noble/secp256k1": "^1.4.0",
+    "crypto-js": "^4.1.1",
+    "micro-base": "^0.10.2",
+    "secp256k1": "^4.0.2"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/bs58check": "^2.1.0",
+    "@types/crypto-js": "^4.1.0",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.8",
+    "@types/secp256k1": "^4.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
+    "esbuild": "^0.14.10",
+    "eslint": "^8.6.0",
+    "jest": "^27.4.7",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "typedoc": "^0.22.10",
+    "typescript": "^4.5.4"
+  }
+}
