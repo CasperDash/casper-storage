@@ -13,7 +13,7 @@ const base58c = base58check(sha256);
 export class CryptoUtils {
 
   static digestData(data: Uint8Array, key: Uint8Array) {
-    const I = hmac(sha512, data, key);
+    const I = hmac(sha512, key, data);
     const IL = I.slice(0, 32);
     const IR = I.slice(32);
     return {
