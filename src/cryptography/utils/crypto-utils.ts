@@ -3,6 +3,10 @@ import { sha256 } from "@noble/hashes/sha256";
 import { base58check } from "micro-base";
 import { TypeUtils, Hex } from "@/utils";
 
+import {
+  utf8ToBytes
+} from "@noble/hashes/utils";
+
 const base58c = base58check(sha256);
 
 export class CryptoUtils {
@@ -67,6 +71,10 @@ export class CryptoUtils {
 
   static base58Encode(data: Uint8Array) {
     return base58c.encode(data);
+  }
+
+  static convertUt8ToByteArray(input: string): Uint8Array {
+    return utf8ToBytes(input);
   }
 }
 

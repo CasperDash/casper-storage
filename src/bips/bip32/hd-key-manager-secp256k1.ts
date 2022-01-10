@@ -1,10 +1,10 @@
-import { EncryptionType } from "@/cryptography";
+import { CryptoUtils, EncryptionType } from "@/cryptography";
 import { HDKeyManagerBase as HDKeyManagerBase } from "./hd-key-manager-base";
 import { IHDKey } from "./hdkey";
 import { HDKeySecp256k1 } from "./hdkey/hd-key-secp256k1";
 import { HDKeyConfig, Versions } from "./interfaces";
 
-const MASTER_SECRET = new TextEncoder().encode("Bitcoin seed");
+const MASTER_SECRET = CryptoUtils.convertUt8ToByteArray("Bitcoin seed");
 
 export class HDKeyManagerSecp256k1 extends HDKeyManagerBase {
 
