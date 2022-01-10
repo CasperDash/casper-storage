@@ -8,18 +8,19 @@
 
 A user (Alice) accesses a wallet management (`CasperWallet`) for the very first time
 
-`CasperWallet` asks Alice for a `password`
+`CasperWallet` asks Alice for a **secure** `password`
 `CasperWallet` generates a master key (mnemonic)
 `CasperWallet` asks Alice to backup this key
+`CasperWallet` asks Alice confirm the mnemonic phrase
 > e.g by writing down on paper and keeping it in a secret box
 
 `CasperWallet` then asks Alice to choose an `encryption mode` (either secp256k1 or ed25519) 
 > `CasperWallet` should recommend Alice to choose `ed25519` over secp256k1 due to security and performance, unless Alice explicitly wants to use secp256k1 because of Bitcoin, Ethereum compatible 
 
 `CasperWallet` creates a local account with Alice's password, initializes the HD wallet in this account
-`CasperWallet` encrypts the account and save all information into local storage (in order to restore the wallet when Alice comes back next time)
+`CasperWallet` **encrypts** the account and save all information into *local storage* or a *secure storage* (in order to restore the wallet when Alice comes back next time)
 `CasperWallet` navigates Alice to his wallet screen and shows the first account (0-indexed)
->`CasperWallet` might also automatically scan for the next accounts that have made at least one transaction and list them out in the account list
+>`CasperWallet` might also automatically scan for the next accounts that have made at least one transaction and list them out in the account list (limit up to 20 account without funds in a row according to the bip44 spec)
 
 ### Users have existing wallets
 
