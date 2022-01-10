@@ -2,7 +2,7 @@
   "name": "casper-storage",
   "version": "1.0.0",
   "description": "Provides standard implementation of wallet workflow, following standards BIPs, SLIPs",
-  "author": "Hoang DANG <hoangdh91@gmail.com>",
+  "author": "Caperdash.io <hello@casperdash.io>",
   "repository": "https://github.com/CasperDash/casper-storage",
   "license": "MIT",
   "keywords": [
