@@ -38,16 +38,12 @@ function salt(password?: string): string {
   return 'mnemonic' + (password || '');
 }
 
-function encodeText(input: string) {
-  return new TextEncoder().encode(input);
-}
-
 export function mnemonicToSeedSync(
   mnemonic: string,
   password?: string,
 ): Uint8Array {
-  const mnemonicArr = encodeText(normalize(mnemonic));
-  const saltArr = encodeText(salt(normalize(password)));
+  const mnemonicArr = CryptoUtils.convertUt8ToByteArray(normalize(mnemonic));
+  const saltArr = CryptoUtils.convertUt8ToByteArray(salt(normalize(password)));
   return CryptoUtils.pbkdf2Sync(mnemonicArr, saltArr, 2048, 64, 'sha512');
 }
 
@@ -57,8 +53,8 @@ export function mnemonicToSeed(
 ): Promise<Uint8Array> {
   return Promise.resolve().then(
     (): Promise<Uint8Array> => {
-      const mnemonicArr = encodeText(normalize(mnemonic));
-      const saltArr = encodeText(salt(normalize(password)));
+      const mnemonicArr = CryptoUtils.convertUt8ToByteArray(normalize(mnemonic));
+      const saltArr = CryptoUtils.convertUt8ToByteArray(salt(normalize(password)));
       return CryptoUtils.pbkdf2(mnemonicArr, saltArr, 2048, 64, 'sha512');
     },
   );

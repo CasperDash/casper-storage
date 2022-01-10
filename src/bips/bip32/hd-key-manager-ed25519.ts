@@ -1,10 +1,10 @@
-import { EncryptionType } from "@/cryptography";
+import { CryptoUtils, EncryptionType } from "@/cryptography";
 import { HDKeyManagerBase as HDKeyManagerBase } from "./hd-key-manager-base";
 import { HDKeyED25519 } from "./hdkey/hd-key-ed25519";
 import { IHDKey } from "./hdkey";
 import { HDKeyConfig, Versions } from "./interfaces";
 
-const MASTER_SECRET = new TextEncoder().encode("ed25519 seed");
+const MASTER_SECRET = CryptoUtils.convertUt8ToByteArray("ed25519 seed");
 
 export class HDKeyManagerEd25519 extends HDKeyManagerBase {
 

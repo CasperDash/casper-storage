@@ -1,4 +1,5 @@
-import { EncryptionType, AsymmetricKeyFactory } from "@/cryptography";
+import { EncryptionType, AsymmetricKeyFactory, CryptoUtils } from "@/cryptography";
+import { TypeUtils } from "@/utils";
 import { IWallet } from "../core";
 
 export abstract class BaseWallet<TKey> implements IWallet<TKey> {
@@ -31,8 +32,9 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   /**
    * Returns the public address of wallet
    */
-  public getAccountAddress(): Promise<string> {
-    return this.getPublicKey();
+  public async getAddress(): Promise<string> {
+    const publicKey = await this.getPublicKey();
+    return TypeUtils.convertArrayToHexString(CryptoUtils.hash160(TypeUtils.convertHexStringToArray(publicKey)));
   }
 
   /**
