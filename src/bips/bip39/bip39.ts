@@ -44,7 +44,7 @@ export function mnemonicToSeedSync(
 ): Uint8Array {
   const mnemonicArr = CryptoUtils.convertUt8ToByteArray(normalize(mnemonic));
   const saltArr = CryptoUtils.convertUt8ToByteArray(salt(normalize(password)));
-  return CryptoUtils.pbkdf2Sync(mnemonicArr, saltArr, 2048, 64, 'sha512');
+  return CryptoUtils.pbkdf2Sync(mnemonicArr, saltArr, 2048, 64);
 }
 
 export function mnemonicToSeed(
@@ -55,7 +55,7 @@ export function mnemonicToSeed(
     (): Promise<Uint8Array> => {
       const mnemonicArr = CryptoUtils.convertUt8ToByteArray(normalize(mnemonic));
       const saltArr = CryptoUtils.convertUt8ToByteArray(salt(normalize(password)));
-      return CryptoUtils.pbkdf2(mnemonicArr, saltArr, 2048, 64, 'sha512');
+      return CryptoUtils.pbkdf2(mnemonicArr, saltArr, 2048, 64);
     },
   );
 }

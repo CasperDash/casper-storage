@@ -1,4 +1,5 @@
 /** ! Entrypoint of browser builds */
+export * from "./index";
 
 import { TypeUtils } from "./index";
 import { KeyFactory } from "./index";
