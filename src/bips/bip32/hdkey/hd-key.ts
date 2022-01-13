@@ -123,14 +123,21 @@ export abstract class HDKey implements IHDKey {
     return this.depth === 0 ? 0x00000000 : this.parentFingerprint;
   }
 
+  /**
+   * Derive a HD key from the given path
+   * @param path 
+   * @returns 
+   */
   public async derive(path: string): Promise<IHDKey> {
     // eslint-disable-next-line  @typescript-eslint/no-this-alias
     let hdKey: HDKey = this;
 
+    // BIP32: a path starts with m character
     if (path === "m" || path === 'M' || path === "m'" || path === "M'") {
       return Promise.resolve(hdKey);
     }
 
+    // Parts of path are separated by /
     const levels = path.split("/");
     let accumulatedPath = "";
 
@@ -162,7 +169,7 @@ export abstract class HDKey implements IHDKey {
   }
 
   protected createChildHDKeyFromData(index: number, data: Uint8Array) : Promise<HDKey> {
-    const { key, chainCode } = CryptoUtils.digestData(data, this.getChainCode());
+    const { key, chainCode } = CryptoUtils.digestSHA512(data, this.getChainCode());
     return this.createChildHDKey(index, key, chainCode, null);
   }
 
@@ -182,11 +189,23 @@ export abstract class HDKey implements IHDKey {
     return HARDENED_OFFSET;
   }
 
+  /**
+   * Index should be hardened
+   * @param index 
+   * @param hardened 
+   * @returns 
+   */
   protected getHardenedIndex(index: number, hardened: boolean) {
     if (hardened) index += this.getHardenedOffset();
     return index;
   }
 
+  /**
+   * Combine all relevance information of current node into a single array
+   * @param version of private key or public key
+   * @param key either private key of public key
+   * @returns 
+   */
   private serialize(version: number, key: Uint8Array): Uint8Array{
     const ab = new ArrayBuffer(LEN);
     const view = new DataView(ab);
@@ -208,6 +227,10 @@ export abstract class HDKey implements IHDKey {
     return new Uint8Array(ab);
   }
 
+  /**
+   * Get the asymetric key wrapper to serialize data
+   * @returns 
+   */
   protected getKeyFactory() {
     return AsymmetricKeyFactory.getInstance(this.config.encryptionType);
   }

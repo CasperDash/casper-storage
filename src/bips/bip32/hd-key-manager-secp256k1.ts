@@ -6,6 +6,9 @@ import { HDKeyConfig, Versions } from "./interfaces";
 
 const MASTER_SECRET = CryptoUtils.convertUt8ToByteArray("Bitcoin seed");
 
+/**
+ * A wrapper of HDKey manager which uses ed25519 underlying
+ */
 export class HDKeyManagerSecp256k1 extends HDKeyManagerBase {
 
   public static default = new HDKeyManagerSecp256k1();

@@ -10,9 +10,18 @@ import { TypeUtils, Hex } from "@/utils";
 
 const base58c = base58check(sha256);
 
+/**
+ * Provide utilities to due with cryptography
+ */
 export class CryptoUtils {
 
-  static digestData(data: Uint8Array, key: Uint8Array) {
+  /**
+   * Hash the data based on sha512 with a key, produce 2 parts key and chain-code.
+   * @param data 
+   * @param key 
+   * @returns 
+   */
+  static digestSHA512(data: Uint8Array, key: Uint8Array) {
     const I = hmac(sha512, key, data);
     const IL = I.slice(0, 32);
     const IR = I.slice(32);
@@ -22,18 +31,44 @@ export class CryptoUtils {
     }
   }
 
+  /**
+   * SHA256 hashing operation
+   * @param data 
+   * @returns 
+   */
   static hash256(data: Uint8Array): Uint8Array {
     return sha256(data);
   }
 
+  /**
+   * 160-bit cryptographic hash
+   * @param data 
+   * @returns 
+   */
   static hash160(data: Uint8Array): Uint8Array {
     return ripemd160(sha256(data));
   }
 
+  /**
+   * Public key cryptography standards
+   * @param password 
+   * @param salt 
+   * @param iterations 
+   * @param keySize 
+   * @returns 
+   */
   static pbkdf2Sync(password: Uint8Array, salt: Uint8Array, iterations: number, keySize: number): Uint8Array {
     return pbkdf2(sha512, password, salt, { c: iterations, dkLen: keySize });
   }
 
+  /**
+   * Public key cryptography standards in async mode
+   * @param password 
+   * @param salt 
+   * @param iterations 
+   * @param keySize 
+   * @returns 
+   */
   static pbkdf2(password: Uint8Array, salt: Uint8Array, iterations: number, keySize: number): Promise<Uint8Array> {
     return pbkdf2Async(sha512, password, salt, { c: iterations, dkLen: keySize });
   }

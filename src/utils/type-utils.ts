@@ -1,3 +1,4 @@
+
 /**
  * Definition of hex data, either a hex string or an array of hex value
  */

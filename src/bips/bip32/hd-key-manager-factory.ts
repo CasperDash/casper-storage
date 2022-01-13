@@ -22,14 +22,14 @@ export class HDKeyManagerFactory {
   }
 
   /**
-   * Returns an instance of Ed25519-based HD key manager
+   * Get an instance of Ed25519-based HD key manager
    */
   public static getEd25519KeyManager(): IHDKeyManager {
     return HDKeyManagerFactory.getInstance(EncryptionType.Ed25519);
   }
 
   /**
-   * Returns an instance of Secp256k1-based HD key manager
+   * Get an instance of Secp256k1-based HD key manager
    */
   public static getSecp256k1KeyManager(): IHDKeyManager {
     return HDKeyManagerFactory.getInstance(EncryptionType.Secp256k1);
