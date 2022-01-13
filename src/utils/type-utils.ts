@@ -27,7 +27,7 @@ export class TypeUtils {
    * @param bitsPerValue default to 8
    * @returns 
    */
-  static convertArrayToBinaryString(input: Uint8Array, bitsPerValue: number = 8) {
+  static convertArrayToBinaryString(input: Uint8Array, bitsPerValue = 8) {
     if (!input) return null;
     return [...input].map((x: number): string => x.toString(2).padStart(bitsPerValue, '0')).join('');
   }
