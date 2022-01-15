@@ -3,7 +3,7 @@
 #
 # https://github.com/actions/setup-node
 # Using https://github.com/marketplace/actions/deploy-to-github-pages
-name: Deploy to Github pages
+name: CI - Deloy documents (gh-pages)
 
 on:
   push:
