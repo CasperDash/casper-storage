@@ -1,5 +1,9 @@
 import { Hex } from "@/utils";
 
+/**
+ * Common interface for asymetric keys (ed25519, secp256k1).
+ * To provdie all minimal and common functions
+ */
 export interface IAsymmetricKey {
 
   /**

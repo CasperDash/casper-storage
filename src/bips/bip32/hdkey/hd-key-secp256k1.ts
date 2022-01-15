@@ -47,7 +47,7 @@ export class HDKeySecp256k1 extends HDKey {
       data = new Uint8Array(ab);
     }
 
-    const derivedData = CryptoUtils.digestData(data, this.getChainCode());
+    const derivedData = CryptoUtils.digestSHA512(data, this.getChainCode());
     let derivedPrivateKey = derivedData.key;
     const derivedChainCode = derivedData.chainCode;
 

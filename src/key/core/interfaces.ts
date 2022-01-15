@@ -1,28 +1,14 @@
 import { Hex } from "@/utils";
 
 /**
- * Configuration for key provider to process keys (generation, validation, etc)
- */
-export interface IKeyMangerConfig {
-  /**
-   * The number of words to generate (default to 12)
-   */
-  WordsLength: number;
-
-  /**
-   * The optional password to protect the master key
-   */
-  Password?: string;
-}
-
-/**
  * Key provider
  */
 export interface IKeyManager {
   /**
    * Generate a new key
+   * @param wordsLength number of words (default is 24), the words length should be from 12 to 24
    */
-  generate(): string;
+  generate(wordsLength?: number): string;
 
   /**
    * Validate the given key

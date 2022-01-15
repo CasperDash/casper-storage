@@ -6,6 +6,9 @@ import { HDKeyConfig, Versions } from "./interfaces";
 
 const MASTER_SECRET = CryptoUtils.convertUt8ToByteArray("ed25519 seed");
 
+/**
+ * A wrapper of HDKey manager which uses ed25519 underlying
+ */
 export class HDKeyManagerEd25519 extends HDKeyManagerBase {
 
   public static default = new HDKeyManagerEd25519();

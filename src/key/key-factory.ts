@@ -1,4 +1,4 @@
-import { IKeyMangerConfig, IKeyManager } from "@/key/core";
+import { IKeyManager } from "@/key/core";
 import { MnemonicKey } from "@/key/mnemonic";
 
 /**
@@ -6,7 +6,13 @@ import { MnemonicKey } from "@/key/mnemonic";
  * Usage: KeyFactory.getInstance(), returns a default instance of Mnemoic key generator
  */
 export class KeyFactory {
-  static getInstance(options: Partial<IKeyMangerConfig> = null): IKeyManager {
-    return new MnemonicKey(options);
+
+  /**
+   * Get an instance of the key manager to generate/validate keys.
+   * Default will be mnemonic-key manager
+   * @returns 
+   */
+  static getInstance(): IKeyManager {
+    return new MnemonicKey();
   }
 }

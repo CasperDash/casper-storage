@@ -1,32 +1,38 @@
 import * as bip39 from "@/bips/bip39";
-import { IKeyMangerConfig, IKeyManager } from "@/key/core";
+import { IKeyManager } from "@/key/core";
 import { Hex, TypeUtils } from "@/utils";
+
+
+/**
+ * Available options
+ * https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+ */
+const WORDS_LENGTH_STRENGTH_MAP = new Map<number, number>([
+  [12, 128],
+  [15, 160],
+  [18, 192],
+  [21, 224],
+  [24, 256]
+]);
+
+/**
+ * Let's use the longest available length
+ */
+const DEFAULT_WORDS_LENGTH = 24;
 
 /**
  * Wrapper to work with mnemonic
  */
 export class MnemonicKey implements IKeyManager {
 
-  /**
-   * Default options to work with phrases
-   */
-  readonly DEFAULT_CONFIG: IKeyMangerConfig = {
-    WordsLength: 12,
-    Password: null
-  }
-
-  /**
-   * The initialized options to work with phrases
-   */
-  cfg: IKeyMangerConfig;
-
-  constructor(cfg: Partial<IKeyMangerConfig> = null) {
-    this.cfg = Object.assign(cfg || {}, this.DEFAULT_CONFIG);
-  }
-
-  generate(): string {
-    const strength = this.cfg.WordsLength === 24 ? 256 : 128; // TODO, flexible from 12-24 words instead of fixed 12 or 24 words
-    return bip39.generateMnemonic(strength);
+  generate(wordsLength?: number): string {
+    if (wordsLength == null) {
+      wordsLength = DEFAULT_WORDS_LENGTH;
+    }
+    if (!WORDS_LENGTH_STRENGTH_MAP.has(wordsLength)) {
+      throw new Error(`Length of words must be in allowed list: ${Array.from(WORDS_LENGTH_STRENGTH_MAP.keys()).join(", ")}`)
+    }
+    return bip39.generateMnemonic(WORDS_LENGTH_STRENGTH_MAP.get(wordsLength));
   }
 
   validate(key: string): boolean {

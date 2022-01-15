@@ -38,7 +38,7 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   }
 
   /**
-   * 
+   * Sign the message
    * @param message 
    * @returns 
    */

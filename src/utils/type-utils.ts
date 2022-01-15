@@ -1,3 +1,4 @@
+
 /**
  * Definition of hex data, either a hex string or an array of hex value
  */
@@ -21,6 +22,17 @@ export class TypeUtils {
   }
 
   /**
+   * Convert the given array value to binary string
+   * @param input 
+   * @param bitsPerValue default to 8
+   * @returns 
+   */
+  static convertArrayToBinaryString(input: Uint8Array, bitsPerValue = 8) {
+    if (!input) return null;
+    return [...input].map((x: number): string => x.toString(2).padStart(bitsPerValue, '0')).join('');
+  }
+
+  /**
    * Convert the given hex string to an Uint8Array
    * @param input hex string
    * @returns 
@@ -28,16 +40,6 @@ export class TypeUtils {
   static convertHexStringToArray(input: string): Uint8Array {
     if (!input) return new Uint8Array();
     return new Uint8Array(input.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-  }
-
-  /**
-   * Convert the given binary string to an Uint8Array
-   * @param input 
-   * @returns 
-   */
-  static convertArrayToBinaryString(input: Uint8Array) {
-    if (!input) return null;
-    return [...input].map((x: number): string => x.toString(2).padStart(8, '0')).join('');
   }
 
   /**
