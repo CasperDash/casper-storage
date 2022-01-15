@@ -2,5 +2,106 @@
 <a href="#casper-storage" id="casper-storage" style="color: inherit; text-decoration: none;">
   <h1>Casper storage</h1>
 </a>
-<p>Initial design: <a href="https://github.com/CasperDash/casper-storage/blob/master/document/01-casper-storage-design.md">document/01-casper-storage-design.md</a></p>
-</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-enum"><a href="enums/EncryptionType.html" class="tsd-kind-icon">Encryption<wbr/>Type</a></li><li class="tsd-kind-class"><a href="classes/AsymmetricKeyFactory.html" class="tsd-kind-icon">Asymmetric<wbr/>Key<wbr/>Factory</a></li><li class="tsd-kind-class"><a href="classes/CasperHDWallet.html" class="tsd-kind-icon">CasperHDWallet</a></li><li class="tsd-kind-class"><a href="classes/CasperLegacyWallet.html" class="tsd-kind-icon">Casper<wbr/>Legacy<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/CasperWallet.html" class="tsd-kind-icon">Casper<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/CryptoUtils.html" class="tsd-kind-icon">Crypto<wbr/>Utils</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/HDWallet.html" class="tsd-kind-icon">HDWallet</a></li><li class="tsd-kind-class"><a href="classes/KeyFactory.html" class="tsd-kind-icon">Key<wbr/>Factory</a></li><li class="tsd-kind-class"><a href="classes/LegacyWallet.html" class="tsd-kind-icon">Legacy<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/TypeUtils.html" class="tsd-kind-icon">Type<wbr/>Utils</a></li><li class="tsd-kind-class"><a href="classes/Wallet.html" class="tsd-kind-icon">Wallet</a></li><li class="tsd-kind-type-alias"><a href="modules.html#Hex" class="tsd-kind-icon">Hex</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
+<blockquote>
+<p>Following crypto standard libraries, BIPs, SLIPs, etc this library provides a generic solution which lets developers have a standard way to manage wallets</p>
+</blockquote>
+
+<a href="#documents" id="documents" style="color: inherit; text-decoration: none;">
+  <h2>Documents</h2>
+</a>
+<ul>
+<li><a href="https://github.com/CasperDash/casper-storage/blob/master/document/01-casper-storage-design.md">Initial design</a></li>
+<li><a href="https://casperdash.github.io/casper-storage/">Technical document</a></li>
+</ul>
+
+<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
+  <h2>Setup</h2>
+</a>
+
+<a href="#browser" id="browser" style="color: inherit; text-decoration: none;">
+  <h3>Browser</h3>
+</a>
+<p><code>&lt;script src=&quot;https://cdn.jsdelivr.net/npm/casper-storage&quot;&gt;&lt;/script&gt;</code></p>
+
+<a href="#node" id="node" style="color: inherit; text-decoration: none;">
+  <h3>Node</h3>
+</a>
+<p><code>npm install casper-storage</code> or <code>yarn add casper-storage</code></p>
+
+<a href="#react-native" id="react-native" style="color: inherit; text-decoration: none;">
+  <h3>React-native</h3>
+</a>
+<blockquote>
+<p>Due to missing features of JavascriptCore, we need to polyfill and overrides some features (e.g BigInt, encoding, etc)</p>
+</blockquote>
+<p><a href="https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/README.md">Click here</a> for more detailed information</p>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+
+<a href="#key-generator" id="key-generator" style="color: inherit; text-decoration: none;">
+  <h3>Key generator</h3>
+</a>
+<ol>
+<li>In order to use work with keys, import the <em>KeyFactory</em> from <em>casper-storage</em><br><code>import { KeyFactory } from &quot;casper-storage&quot;</code></li>
+<li>To generate a new random key (default is mnemonic provider)<br><code>KeyFactory.getInstance().generate();</code>\</li>
+</ol>
+<p><em>enlist announce climb census combine city endorse anxiety wedding combine sleep casino curtain only hedgehog venture inject funny banner cattle early erosion feed observe</em>
+3. To convert the key to a seed, so we can use in as a master seed for HD wallet<br><code>KeyFactory.getInstance().toSeedArray(&quot;your keyphrase here&quot;);</code><br><em>an instance of Uint8Array</em>
+4. To validate if a phrase is a valid key, following BIP39 standard<br><code>KeyFactory.getInstance().validate(&quot;your keyphrase here&quot;);</code><br><em>either true or false</em></p>
+
+<a href="#casper-hd-wallet-with-keyphrase" id="casper-hd-wallet-with-keyphrase" style="color: inherit; text-decoration: none;">
+  <h3>Casper HD wallet (with keyphrase)</h3>
+</a>
+<p><code>import { KeyFactory, EncryptionType, CasperHDWallet } from &quot;casper-storage&quot;</code></p>
+<ol>
+<li><p>Create a new keyphrase (master key), default is 24-words-length phrase<br><code>const masterKey = KeyFactory.getInstance().generate()</code></p>
+</li>
+<li><p>Convert the master key to the master seed<br><code>const masterSeed = KeyFactory.getInstance().toSeed(masterKey)</code><br><code>const masterSeedArray = KeyFactory.getInstance().toSeedArray(masterKey)</code></p>
+</li>
+<li><p>Create a new instance HDWallet from the master seed (either hex value or array buffer), with desired encryption mode<br><code>const hdWallet = new CasperHDWallet(masterSeed, EncryptionType.Ed25519);</code></p>
+</li>
+<li><p>Get account wallet<br><code>const acc0 = await hdWallet.getAccount(0)</code><br><code>const acc1 = await hdWallet.getAccount(1)</code></p>
+</li>
+<li><p>Play with wallets<br><code>acc0.getPrivateKey()</code> returns the private key of wallet<br><code>await acc0.getAddress()</code> returns the public address of wallet<br><code>await acc0.sign(msgArray)</code> signs the message (Uint8Array) and returns the signed value (Uint8Array)</p>
+</li>
+</ol>
+
+<a href="#casper-legacy-wallet-with-single-private-key" id="casper-legacy-wallet-with-single-private-key" style="color: inherit; text-decoration: none;">
+  <h3>Casper legacy wallet (with single private key)</h3>
+</a>
+<p><code>import { KeyFactory, EncryptionType, CasperLegacyWallet } from &quot;casper-storage&quot;</code></p>
+<ol>
+<li>Prepare the private key (input from user, or read from a file)</li>
+<li>Create a new instance of CasperLegacyWallet with that private key (either hex string or Uint8Array data)<br><code>let wallet = new CasperLegacyWallet(&quot;a-private-key-hex-string&quot;, EncryptionType.Ed25519)</code><br><code>let wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp256k1)</code></li>
+<li>This wallet will also share the same methods from a wallet of HDWallet<br>e.g <code>await wallet.getAddress()</code></li>
+</ol>
+
+<a href="#progress" id="progress" style="color: inherit; text-decoration: none;">
+  <h2>Progress</h2>
+</a>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Key generator (mnemonic)</li>
+<li><input disabled="" type="checkbox"> Cryptography<ul>
+<li><input checked="" disabled="" type="checkbox"> Asymmetric key implementation<ul>
+<li><input checked="" disabled="" type="checkbox"> Ed25519</li>
+<li><input checked="" disabled="" type="checkbox"> Secp256k1</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Utilities<ul>
+<li><input checked="" disabled="" type="checkbox"> Common hash functions (HMAC, SHA256, SHA512, etc)</li>
+<li><input disabled="" type="checkbox"> AES encryption</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> Wallet<ul>
+<li><input checked="" disabled="" type="checkbox"> Legacy wallet</li>
+<li><input checked="" disabled="" type="checkbox"> HD wallet</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"> User management</li>
+<li><input disabled="" type="checkbox"> Storage manament</li>
+</ul>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-enum"><a href="enums/CoinType.html" class="tsd-kind-icon">Coin<wbr/>Type</a></li><li class="tsd-kind-enum"><a href="enums/EncryptionType.html" class="tsd-kind-icon">Encryption<wbr/>Type</a></li><li class="tsd-kind-enum"><a href="enums/Network.html" class="tsd-kind-icon">Network</a></li><li class="tsd-kind-enum"><a href="enums/Purpose.html" class="tsd-kind-icon">Purpose</a></li><li class="tsd-kind-class"><a href="classes/AsymmetricKeyFactory.html" class="tsd-kind-icon">Asymmetric<wbr/>Key<wbr/>Factory</a></li><li class="tsd-kind-class"><a href="classes/CasperHDWallet.html" class="tsd-kind-icon">CasperHDWallet</a></li><li class="tsd-kind-class"><a href="classes/CasperLegacyWallet.html" class="tsd-kind-icon">Casper<wbr/>Legacy<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/CasperWallet.html" class="tsd-kind-icon">Casper<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/CoinPath.html" class="tsd-kind-icon">Coin<wbr/>Path</a></li><li class="tsd-kind-class"><a href="classes/CryptoUtils.html" class="tsd-kind-icon">Crypto<wbr/>Utils</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/HDWallet.html" class="tsd-kind-icon">HDWallet</a></li><li class="tsd-kind-class"><a href="classes/KeyFactory.html" class="tsd-kind-icon">Key<wbr/>Factory</a></li><li class="tsd-kind-class"><a href="classes/LegacyWallet.html" class="tsd-kind-icon">Legacy<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/Signature.html" class="tsd-kind-icon">Signature</a></li><li class="tsd-kind-class"><a href="classes/TypeUtils.html" class="tsd-kind-icon">Type<wbr/>Utils</a></li><li class="tsd-kind-class"><a href="classes/Wallet.html" class="tsd-kind-icon">Wallet</a></li><li class="tsd-kind-interface"><a href="interfaces/IAddressGenerator.html" class="tsd-kind-icon">IAddress<wbr/>Generator</a></li><li class="tsd-kind-interface"><a href="interfaces/IAsymmetricKey.html" class="tsd-kind-icon">IAsymmetric<wbr/>Key</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/IHDWallet.html" class="tsd-kind-icon">IHDWallet</a></li><li class="tsd-kind-interface"><a href="interfaces/IKeyManager.html" class="tsd-kind-icon">IKey<wbr/>Manager</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/IWallet.html" class="tsd-kind-icon">IWallet</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/IWalletConstructor.html" class="tsd-kind-icon">IWallet<wbr/>Constructor</a></li><li class="tsd-kind-type-alias"><a href="modules.html#Hex" class="tsd-kind-icon">Hex</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
