@@ -86,13 +86,6 @@
     jsesc "^2.5.1"
     source-map "^0.5.0"
 
-"@babel/helper-annotate-as-pure@^7.16.7":
-  version "7.16.7"
-  resolved "https://registry.npmjs.org/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.16.7.tgz"
-  integrity sha512-s6t2w/IPQVTAET1HitoowRGXooX8mCgtuP5195wD/QJPV6wYjpujCGF7JuMODVX2ZAJOf1GT6DT9MHEZvLOFSw==
-  dependencies:
-    "@babel/types" "^7.16.7"
-
 "@babel/helper-compilation-targets@^7.15.4":
   version "7.15.4"
   resolved "https://registry.npmjs.org/@babel/helper-compilation-targets/-/helper-compilation-targets-7.15.4.tgz"
@@ -112,19 +105,6 @@
     "@babel/helper-validator-option" "^7.16.7"
     browserslist "^4.17.5"
     semver "^6.3.0"
-
-"@babel/helper-create-class-features-plugin@^7.16.7":
-  version "7.16.7"
-  resolved "https://registry.npmjs.org/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.16.7.tgz"
-  integrity sha512-kIFozAvVfK05DM4EVQYKK+zteWvY85BFdGBRQBytRyY3y+6PX0DkDOn/CZ3lEuczCfrCxEzwt0YtP/87YPTWSw==
-  dependencies:
-    "@babel/helper-annotate-as-pure" "^7.16.7"
-    "@babel/helper-environment-visitor" "^7.16.7"
-    "@babel/helper-function-name" "^7.16.7"
-    "@babel/helper-member-expression-to-functions" "^7.16.7"
-    "@babel/helper-optimise-call-expression" "^7.16.7"
-    "@babel/helper-replace-supers" "^7.16.7"
-    "@babel/helper-split-export-declaration" "^7.16.7"
 
 "@babel/helper-environment-visitor@^7.16.7":
   version "7.16.7"
@@ -186,13 +166,6 @@
   dependencies:
     "@babel/types" "^7.15.4"
 
-"@babel/helper-member-expression-to-functions@^7.16.7":
-  version "7.16.7"
-  resolved "https://registry.npmjs.org/@babel/helper-member-expression-to-functions/-/helper-member-expression-to-functions-7.16.7.tgz"
-  integrity sha512-VtJ/65tYiU/6AbMTDwyoXGPKHgTsfRarivm+YbB5uAzKUyuPjgZSgAFeG87FCigc7KNHu2Pegh1XIT3lXjvz3Q==
-  dependencies:
-    "@babel/types" "^7.16.7"
-
 "@babel/helper-module-imports@^7.15.4":
   version "7.15.4"
   resolved "https://registry.npmjs.org/@babel/helper-module-imports/-/helper-module-imports-7.15.4.tgz"
@@ -242,13 +215,6 @@
   dependencies:
     "@babel/types" "^7.15.4"
 
-"@babel/helper-optimise-call-expression@^7.16.7":
-  version "7.16.7"
-  resolved "https://registry.npmjs.org/@babel/helper-optimise-call-expression/-/helper-optimise-call-expression-7.16.7.tgz"
-  integrity sha512-EtgBhg7rd/JcnpZFXpBy0ze1YRfdm7BnBX4uKMBd3ixa3RGAE002JZB66FJyNH7g0F38U05pXmA5P8cBh7z+1w==
-  dependencies:
-    "@babel/types" "^7.16.7"
-
 "@babel/helper-plugin-utils@^7.0.0", "@babel/helper-plugin-utils@^7.10.4", "@babel/helper-plugin-utils@^7.12.13", "@babel/helper-plugin-utils@^7.14.5", "@babel/helper-plugin-utils@^7.8.0":
   version "7.14.5"
   resolved "https://registry.npmjs.org/@babel/helper-plugin-utils/-/helper-plugin-utils-7.14.5.tgz"
@@ -268,17 +234,6 @@
     "@babel/helper-optimise-call-expression" "^7.15.4"
     "@babel/traverse" "^7.15.4"
     "@babel/types" "^7.15.4"
-
-"@babel/helper-replace-supers@^7.16.7":
-  version "7.16.7"
-  resolved "https://registry.npmjs.org/@babel/helper-replace-supers/-/helper-replace-supers-7.16.7.tgz"
-  integrity sha512-y9vsWilTNaVnVh6xiJfABzsNpgDPKev9HnAgz6Gb1p6UUwf9NepdlsV7VXGCftJM+jqD5f7JIEubcpLjZj5dBw==
-  dependencies:
-    "@babel/helper-environment-visitor" "^7.16.7"
-    "@babel/helper-member-expression-to-functions" "^7.16.7"
-    "@babel/helper-optimise-call-expression" "^7.16.7"
-    "@babel/traverse" "^7.16.7"
-    "@babel/types" "^7.16.7"
 
 "@babel/helper-simple-access@^7.15.4":
   version "7.15.4"
@@ -458,30 +413,12 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.14.5"
 
-"@babel/plugin-syntax-typescript@^7.16.7", "@babel/plugin-syntax-typescript@^7.7.2":
+"@babel/plugin-syntax-typescript@^7.7.2":
   version "7.16.7"
   resolved "https://registry.npmjs.org/@babel/plugin-syntax-typescript/-/plugin-syntax-typescript-7.16.7.tgz"
   integrity sha512-YhUIJHHGkqPgEcMYkPCKTyGUdoGKWtopIycQyjJH8OjvRgOYsXsaKehLVPScKJWAULPxMa4N1vCe6szREFlZ7A==
   dependencies:
     "@babel/helper-plugin-utils" "^7.16.7"
-
-"@babel/plugin-transform-typescript@^7.16.7":
-  version "7.16.7"
-  resolved "https://registry.npmjs.org/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.16.7.tgz"
-  integrity sha512-Hzx1lvBtOCWuCEwMmYOfpQpO7joFeXLgoPuzZZBtTxXqSqUGUubvFGZv2ygo1tB5Bp9q6PXV3H0E/kf7KM0RLA==
-  dependencies:
-    "@babel/helper-create-class-features-plugin" "^7.16.7"
-    "@babel/helper-plugin-utils" "^7.16.7"
-    "@babel/plugin-syntax-typescript" "^7.16.7"
-
-"@babel/preset-typescript@^7.16.7":
-  version "7.16.7"
-  resolved "https://registry.npmjs.org/@babel/preset-typescript/-/preset-typescript-7.16.7.tgz"
-  integrity sha512-WbVEmgXdIyvzB77AQjGBEyYPZx+8tTsO50XtfozQrkW8QB2rLJpH2lgx0TRw5EJrBxOZQ+wCcyPVQvS8tjEHpQ==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.16.7"
-    "@babel/helper-validator-option" "^7.16.7"
-    "@babel/plugin-transform-typescript" "^7.16.7"
 
 "@babel/template@^7.15.4", "@babel/template@^7.3.3":
   version "7.15.4"
@@ -897,18 +834,6 @@
   integrity sha512-K2waXdXBi2302XUdcHcR1jCeU0LL4TD9HRs/gk0N2Xvrht+G/BfJa4QObBQZfhMdxiCpV3COl5Nfq4uKTeTnJA==
   dependencies:
     "@babel/types" "^7.3.0"
-
-"@types/bs58check@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@types/bs58check/-/bs58check-2.1.0.tgz"
-  integrity sha512-OxsysnJQh82vy9DRbOcw9m2j/WiyqZLn0YBhKxdQ+aCwoHj+tWzyCgpwAkr79IfDXZKxc6h7k89T9pwS78CqTQ==
-  dependencies:
-    "@types/node" "*"
-
-"@types/crypto-js@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/@types/crypto-js/-/crypto-js-4.1.0.tgz"
-  integrity sha512-DCFfy/vh2lG6qHSGezQ+Sn2Ulf/1Mx51dqOdmOKyW5nMK3maLlxeS3onC7r212OnBM2pBR95HkAmAjjF08YkxQ==
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
@@ -2880,7 +2805,7 @@ merge2@^1.3.0:
 
 micro-base@^0.10.2:
   version "0.10.2"
-  resolved "https://registry.yarnpkg.com/micro-base/-/micro-base-0.10.2.tgz#f6f9f0bd949ce511883e5a99f9147d80ddc32f5a"
+  resolved "https://registry.npmjs.org/micro-base/-/micro-base-0.10.2.tgz"
   integrity sha512-lqqJrT7lfJtDmmiQ4zRLZuIJBk96t0RAc5pCrrWpL9zDeH5i/SUL85mku9HqzTI/OCZ8EQ3aicbMW+eK5Nyu5w==
 
 micromatch@^4.0.4:

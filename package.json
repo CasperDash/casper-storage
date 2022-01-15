@@ -26,7 +26,8 @@
     "build-all": "yarn clean && yarn build && yarn esbuild-node && yarn esbuild-browser",
     "esbuild-browser": "esbuild src/browser.ts --bundle --minify --sourcemap=external --format=esm --outfile=dist/esbuild/browser.js",
     "esbuild-node": "esbuild src/cli.ts --bundle --platform=node --minify --sourcemap=external --outfile=dist/esbuild/cli.js",
-    "ts-node": "ts-node"
+    "ts-node": "ts-node",
+    "ensure": "yarn lint && yarn test"
   },
   "dependencies": {
     "@noble/ed25519": "^1.4.0",
@@ -36,9 +37,6 @@
     "secp256k1": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.16.7",
-    "@types/bs58check": "^2.1.0",
-    "@types/crypto-js": "^4.1.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.8",
     "@types/secp256k1": "^4.0.3",
