@@ -4,6 +4,9 @@ import { Wallet, HDWallet } from "@/wallet";
 import { Hex } from "@/utils";
 import { CasperWalletUtils } from "./casper-wallet-utils";
 
+/**
+ * Casper wallet implementation
+ */
 export class CasperWallet extends Wallet {
 
   /**
@@ -15,6 +18,9 @@ export class CasperWallet extends Wallet {
   }
 }
 
+/**
+ * Casper HD wallet implementation, purpose 44 and using coin-type Casper (506)
+ */
 export class CasperHDWallet extends HDWallet<Wallet> {
 
   private static PATH = new CoinPath(Purpose.BIP44, CoinType.Casper);

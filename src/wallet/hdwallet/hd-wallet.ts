@@ -23,7 +23,7 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
     if (!coinPath) {
       throw new Error("The base coint path must be provided"); 
     }
-    if (encryptionType == null) {
+    if (encryptionType == null || (encryptionType !== EncryptionType.Ed25519 && encryptionType !== EncryptionType.Secp256k1)) {
       throw new Error("The encryption type must be provided (e.g: EncryptionType.Ed25519 or EncryptionType.Secp256k1)"); 
     }
     if (!masterSeed) {
@@ -36,15 +36,15 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
     this.masterSeed        = TypeUtils.parseHexToArray(masterSeed);
   }
 
-  getMasterWallet(): Promise<TWallet> {
+  public getMasterWallet(): Promise<TWallet> {
     return this.getWalletFromPath("m");
   }
 
-  getAccount(index: number, internal?: boolean): Promise<TWallet> {
+  public getAccount(index: number, internal?: boolean): Promise<TWallet> {
     return this.getWalletFromPath(this.coinPath.createPath(index, internal));
   }
 
-  getWallet(accountIndex: number, internal: boolean, walletIndex: number): Promise<TWallet> {
+  public getWallet(accountIndex: number, internal: boolean, walletIndex: number): Promise<TWallet> {
     if (walletIndex === null || walletIndex === undefined) {
       walletIndex  = accountIndex;
       accountIndex = 0;
@@ -57,6 +57,10 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
     return Promise.resolve(new this.walletConstructor(hdKey, this.encryptionType));
   }
 
+  /**
+   * Get the HD key manager
+   * @returns 
+   */
   private getHDKeyManager() {
     return HDKeyManagerFactory.getInstance(this.encryptionType);
   }

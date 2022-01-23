@@ -1,6 +1,13 @@
 import { HDKey } from "./hd-key";
-import * as secp from "secp256k1";
 import { CryptoUtils } from "@/cryptography";
+
+import {
+  bytesToHex,
+  hexToBytes,
+  assertBytes
+} from '@noble/hashes/utils';
+
+import * as secp from '@noble/secp256k1';
 
 export class HDKeySecp256k1 extends HDKey {
 
@@ -47,7 +54,7 @@ export class HDKeySecp256k1 extends HDKey {
       data = new Uint8Array(ab);
     }
 
-    const derivedData = CryptoUtils.digestData(data, this.getChainCode());
+    const derivedData = CryptoUtils.digestSHA512(data, this.getChainCode());
     let derivedPrivateKey = derivedData.key;
     const derivedChainCode = derivedData.chainCode;
 
@@ -57,7 +64,18 @@ export class HDKeySecp256k1 extends HDKey {
     if (privateKey) {
       // ki = parse256(IL) + kpar (mod n)
       try {
-        derivedPrivateKey = secp.privateKeyTweakAdd(privateKey, derivedPrivateKey);
+        assertBytes(privateKey, 32);
+        assertBytes(derivedPrivateKey, 32);
+
+        const privateKeyBn = this.bytesToNumber(privateKey);
+        const childTweakBn = this.bytesToNumber(derivedPrivateKey);
+
+        const added = this.modN(privateKeyBn + childTweakBn);
+        if (!secp.utils.isValidPrivateKey(added)) {
+          throw new Error('The private key is not valid, to derive next child');
+        }
+        derivedPrivateKey = this.numberToBytes(added);
+
         // throw if IL >= n || (privateKey + IL) === 0
       } catch (err) {
         // In case parse256(IL) >= n or ki == 0, one should proceed with the next value for i
@@ -77,6 +95,19 @@ export class HDKeySecp256k1 extends HDKey {
     }
 
     return this.createChildHDKey(index, derivedPrivateKey, derivedChainCode, derivedPublicKey);
+  }
+
+  private modN(a: bigint, b: bigint = secp.CURVE.n): bigint {
+    const result = a % b;
+    return result >= 0 ? result : b + result;
+  }
+
+  private bytesToNumber(bytes: Uint8Array): bigint {
+    return BigInt(`0x${bytesToHex(bytes)}`);
+  }
+
+  private numberToBytes(num: bigint): Uint8Array {
+    return hexToBytes(num.toString(16).padStart(64, '0'));
   }
 
 }

@@ -1,8 +1,14 @@
+export * from "./interfaces";
+
 import { EncryptionType } from "../core";
 import { Secp256k1 } from "./secp256k1";
 import { Ed25519 } from "./ed25519";
 import { IAsymmetricKey } from "./interfaces";
 
+/**
+ * Factory provides implementation of a specific algorithm likes Ed25519 or Secp256k1,
+ * which provides needed common methods to work with wallets
+ */
 export class AsymmetricKeyFactory {
 
   /**
@@ -19,3 +25,4 @@ export class AsymmetricKeyFactory {
   }
 
 }
+

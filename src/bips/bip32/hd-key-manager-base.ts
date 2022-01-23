@@ -16,7 +16,7 @@ export abstract class HDKeyManagerBase implements IHDKeyManager {
   }
 
   public fromMasterSeed(seed: Uint8Array, versions?: Versions) {
-    const { key, chainCode } = CryptoUtils.digestData(seed, this.GetMasterSecret());
+    const { key, chainCode } = CryptoUtils.digestSHA512(seed, this.GetMasterSecret());
     return this.createNewHDKey(key, chainCode, versions || BITCOIN_VERSIONS);
   }
 
