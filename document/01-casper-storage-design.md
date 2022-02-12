@@ -8,35 +8,35 @@
 
 A user (Alice) accesses a wallet management (`CasperWallet`) for the very first time
 
-`CasperWallet` asks Alice for a **secure** `password`
-`CasperWallet` generates a master key (mnemonic)
-`CasperWallet` asks Alice to backup this key
-`CasperWallet` asks Alice confirm the mnemonic phrase
+- `CasperWallet` asks Alice for a **secure** `password`
+- `CasperWallet` generates a master key (mnemonic)
+- `CasperWallet` asks Alice to backup this key
+- `CasperWallet` asks Alice confirm the mnemonic phrase
 > e.g by writing down on paper and keeping it in a secret box
 
-`CasperWallet` then asks Alice to choose an `encryption mode` (either secp256k1 or ed25519) 
+- `CasperWallet` then asks Alice to choose an `encryption mode` (either secp256k1 or ed25519) 
 > `CasperWallet` should recommend Alice to choose `ed25519` over secp256k1 due to security and performance, unless Alice explicitly wants to use secp256k1 because of Bitcoin, Ethereum compatible 
 
-`CasperWallet` creates a local account with Alice's password, initializes the HD wallet in this account
-`CasperWallet` **encrypts** the account and save all information into *local storage* or a *secure storage* (in order to restore the wallet when Alice comes back next time)
-`CasperWallet` navigates Alice to his wallet screen and shows the first account (0-indexed)
+- `CasperWallet` creates a local account with Alice's password, initializes the HD wallet in this account
+- `CasperWallet` **encrypts** the account and save all information into *local storage* or a *secure storage* (in order to restore the wallet when Alice comes back next time)
+- `CasperWallet` navigates Alice to his wallet screen and shows the first account (0-indexed)
 >`CasperWallet` might also automatically scan for the next accounts that have made at least one transaction and list them out in the account list (limit up to 20 account without funds in a row according to the bip44 spec)
 
 ### Users have existing wallets
 
 > A wallet is an address which is presented by a private key
 
-Following the same above steps, Alice should have a local account with the HD wallet already.
-However he might also have several legacy wallets which he has accordingly private keys
+Following the same above steps, Alice should have a local account with the HD wallet already.<br/>
+However he might also have several legacy wallets which he has accordingly private keys<br/>
 `CasperWallet` supports him to import these wallets into his account and let him manage them
-> by giving private keys or import from back-up files
+> by giving private keys or importing from back-up files
 
-`CasperWallet` also encrypts the account again (now it has the HD wallet key, and legacy wallets) to save in local storage.
+`CasperWallet` also encrypts the account again (now it has the HD wallet key, and legacy wallets) to save in local storage.<br/>
 When Alice comes back next time with his right password, he will able to access this account with HD wallet and his legacy wallets again.
 
 ## Overview
 
-This library contains 5 main packages
+This library contains 5 main modules
 
 - key: utilities to generate secret keys (phrases) which can then be used as seeds to create wallets
 - user: manage user's information, HDWalletwallet and legacy wallets, enriched wallet information (name, icon, etc)
@@ -46,14 +46,13 @@ This library contains 5 main packages
 
 ## Architecture overview
 
-![](https://i.imgur.com/fi5Miz4.jpg)
+![](https://i.imgur.com/hKPdtAX.png)
 
-
-## Packages
+## Modules
 
 ### key
 
-Regardless that we emphasize to use mnemonic phrases as secret keys, this package provides a generic solution to easily swich between key providers if needed.
+Regardless that we emphasize to use mnemonic phrases as secret keys, this module provides a generic solution to easily swich between key providers if needed.
 
 `import { KeyFactory } from "casper-storage/key"`
 
@@ -93,7 +92,7 @@ The `WalletManager` provides main actions:
 - `keyType` which is either secp256k1 or ed25519
 - `IHDWallet` presents a hierarchical deterministic wallet (BIP32 / SLIP10)
 - `ILegacyWallet` presents for a legacy wallet, which works with a specific private key
-- `IWallet` presents for a basic wallet which provide common methods for both legacy and HD wallet
+- `IWallet` presents a basic wallet which provides common methods for both legacy and HD wallet
   - `getPrivateKey()`
   - `getPublicKey()`
   - `getPublicAddress()`
@@ -219,7 +218,5 @@ For references
 - https://github.com/farukterzioglu/HDWallet
 
 # Our very first proposal implementation for js
-| Once done for js, we can easily port code to any platform (java, swift, etc)
-
-https://github.com/codsay/blockchainjs/
-Cover all test vectors which are provided by BIP32 and SLIP10
+- On-going impelementation: https://github.com/CasperDash/casper-storage
+- Cover all test vectors which are provided by BIP32 and SLIP10
