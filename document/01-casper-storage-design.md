@@ -1,4 +1,4 @@
-# Caspter storage
+# Casper storage
 
 > Following crypto standard libraries, BIPs, SLIPs. etc this library provides a generic solution which lets developers have a standard way to manage wallets, store and retrieve users' information.
 
@@ -10,16 +10,16 @@ A user (Alice) accesses a wallet management (`CasperWallet`) for the very first 
 
 - `CasperWallet` asks Alice for a **secure** `password`
 - `CasperWallet` generates a master key (mnemonic)
-- `CasperWallet` asks Alice to backup this key
-- `CasperWallet` asks Alice confirm the mnemonic phrase
+- `CasperWallet` asks her to backup this key
+- `CasperWallet` asks her to confirm the mnemonic phrase
 > e.g by writing down on paper and keeping it in a secret box
 
-- `CasperWallet` then asks Alice to choose an `encryption mode` (either secp256k1 or ed25519) 
-> `CasperWallet` should recommend Alice to choose `ed25519` over secp256k1 due to security and performance, unless Alice explicitly wants to use secp256k1 because of Bitcoin, Ethereum compatible 
+- `CasperWallet` then asks her to choose an `encryption mode` (either secp256k1 or ed25519) 
+> `CasperWallet` should recommend her to choose `ed25519` over secp256k1 due to security and performance, unless Alice explicitly wants to use secp256k1 because of Bitcoin, Ethereum compatible 
 
 - `CasperWallet` creates a local account with Alice's password, initializes the HD wallet in this account
-- `CasperWallet` **encrypts** the account and save all information into *local storage* or a *secure storage* (in order to restore the wallet when Alice comes back next time)
-- `CasperWallet` navigates Alice to his wallet screen and shows the first account (0-indexed)
+- `CasperWallet` **encrypts** the account and save all information into *local storage* or a *secure storage* (in order to restore the wallet when she comes back next time)
+- `CasperWallet` navigates Alice to her wallet screen and shows the first account (0-indexed)
 >`CasperWallet` might also automatically scan for the next accounts that have made at least one transaction and list them out in the account list (limit up to 20 account without funds in a row according to the bip44 spec)
 
 ### Users have existing wallets
@@ -27,30 +27,30 @@ A user (Alice) accesses a wallet management (`CasperWallet`) for the very first 
 > A wallet is an address which is presented by a private key
 
 Following the same above steps, Alice should have a local account with the HD wallet already.<br/>
-However he might also have several legacy wallets which he has accordingly private keys<br/>
-`CasperWallet` supports him to import these wallets into his account and let him manage them
+However she might also have several legacy wallets which she also has accordingly private keys<br/>
+`CasperWallet` supports her to import these wallets into her account and let her manage them
 > by giving private keys or importing from back-up files
 
 `CasperWallet` also encrypts the account again (now it has the HD wallet key, and legacy wallets) to save in local storage.<br/>
-When Alice comes back next time with his right password, he will able to access this account with HD wallet and his legacy wallets again.
+When Alice comes back next time with her right password, she will able to access this account with her HD wallet and her legacy wallets again.
 
 ## Overview
 
 This library contains 5 main modules
 
 - key: utilities to generate secret keys (phrases) which can then be used as seeds to create wallets
-- user: manage user's information, HDWalletwallet and legacy wallets, enriched wallet information (name, icon, etc)
-- wallet: import and export HD wallet (or legacy wallets) from keys
+- user: manage user's information, HD wallet and legacy wallets, enriched wallet information (name, icon, etc)
+- wallet: import and export HD wallet (or legacy wallets) from/to keys
 - cryptography: utilities to encrypt, decrypt data and security related tools
 - storage: provide the ability to store key-value pairs, depending on environments (web or mobile)
 
 ## Architecture overview
 
-![](https://i.imgur.com/hKPdtAX.png)
+![](https://i.imgur.com/5Y0yB1p.png)
 
 ## Modules
 
-### key
+### 1. key
 
 Regardless that we emphasize to use mnemonic phrases as secret keys, this module provides a generic solution to easily swich between key providers if needed.
 
@@ -70,7 +70,7 @@ Refs:
 - https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 - https://www.npmjs.com/package/bip39
 
-### cryptography
+### 2. cryptography
 
 `import { EncryptionType, CrytoUtils } from "casper-storage/cryptography"`
 
@@ -78,17 +78,18 @@ The `EncryptionType` defines 2 modes: Ed25519 and Secp256k1
 
 The `CryptoUtils` provide convenience encryption methods like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
 
-### wallet
+### 3. wallet
 
 Supports key types (but not limited to) which are supported by Casper (secp256k1 and ed25519)
 
 `import { IWallet, IHDWallet, ILegacyWallet } from "caspter-storage/wallet"`
 
 The `WalletManager` provides main actions:
-`createHDWalet(masterKey, keyType): IHDWallet`
-`createLegacyWallet(privateKey, keyType): ILegacyWallet`
-`importLegacyWalletFromFile(file, keyType): ILegacyWallet`
+- `createHDWalet(masterKey, keyType): IHDWallet`
+- `createLegacyWallet(privateKey, keyType): ILegacyWallet`
+- `importLegacyWalletFromFile(file, keyType): ILegacyWallet`
 
+Where:
 - `keyType` which is either secp256k1 or ed25519
 - `IHDWallet` presents a hierarchical deterministic wallet (BIP32 / SLIP10)
 - `ILegacyWallet` presents for a legacy wallet, which works with a specific private key
@@ -106,9 +107,9 @@ Refs:
 - https://fission.codes/blog/everything-you-wanted-to-know-about-elliptic-curve-cryptography/
 - https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 
-### user
+### 4. user
 
-Provides a high level class, let us easily work with 
+Provides a high level class, let us centeralize businesses to manage user's wallets
 
 `import { User } from "caspter-storage/user"`
 
@@ -169,7 +170,7 @@ An instance of User to be encrypted and keep in storage should have following fo
 }
 ```
 
-### storage
+### 5. storage
 
 `import { Storage } from "casper-storage/storage"`
 
