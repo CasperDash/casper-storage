@@ -20,7 +20,7 @@ A user (Alice) accesses a wallet management (`CasperWallet`) for the very first 
 - `CasperWallet` creates a local account with Alice's password, initializes the HD wallet in this account
 - `CasperWallet` **encrypts** the account and saves all information into *local storage* or a *secure storage* (in order to restore the wallet when she comes back next time)
 - `CasperWallet` navigates Alice to her wallet screen and shows the first account (0-indexed)
->`CasperWallet` might also automatically scan for the next accounts that has made at least one transaction and lists them out in the account list (limit up to 20 account without funds in a row according to the bip44 spec)
+>`CasperWallet` might also automatically scan for the next accounts that has made at least one transaction and lists them out in the account list (limit up to 20 accounts without funds in a row according to the bip44 spec)
 
 ### Users have existing wallets
 
@@ -82,7 +82,7 @@ The `CryptoUtils` provides convenience encryption methods like `hash160`, `hash2
 
 Supports key types (but not limited to) which are supported by Casper (secp256k1 and ed25519)
 
-`import { IWallet, IHDWallet, ILegacyWallet } from "caspter-storage/wallet"`
+`import { IWallet, IHDWallet, ILegacyWallet } from "casper-storage/wallet"`
 
 The `WalletManager` provides main actions:
 - `createHDWalet(masterKey, keyType): IHDWallet`
@@ -111,7 +111,7 @@ Refs:
 
 Provides a high level class, let us centeralize businesses to manage user's wallets
 
-`import { User } from "caspter-storage/user"`
+`import { User } from "casper-storage/user"`
 
 Create a new account with user's password
 - `let user = User(password)`
@@ -122,7 +122,7 @@ Properties
 - `legacyWallets: WalletInfo[]` presents legacy wallets and their information
    - `WalletInfo: { key: string, name: string }`
 
-Methods to serialize, deserialize account to integrate with storage
+Methods to serialize, deserialize an account to integrate with storage
 - `user.serialize(): string`
 - `user.deserialize(data: string)`
 
@@ -183,41 +183,36 @@ The `Storage.getInstance()` provides an instance of `IStorage`, depending on the
 - `clear()` removes all keys which are managed by this storage
 
 e.g:
-on web applications - the `IStorage` would be implemented by `WebStorage` which is a wrapper of `localStorage`
-on mobile application, TBD
+- on web application - the `IStorage` would be implemented by `WebStorage` which is a wrapper of `localStorage`
+- on mobile application: TBD
 
+## Resources
 
-# Javascript
-## Mnemonic - BIP39
-- https://github.com/bitcoinjs/bip39
-## HDWallet
-- https://github.com/cryptocoinjs/hdkey
-- https://github.com/alepop/ed25519-hd-key
+### Javascript
+- Mnemonic - BIP39
+  - https://github.com/bitcoinjs/bip39
+- HDWallet:
+  - https://github.com/cryptocoinjs/hdkey<br/>
+  - https://github.com/alepop/ed25519-hd-key
 
-# Java
-## Mnemonic - BIP39
-BitcoinJ
-- https://github.com/bitcoinj/bitcoinj/blob/master/core/src/main/java/org/bitcoinj/crypto/MnemonicCode.java
-
-NovaCrypto
-- https://github.com/NovaCrypto
-Others
-- https://stackoverflow.com/questions/55622851/seed-from-bip39-mnemonic-not-matching-test-vectors
-- https://yenhuang.gitbooks.io/blockchain/content/hd-wallet.html
-- https://github.com/btchip/wallet/blob/master/public/bitlib/src/main/java/com/mrd/bitlib/crypto/Bip39.java
-
-## HDWallet 
-- https://github.com/orogvany/BIP32-Ed25519-java
-- https://github.com/NovaCrypto/BIP32
+### Java
+- Mnemonic - BIP39 (BitcoinJ)
+  - https://github.com/bitcoinj/bitcoinj/blob/master/core/src/main/java/org/bitcoinj/crypto/MnemonicCode.java
+  - https://github.com/NovaCrypto
+  - https://stackoverflow.com/questions/55622851/seed-from-bip39-mnemonic-not-matching-test-vectors
+  - https://yenhuang.gitbooks.io/blockchain/content/hd-wallet.html
+  - https://github.com/btchip/wallet/blob/master/public/bitlib/src/main/java/com/mrd/bitlib/crypto/Bip39.java
+- HDWallet 
+  - https://github.com/orogvany/BIP32-Ed25519-java
+  - https://github.com/NovaCrypto/BIP32
 
 # Swift
 - https://github.com/skywinder/web3swift (secp)
 - https://github.com/binance-chain/wallet-core-carthage/tree/master/wallet-core/swift/Sources/Generated/Enums
 
 # C#
-For references
 - https://github.com/farukterzioglu/HDWallet
 
-# Our very first proposal implementation for js
-- On-going impelementation: https://github.com/CasperDash/casper-storage
+# On-going implementation
+- https://github.com/CasperDash/casper-storage
 - Cover all test vectors which are provided by BIP32 and SLIP10
