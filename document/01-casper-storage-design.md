@@ -18,16 +18,16 @@ A user (Alice) accesses a wallet management (`CasperWallet`) for the very first 
 > `CasperWallet` should recommend her to choose `ed25519` over secp256k1 due to security and performance, unless Alice explicitly wants to use secp256k1 because of Bitcoin, Ethereum compatible 
 
 - `CasperWallet` creates a local account with Alice's password, initializes the HD wallet in this account
-- `CasperWallet` **encrypts** the account and save all information into *local storage* or a *secure storage* (in order to restore the wallet when she comes back next time)
+- `CasperWallet` **encrypts** the account and saves all information into *local storage* or a *secure storage* (in order to restore the wallet when she comes back next time)
 - `CasperWallet` navigates Alice to her wallet screen and shows the first account (0-indexed)
->`CasperWallet` might also automatically scan for the next accounts that have made at least one transaction and list them out in the account list (limit up to 20 account without funds in a row according to the bip44 spec)
+>`CasperWallet` might also automatically scan for the next accounts that has made at least one transaction and lists them out in the account list (limit up to 20 account without funds in a row according to the bip44 spec)
 
 ### Users have existing wallets
 
 > A wallet is an address which is presented by a private key
 
 Following the same above steps, Alice should have a local account with the HD wallet already.<br/>
-However she might also have several legacy wallets which she also has accordingly private keys<br/>
+However, she might also have several legacy wallets which she also has accordingly private keys<br/>
 `CasperWallet` supports her to import these wallets into her account and let her manage them
 > by giving private keys or importing from back-up files
 
@@ -42,7 +42,7 @@ This library contains 5 main modules
 - user: manage user's information, HD wallet and legacy wallets, enriched wallet information (name, icon, etc)
 - wallet: import and export HD wallet (or legacy wallets) from/to keys
 - cryptography: utilities to encrypt, decrypt data and security related tools
-- storage: provide the ability to store key-value pairs, depending on environments (web or mobile)
+- storage: provides the ability to store key-value pairs, depending on environments (web or mobile)
 
 ## Architecture overview
 
@@ -76,7 +76,7 @@ Refs:
 
 The `EncryptionType` defines 2 modes: Ed25519 and Secp256k1
 
-The `CryptoUtils` provide convenience encryption methods like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
+The `CryptoUtils` provides convenience encryption methods like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
 
 ### 3. wallet
 
@@ -116,7 +116,7 @@ Provides a high level class, let us centeralize businesses to manage user's wall
 Create a new account with user's password
 - `let user = User(password)`
 
-Propreties
+Properties
 - `wallet: HDWalletInfo` presents a HD wallet and its information
   - `HDWalletInfo: { key: string, derives: WalletInfo[] }`
 - `legacyWallets: WalletInfo[]` presents legacy wallets and their information
