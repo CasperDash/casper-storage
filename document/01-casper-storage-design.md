@@ -59,9 +59,9 @@ Regardless that we emphasize to use mnemonic phrases as secret keys, this module
 `KeyFactory.getInstance()` returns an instance of `IKeyManager`
 >`MnemonicKey` by default
 
-`IKeyManager` provides methods:
+`IKeyManager` provides 5 methods:
 - `generate()` generates a secret key for each call
-- `validate(key: string)` validate if the given key is a valid standard mnemonic key
+- `validate(key: string)` validates if the given key is a valid standard mnemonic key
 - `convertToEntropy(key: string)` converts the key to an entropy value
 - `convertToKey(entropy)` converts the entropy to a human-readable key (phrase)
 - `convertToSeed(key | entropy)` converts a key to a seed as an input of the HD wallet
@@ -76,7 +76,7 @@ Refs:
 
 The `EncryptionType` defines 2 modes: Ed25519 and Secp256k1
 
-The `CryptoUtils` provides convenience encryption methods like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
+The `CryptoUtils` provides convenience encryption method like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
 
 ### 3. wallet
 
@@ -84,7 +84,7 @@ Supports key types (but not limited to) which are supported by Casper (secp256k1
 
 `import { IWallet, IHDWallet, ILegacyWallet } from "casper-storage/wallet"`
 
-The `WalletManager` provides main actions:
+The `WalletManager` provides 3 main actions:
 - `createHDWalet(masterKey, keyType): IHDWallet`
 - `createLegacyWallet(privateKey, keyType): ILegacyWallet`
 - `importLegacyWalletFromFile(file, keyType): ILegacyWallet`
@@ -122,26 +122,26 @@ Properties
 - `legacyWallets: WalletInfo[]` presents legacy wallets and their information
    - `WalletInfo: { key: string, name: string }`
 
-Methods to serialize, deserialize an account to integrate with storage
+A method of serializing, deserializing an account to integrate with storage
 - `user.serialize(): string`
 - `user.deserialize(data: string)`
 
-Methods to work with HDWallet
+A method of working with HDWallet
 - `user.getHDWallet(): IHDWallet`
 - `user.setHDWallet(wallet: IHDWallet)`
 - `user.addHDWalletAccount(index: number, info?: string | WalletInfo)`
 - `user.removeHDWalletAccount(index: number)`
 
-Methods to work with legacy wallets
+A method of working with legacy wallets
 - `user.addLegacyWallet(wallet: IWallet, info?: string | WalletInfo)`
 - `user.getLegacyWallets(): IWallet[]`
 - `user.hasLegacyWallets(): bool`
 
-Methods to work with wallet information
+A method of working with wallet information
 - `user.setWalletInfo(id: string, name: string, legacyWallet: bool = false)`
 - `user.getWalletInfo(id: string, legacyWallet: bool = false): WalletInfo`
 
-An instance of User to be encrypted and keep in storage should have following format:
+An instance of User to be encrypted and kept in storage should have following formats:
 ```json
 {
     "wallet": {
@@ -174,11 +174,11 @@ An instance of User to be encrypted and keep in storage should have following fo
 
 `import { Storage } from "casper-storage/storage"`
 
-The `Storage.getInstance()` provides an instance of `IStorage`, depending on the current environment, which exposes available methods to help us store and retrieve pairs of key-value
+The `Storage.getInstance()` provides an instance of `IStorage`, depends on the current environment, which exposes available methods to help us store and retrieve pairs of key-value
 
 `IStorage` provides basic actions
 - `set(key, value)` stores the value by key in storage
-- `get(key)` get the stored value by key in storage, null if it is not available
+- `get(key)` gets the stored value by key in storage, null if it is not available
 - `remove(key)` removes the stored value by key
 - `clear()` removes all keys which are managed by this storage
 
