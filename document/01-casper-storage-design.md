@@ -122,22 +122,22 @@ Properties
 - `legacyWallets: WalletInfo[]` presents legacy wallets and their information
    - `WalletInfo: { key: string, name: string }`
 
-A method of serializing, deserializing an account to integrate with storage
+Methods for serializing, deserializing an account to integrate with storage
 - `user.serialize(): string`
 - `user.deserialize(data: string)`
 
-A method of working with HDWallet
+Methods for working with HDWallet
 - `user.getHDWallet(): IHDWallet`
 - `user.setHDWallet(wallet: IHDWallet)`
 - `user.addHDWalletAccount(index: number, info?: string | WalletInfo)`
 - `user.removeHDWalletAccount(index: number)`
 
-A method of working with legacy wallets
+Methods for working with legacy wallets
 - `user.addLegacyWallet(wallet: IWallet, info?: string | WalletInfo)`
 - `user.getLegacyWallets(): IWallet[]`
 - `user.hasLegacyWallets(): bool`
 
-A method of working with wallet information
+Methods for working with wallet information
 - `user.setWalletInfo(id: string, name: string, legacyWallet: bool = false)`
 - `user.getWalletInfo(id: string, legacyWallet: bool = false): WalletInfo`
 
