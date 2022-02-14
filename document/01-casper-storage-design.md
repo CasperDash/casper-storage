@@ -75,7 +75,7 @@ Refs:
 
 The `EncryptionType` defines 2 modes: Ed25519 and Secp256k1
 
-The `CryptoUtils` provides convenience encryption methods like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
+The `CryptoUtils` provides convenience encryption methods like `hash160`, `hash256`, `pbkdf2`, `encryptAES` and `decryptAES`
 
 ### 3. wallet
 
