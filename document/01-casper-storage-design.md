@@ -4,7 +4,7 @@
 
 ## Scenarios
 
-### New users
+### 1. New users
 
 A user (Alice) accesses a wallet management (`CasperWallet`) for the very first time
 
@@ -22,13 +22,12 @@ A user (Alice) accesses a wallet management (`CasperWallet`) for the very first 
 - `CasperWallet` navigates Alice to her wallet screen and shows the first account (0-indexed)
 >`CasperWallet` might also automatically scan for the next accounts that has made at least one transaction and lists them out in the account list (limit up to 20 accounts without funds in a row according to the bip44 spec)
 
-### Users have existing wallets
+### 2. Users have existing wallets
 
 > A wallet is an address which is presented by a private key
 
 Following the same above steps, Alice should have a local account with the HD wallet already.<br/>
-However, she might also have several legacy wallets which she also has accordingly private keys<br/>
-`CasperWallet` supports her to import these wallets into her account and let her manage them
+However, she might also have several legacy wallets which she also has accordingly private keys, `CasperWallet` supports her to import these wallets into her account and let her manage them
 > by giving private keys or importing from back-up files
 
 `CasperWallet` also encrypts the account again (now it has the HD wallet key, and legacy wallets) to save in local storage.<br/>
@@ -38,15 +37,15 @@ When Alice comes back next time with her right password, she will able to access
 
 This library contains 5 main modules
 
-- key: utilities to generate secret keys (phrases) which can then be used as seeds to create wallets
-- user: manage user's information, HD wallet and legacy wallets, enriched wallet information (name, icon, etc)
-- wallet: import and export HD wallet (or legacy wallets) from/to keys
-- cryptography: utilities to encrypt, decrypt data and security related tools
-- storage: provides the ability to store key-value pairs, depending on environments (web or mobile)
+1. key: utilities to generate secret keys (phrases) which can then be used as seeds to create wallets
+2. cryptography: utilities to encrypt, decrypt data and security related tools
+3. wallet: import and export HD wallet (or legacy wallets) from/to keys
+4. user: manage user's information, HD wallet and legacy wallets, enriched wallet information (name, icon, etc)
+5. storage: provides the ability to store key-value pairs, depending on environments (web or mobile)
 
 ## Architecture overview
 
-![](https://i.imgur.com/5Y0yB1p.png)
+![](https://i.imgur.com/wKBtOb4.png)
 
 ## Modules
 
@@ -114,7 +113,7 @@ Provides a high level class, let us centeralize businesses to manage user's wall
 `import { User } from "casper-storage/user"`
 
 Create a new account with user's password
-- `let user = User(password)`
+- `let user = new User(password)`
 
 Properties
 - `wallet: HDWalletInfo` presents a HD wallet and its information
@@ -192,7 +191,7 @@ e.g:
 - Mnemonic - BIP39
   - https://github.com/bitcoinjs/bip39
 - HDWallet:
-  - https://github.com/cryptocoinjs/hdkey<br/>
+  - https://github.com/cryptocoinjs/hdkey
   - https://github.com/alepop/ed25519-hd-key
 
 ### Java
@@ -206,13 +205,13 @@ e.g:
   - https://github.com/orogvany/BIP32-Ed25519-java
   - https://github.com/NovaCrypto/BIP32
 
-# Swift
+#### Swift
 - https://github.com/skywinder/web3swift (secp)
 - https://github.com/binance-chain/wallet-core-carthage/tree/master/wallet-core/swift/Sources/Generated/Enums
 
-# C#
+### C#
 - https://github.com/farukterzioglu/HDWallet
 
-# On-going implementation
+## On-going implementation
 - https://github.com/CasperDash/casper-storage
 - Cover all test vectors which are provided by BIP32 and SLIP10
