@@ -64,7 +64,7 @@
 </li>
 <li><p>Get account wallet<br><code>const acc0 = await hdWallet.getAccount(0)</code><br><code>const acc1 = await hdWallet.getAccount(1)</code></p>
 </li>
-<li><p>Play with wallets<br><code>acc0.getPrivateKey()</code> returns the private key of wallet<br><code>await acc0.getAddress()</code> returns the public address of wallet<br><code>await acc0.sign(msgArray)</code> signs the message (Uint8Array) and returns the signed value (Uint8Array)</p>
+<li><p>Play with wallets<br><code>acc0.getPrivateKey()</code> returns the private key of wallet<br><code>await acc0.getPublicAddress()</code> returns the public address of wallet<br><code>await acc0.sign(msgArray)</code> signs the message (Uint8Array) and returns the signed value (Uint8Array)</p>
 </li>
 </ol>
 
@@ -75,7 +75,7 @@
 <ol>
 <li>Prepare the private key (input from user, or read from a file)</li>
 <li>Create a new instance of CasperLegacyWallet with that private key (either hex string or Uint8Array data)<br><code>let wallet = new CasperLegacyWallet(&quot;a-private-key-hex-string&quot;, EncryptionType.Ed25519)</code><br><code>let wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp256k1)</code></li>
-<li>This wallet will also share the same methods from a wallet of HDWallet<br>e.g <code>await wallet.getAddress()</code></li>
+<li>This wallet will also share the same methods from a wallet of HDWallet<br>e.g <code>await wallet.getPublicAddress()</code></li>
 </ol>
 
 <a href="#progress" id="progress" style="color: inherit; text-decoration: none;">
