@@ -28,6 +28,16 @@ export interface IWallet<TKey> {
   encryptionType: EncryptionType;
 
   /**
+  * Returns the private key of wallet
+  */
+  getPrivateKeyByteArray(): Uint8Array;
+
+  /**
+  * Returns the public key of wallet
+  */
+  getPublicKeyByteArray(): Promise<Uint8Array>;
+
+  /**
    * Returns the private key of wallet
    */
   getPrivateKey(): string;
@@ -36,6 +46,16 @@ export interface IWallet<TKey> {
   * Returns the public key of wallet
   */
   getPublicKey(): Promise<string>;
+
+  /**
+   * Returns the public address of wallet
+   */
+  getPublicAddress(): Promise<string>;
+
+  /**
+   * Returns the public hash of wallet
+   */
+  getPublicHash(): Promise<string>;
 
   /**
    * Sign the message

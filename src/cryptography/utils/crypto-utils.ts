@@ -4,9 +4,8 @@ import { sha512 } from '@noble/hashes/sha512';
 import { ripemd160 } from '@noble/hashes/ripemd160';
 import { utf8ToBytes, randomBytes } from "@noble/hashes/utils";
 import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
-
+import { blake2b } from "@noble/hashes/blake2b";
 import { base58check } from "micro-base";
-import { TypeUtils, Hex } from "@/utils";
 
 const base58c = base58check(sha256);
 
@@ -73,22 +72,37 @@ export class CryptoUtils {
     return pbkdf2Async(sha512, password, salt, { c: iterations, dkLen: keySize });
   }
 
-  static parseToArray(input: Hex): Uint8Array {
-    if (TypeUtils.isString(input)) {
-      return TypeUtils.convertHexStringToArray(input as string);
-    }
-    return input as Uint8Array;
-  }
-
+  /**
+   * Generate random bytes
+   * @param len length of array
+   * @returns 
+   */
   static randomBytes(len: number): Uint8Array {
     return randomBytes(len);
   }
 
-  static base58Encode(data: Uint8Array) {
+  /**
+   * Encode the array data to base58 string
+   * @param data 
+   * @returns 
+   */
+  static base58Encode(data: Uint8Array): string {
     return base58c.encode(data);
   }
 
   static convertUt8ToByteArray(input: string): Uint8Array {
     return utf8ToBytes(input);
   }
+
+  /**
+   * Use blake2b to compute hash of data
+   *
+   * @param x
+   */
+  static blake2bHash(x: Uint8Array, length = 32): Uint8Array {
+    return blake2b(x, {
+      dkLen: length
+    });
+  }
+
 }

@@ -6,9 +6,9 @@ export class CasperLegacyWallet extends LegacyWallet {
   /**
    * Get the public address of current wallet
    */
-  public async getAddress(): Promise<string> {
+  public async getPublicAddress(): Promise<string> {
     const pubKey = await this.getPublicKey();
-    return CasperWalletUtils.getAddress(this.encryptionType, pubKey);
+    return CasperWalletUtils.getPublicAddress(this.encryptionType, pubKey);
   }
 
 }

@@ -17,6 +17,8 @@
   "types": "./dist/tsc/index.d.ts",
   "browser": "./dist/esbuild/browser.js",
   "scripts": {
+    "prepublishOnly": "yarn build-all",
+    "prepush": "yarn lint && yarn test",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
     "testci": "jest --coverage",

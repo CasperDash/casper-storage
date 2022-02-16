@@ -51,7 +51,7 @@
 
 5. Play with wallets\
 `acc0.getPrivateKey()` returns the private key of wallet\
-`await acc0.getAddress()` returns the public address of wallet\
+`await acc0.getPublicAddress()` returns the public address of wallet\
 `await acc0.sign(msgArray)` signs the message (Uint8Array) and returns the signed value (Uint8Array)
 
 ### Casper legacy wallet (with single private key)
@@ -61,7 +61,7 @@
 `let wallet = new CasperLegacyWallet("a-private-key-hex-string", EncryptionType.Ed25519)`\
 `let wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp256k1)`
 3. This wallet will also share the same methods from a wallet of HDWallet\
-e.g `await wallet.getAddress()`
+e.g `await wallet.getPublicAddress()`
 
 ## Progress
 - [x] Key generator (mnemonic)

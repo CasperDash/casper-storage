@@ -19,22 +19,38 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
     this.encryptionType = encryptionType;
   }
 
+  public abstract getPrivateKeyByteArray(): Uint8Array;
+
+  public abstract getPublicKeyByteArray(): Promise<Uint8Array>;
+
   /**
    * Returns the private key of wallet
    */
-  public abstract getPrivateKey(): string;
+  public getPrivateKey(): string {
+    return TypeUtils.convertArrayToHexString(this.getPrivateKeyByteArray());
+  }
 
-  /**
-   * Returns the public key of wallet
-   */
-  public abstract getPublicKey(): Promise<string>;
+  public async getPublicKey(): Promise<string> {
+    const pubKey = await this.getPublicKeyByteArray();
+    return TypeUtils.convertArrayToHexString(pubKey);
+  }
 
   /**
    * Returns the public address of wallet
    */
-  public async getAddress(): Promise<string> {
+  public async getPublicAddress(): Promise<string> {
     const publicKey = await this.getPublicKey();
     return TypeUtils.convertArrayToHexString(CryptoUtils.hash160(TypeUtils.convertHexStringToArray(publicKey)));
+  }
+
+  /**
+   * Returns the public hash of wallet
+   */
+  public async getPublicHash(): Promise<string> {
+    const addr = await this.getPublicKeyByteArray();
+    const separator = new Uint8Array([0]);
+    const data = new Uint8Array([...CryptoUtils.convertUt8ToByteArray(this.encryptionType), ...separator, ...addr]);
+    return TypeUtils.convertArrayToHexString(CryptoUtils.blake2bHash(data));
   }
 
   /**

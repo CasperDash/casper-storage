@@ -4,7 +4,7 @@ const ED25119_PREFIX = "01";
 const SECP256_PREFIX = "02";
 
 export class CasperWalletUtils {
-  public static getAddress(encryptionType: EncryptionType, publicKey: string): string {
+  public static getPublicAddress(encryptionType: EncryptionType, publicKey: string): string {
     let prefix: string;
     switch (encryptionType) {
       case EncryptionType.Ed25519  : prefix = ED25119_PREFIX; break;
