@@ -9,7 +9,7 @@ export enum EncryptionType {
     Ed25519 = 'ed25519',
 
     /**
-     * The common algorithm which is used by BitCoin, Ethereum
+     * The default algorithm used by BitCoin, Ethereum, and many other cryptocurrencies.
      */
     Secp256k1 = 'secp256k1'
 }
