@@ -5,6 +5,7 @@ import { ripemd160 } from '@noble/hashes/ripemd160';
 import { utf8ToBytes, randomBytes } from "@noble/hashes/utils";
 import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
 import { blake2b } from "@noble/hashes/blake2b";
+import { scrypt } from '@noble/hashes/scrypt';
 import { base58check } from "micro-base";
 
 const base58c = base58check(sha256);
@@ -73,7 +74,6 @@ export class CryptoUtils {
     return pbkdf2Async(sha512, password, salt, { c: iterations, dkLen: keySize });
   }
 
-
   /**
    * Generate a random array of bytes of the given length
    * @param {number} len - the length of the random bytes to generate.
@@ -94,10 +94,10 @@ export class CryptoUtils {
 
   /**
    * Convert a string to a Uint8Array
-   * @param {string} input - The string to be converted to a byte array.
-   * @returns The `convertUt8ToByteArray` function returns a `Uint8Array` object.
+   * @param {string} input - The string to convert to a byte array.
+   * @returns The `convertTextToByteArray` function returns a `Uint8Array` object.
    */
-  static convertUt8ToByteArray(input: string): Uint8Array {
+  static convertTextToByteArray(input: string): Uint8Array {
     return utf8ToBytes(input);
   }
 
@@ -113,4 +113,15 @@ export class CryptoUtils {
     });
   }
 
+  /**
+   * Create a strong private key from any input, where the key is longer and more secure.
+   * @param input 
+   * @returns 
+   */
+  static scrypt(input: string): Uint8Array {
+    if (!input) {
+      throw new Error("Input is required");
+    }
+    return scrypt(input, 'salt', { N: 2 ** 16, r: 8, p: 1, dkLen: 32 });
+  }
 }

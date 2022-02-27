@@ -12,9 +12,9 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
 
   protected walletConstructor: IWalletConstructor<TWallet>;
 
-  public masterSeed: Uint8Array;
-  public encryptionType: EncryptionType;
-  public coinPath: CoinPath;
+  protected masterSeed: Uint8Array;
+  protected encryptionType: EncryptionType;
+  protected coinPath: CoinPath;
 
   constructor(walletConstructor: IWalletConstructor<TWallet>, coinPath: CoinPath, encryptionType: EncryptionType, masterSeed: Hex) {
     if (!walletConstructor) {
@@ -34,6 +34,14 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
     this.coinPath          = coinPath;
     this.encryptionType    = encryptionType;
     this.masterSeed        = TypeUtils.parseHexToArray(masterSeed);
+  }
+
+  public getEncryptionType(): EncryptionType {
+    return this.encryptionType;
+  }
+  
+  public getCoinPath(): CoinPath {
+    return this.coinPath;
   }
 
   public getMasterWallet(): Promise<TWallet> {

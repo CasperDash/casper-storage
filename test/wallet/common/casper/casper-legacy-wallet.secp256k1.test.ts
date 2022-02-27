@@ -10,7 +10,7 @@ const PUBLIC_HASH_TEST_01 = "7ba08fc9133f68480e22d41e0049eafe5de60d059f8b962ea91
 
 test(("casper-legcy-wallet.secp256k1.ctor"), async () => {
   let wallet = new CasperLegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
-  expect(wallet.encryptionType).toBe(EncryptionType.Secp256k1);
+  expect(wallet.getEncryptionType()).toBe(EncryptionType.Secp256k1);
   expect(wallet.getPrivateKey()).toBe(PRIVATE_KEY_TEST_01);
 });
 

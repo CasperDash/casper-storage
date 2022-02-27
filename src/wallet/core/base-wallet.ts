@@ -7,12 +7,12 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   /**
    * The key instance
    */
-  key: TKey;
+   private key: TKey;
 
   /**
    * The encryption type
    */
-  encryptionType: EncryptionType;
+  private encryptionType: EncryptionType;
 
   constructor(key: TKey, encryptionType: EncryptionType) {
     this.key = key;
@@ -22,6 +22,28 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   public abstract getPrivateKeyByteArray(): Uint8Array;
 
   public abstract getPublicKeyByteArray(): Promise<Uint8Array>;
+
+  /**
+   * Returns the key of wallet
+   * @returns 
+   */
+  public getKey(): TKey {
+    return this.key;
+  }
+
+  /**
+   * Returns the refrence key of wallet
+   * either a private key for legacy wallet or derived path of sub-wallet of HD wallet
+   */
+  public abstract getReferenceKey(): string;
+
+  /**
+   * Returns the encryption type of wallet
+   * @returns 
+   */
+  public getEncryptionType(): EncryptionType {
+    return this.encryptionType;
+  }
 
   /**
    * Returns the private key of wallet
@@ -49,7 +71,7 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   public async getPublicHash(): Promise<string> {
     const addr = await this.getPublicKeyByteArray();
     const separator = new Uint8Array([0]);
-    const data = new Uint8Array([...CryptoUtils.convertUt8ToByteArray(this.encryptionType), ...separator, ...addr]);
+    const data = new Uint8Array([...CryptoUtils.convertTextToByteArray(this.getEncryptionType()), ...separator, ...addr]);
     return TypeUtils.convertArrayToHexString(CryptoUtils.blake2bHash(data));
   }
 
@@ -63,6 +85,6 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   }
 
   protected getAsymmetricKey() {
-    return AsymmetricKeyFactory.getInstance(this.encryptionType);
+    return AsymmetricKeyFactory.getInstance(this.getEncryptionType());
   }
 }
