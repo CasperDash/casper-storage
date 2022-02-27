@@ -138,7 +138,7 @@ export class WalletInfo {
 export class HDWalletInfo {
   private _key: string;
   private _type: EncryptionType;
-  private _derives: WalletInfo[];
+  private _derivedWallets: WalletInfo[];
 
   /**
    * Create a new HD wallet information with master key and encryption type
@@ -170,8 +170,8 @@ export class HDWalletInfo {
   /**
    * Get derived wallets
    */
-  public get derives() {
-    return this._derives;
+  public get derivedWallets() {
+    return this._derivedWallets;
   }
 
   /**
@@ -180,10 +180,10 @@ export class HDWalletInfo {
    * @param type 
    * @param info 
    */
-  public setDerive(derivedPath: string, type: EncryptionType, info?: string | WalletDescriptor) {
-    if (!this._derives) this._derives = [];
+  public setDerivedWallet(derivedPath: string, type: EncryptionType, info?: string | WalletDescriptor) {
+    if (!this._derivedWallets) this._derivedWallets = [];
     let derived: WalletInfo = null;
-    for (const item of this._derives) {
+    for (const item of this._derivedWallets) {
       if (item.key == derivedPath) {
         derived = item;
         break;
@@ -191,7 +191,7 @@ export class HDWalletInfo {
     }
     if (!derived) {
       derived = new WalletInfo(derivedPath, type);
-      this._derives.push(derived);
+      this._derivedWallets.push(derived);
     }
     if (info) {
       derived.descriptor = WalletDescriptor.from(info);
@@ -202,9 +202,9 @@ export class HDWalletInfo {
    * Remove a derived wallet by path
    * @param derivedPath 
    */
-  public removeDerive(derivedPath: string) {
-    if (this._derives) {
-      this._derives = this._derives.filter((x) => x.key != derivedPath);
+  public removeDerivedWallet(derivedPath: string) {
+    if (this._derivedWallets) {
+      this._derivedWallets = this._derivedWallets.filter((x) => x.key != derivedPath);
     }
   }
 
@@ -215,7 +215,7 @@ export class HDWalletInfo {
     return {
       key: this.key,
       type: this.type,
-      derives: this.derives
+      derives: this.derivedWallets
     }
   }
 }

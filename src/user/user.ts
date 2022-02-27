@@ -42,13 +42,13 @@ export class User implements IUser {
 
   public async addWalletAccount(index: number, info?: WalletDescriptor) : Promise<IWallet<IHDKey>>{
     const acc = await this.getWallet().getAccount(index);
-    this.wallet.setDerive(acc.getReferenceKey(), acc.getEncryptionType(), info);
+    this.wallet.setDerivedWallet(acc.getReferenceKey(), acc.getEncryptionType(), info);
     return this.getWalletAccount(index);
   }
 
   async removeWalletAccount(index: number) {
     const acc = await this.getWallet().getAccount(index);
-    this.wallet.removeDerive(acc.getReferenceKey());
+    this.wallet.removeDerivedWallet(acc.getReferenceKey());
   }
 
   public addLegacyWallet(wallet: IWallet<Hex>, info?: WalletDescriptor) {
@@ -85,7 +85,7 @@ export class User implements IUser {
       }
     } else {
       if (this.wallet) {
-        const derives = this.wallet.derives;
+        const derives = this.wallet.derivedWallets;
         if (derives) {
           info = derives.filter((x) => x.key == id)[0];
         }
@@ -124,7 +124,7 @@ export class User implements IUser {
 
       if (obj.wallet.derives) {
         obj.wallet.derives.forEach((wl: WalletInfo) => {
-          this.wallet.setDerive(wl.key, wl.type, wl.descriptor);
+          this.wallet.setDerivedWallet(wl.key, wl.type, wl.descriptor);
         });
       }
     }
