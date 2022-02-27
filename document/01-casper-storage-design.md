@@ -71,11 +71,13 @@ Refs:
 
 ### 2. cryptography
 
-`import { EncryptionType, CrytoUtils } from "casper-storage/cryptography"`
+`import { EncryptionType, CrytoUtils, AESUtils } from "casper-storage/cryptography"`
 
 The `EncryptionType` defines 2 modes: Ed25519 and Secp256k1
 
 The `CryptoUtils` provides convenience encryption method like `hash160`, `hash256`, `pbkdf2`, `encryptAES`, `decryptAES`
+
+The `AESUtils` provides `encrypt` and `decrypt` methods
 
 ### 3. wallet
 
@@ -97,7 +99,6 @@ Where:
   - `getPublicKey()`
   - `getPublicAddress()`
   - `getPublicHash()`
-  - `sign(message)`
 
 Refs:
 - https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
