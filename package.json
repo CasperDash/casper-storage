@@ -13,9 +13,9 @@
     "storage",
     "casper-storage"
   ],
-  "main": "./dist/tsc/index.js",
-  "types": "./dist/tsc/index.d.ts",
   "browser": "./dist/esbuild/browser.js",
+  "main": "./dist/tsc/cli.js",
+  "types": "./dist/tsc/cli.d.ts",
   "scripts": {
     "prepublishOnly": "yarn build-all",
     "prepush": "yarn ensure",
