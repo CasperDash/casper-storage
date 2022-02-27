@@ -6,7 +6,7 @@ const PUBLIC_KEY_TEST_01  = "031b307f764b408adc049f9b390073962673afe95e2e670a9c5
 
 test(("legacy-wallet.Secp256k1.ctor"), async () => {
   let wallet = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
-  expect(wallet.encryptionType).toBe(EncryptionType.Secp256k1);
+  expect(wallet.getEncryptionType()).toBe(EncryptionType.Secp256k1);
   expect(wallet.getPrivateKey()).toBe(PRIVATE_KEY_TEST_01);
 });
 

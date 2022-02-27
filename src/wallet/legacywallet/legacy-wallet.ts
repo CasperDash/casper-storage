@@ -6,13 +6,17 @@ import { BaseWallet } from "../core/base-wallet";
  */
 export class LegacyWallet extends BaseWallet<Hex> {
 
-  public getPrivateKey(): string {
-    return TypeUtils.parseHexToString(this.key);
+  public getReferenceKey(): string {
+    return this.getPrivateKey();
   }
 
-  public async getPublicKey(): Promise<string> {
+  public getPrivateKeyByteArray(): Uint8Array {
+    return TypeUtils.parseHexToArray(this.getKey());
+  }
+
+  public async getPublicKeyByteArray(): Promise<Uint8Array> {
     const pubKey = await this.getAsymmetricKey().createPublicKey(this.getPrivateKey(), true);
-    return TypeUtils.convertArrayToHexString(pubKey);
+    return pubKey;
   }
 
 }

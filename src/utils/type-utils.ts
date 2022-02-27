@@ -22,10 +22,10 @@ export class TypeUtils {
   }
 
   /**
-   * Convert the given array value to binary string
-   * @param input 
-   * @param bitsPerValue default to 8
-   * @returns 
+   * Convert an array of bytes to a string of binary digits
+   * @param {Uint8Array} input - The input array of bytes.
+   * @param [bitsPerValue=8] - The number of bits to use per value.
+   * @returns The binary string representation of the input array.
    */
   static convertArrayToBinaryString(input: Uint8Array, bitsPerValue = 8) {
     if (!input) return null;
@@ -43,9 +43,9 @@ export class TypeUtils {
   }
 
   /**
-   * Parse the hex type (either string or an array) to hex array
-   * @param input 
-   * @returns 
+   * It takes a hex value and converts it to a Uint8Array.
+   * @param {Hex} input - The input to be converted to a Uint8Array.
+   * @returns a `Uint8Array` object
    */
   static parseHexToArray(input: Hex): Uint8Array {
     if (TypeUtils.isString(input)) {
@@ -55,9 +55,9 @@ export class TypeUtils {
   }
 
   /**
-   * Parse the hex type (either string or an array) to hex string
-   * @param input 
-   * @returns 
+   * It takes a hex value and converts it to a hex string.
+   * @param {Hex} input - The input to be converted to a string.
+   * @returns The hex string representation of the input.
    */
   static parseHexToString(input: Hex): string {
     if (TypeUtils.isString(input)) {
@@ -67,9 +67,9 @@ export class TypeUtils {
   }
 
   /**
-   * Check if the given value is a string
-   * @param input 
-   * @returns 
+   * It checks if the input is a string or a string instance.
+   * @param {any} input - any
+   * @returns `true` or `false`
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static isString(input: any): boolean {

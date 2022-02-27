@@ -11,21 +11,39 @@ export interface IAddressGenerator {
    * @param publicKey 
    */
   generate(publicKey: Uint8Array): string;
+
 }
 
 /**
  * Presents for an instance of wallet
  */
 export interface IWallet<TKey> {
+
   /**
    * The key (private) of wallet
    */
-  key: TKey;
+  getKey(): TKey;
 
   /**
-   * The encryption mode which is used in this wallet
+   * Returns the refrence key of wallet
+   * either a private key for legacy wallet or derived path of sub-wallet of HD wallet
    */
-  encryptionType: EncryptionType;
+  getReferenceKey(): string;
+
+  /**
+   * Returns the encryption type of wallet
+   */
+  getEncryptionType(): EncryptionType;
+
+  /**
+  * Returns the private key of wallet
+  */
+  getPrivateKeyByteArray(): Uint8Array;
+
+  /**
+  * Returns the public key of wallet
+  */
+  getPublicKeyByteArray(): Promise<Uint8Array>;
 
   /**
    * Returns the private key of wallet
@@ -38,10 +56,15 @@ export interface IWallet<TKey> {
   getPublicKey(): Promise<string>;
 
   /**
-   * Sign the message
-   * @param message 
+   * Returns the public address of wallet
    */
-  sign(message: Uint8Array): Promise<Uint8Array>;
+  getPublicAddress(): Promise<string>;
+
+  /**
+   * Returns the public hash of wallet
+   */
+  getPublicHash(): Promise<string>;
+
 }
 
 /**
@@ -62,6 +85,12 @@ export interface IHDWallet<TWallet> {
   getMasterWallet(): Promise<TWallet>;
 
   /**
+   * Get a wallet at a specific account index based on base derivation path (purpose/coinType/accountIndex)
+   * @param accountIndex 
+   */
+  getAccount(accountIndex: number): Promise<TWallet>;
+
+  /**
    * Get a wallet at a specific account index based on base derivation path (purpose/coinType/accountIndex/change/walletIndex)
    * Where the default accountIndex will be 0, and change will be 0 (external)
    * @param walletIndex 
@@ -73,4 +102,5 @@ export interface IHDWallet<TWallet> {
    * @param path 
    */
   getWalletFromPath(path: string): Promise<TWallet>;
+
 }

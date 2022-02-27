@@ -20,9 +20,11 @@
   "browser": "./dist/esbuild/browser.js",
   "types": "./dist/esbuild/cli.d.ts",
   "scripts": {
+    "prepublishOnly": "yarn build-all",
+    "prepush": "yarn ensure",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
-    "test": "jest",
-    "testci": "jest --coverage",
+    "test": "jest --env=./test/test-env.js",
+    "testci": "jest --env=./test/test-env.js --coverage",
     "clean": "rimraf dist build package",
     "docs": "typedoc --entryPoints src/index.ts",
     "build": "tsc -p tsconfig.build.json",
@@ -32,15 +34,19 @@
     "esbuild": "esbuild src/cli.ts --bundle --outfile=dist/esbuild/cli.js",
     "ts-node": "ts-node",
     "ensure": "yarn lint && yarn test",
-    "deploy": "yarn build-all && npm publish"
+    "deploy": "yarn build-all && npm publish",
+    "helpme": "echo 'prepush, test, build-all'"
   },
   "dependencies": {
     "@noble/ed25519": "^1.4.0",
     "@noble/hashes": "^0.5.9",
     "@noble/secp256k1": "^1.4.0",
+    "@react-native-async-storage/async-storage": "^1.16.1",
+    "aes-js": "^3.1.2",
     "micro-base": "^0.10.2"
   },
   "devDependencies": {
+    "@types/aes-js": "^3.1.1",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
@@ -48,6 +54,7 @@
     "esbuild": "^0.14.10",
     "eslint": "^8.6.0",
     "jest": "^27.4.7",
+    "jest-environment-jsdom": "^27.5.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.1.2",
     "ts-node": "^10.4.0",

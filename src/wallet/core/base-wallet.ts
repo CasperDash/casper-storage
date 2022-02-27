@@ -7,34 +7,72 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   /**
    * The key instance
    */
-  key: TKey;
+   private key: TKey;
 
   /**
    * The encryption type
    */
-  encryptionType: EncryptionType;
+  private encryptionType: EncryptionType;
 
   constructor(key: TKey, encryptionType: EncryptionType) {
     this.key = key;
     this.encryptionType = encryptionType;
   }
 
+  public abstract getPrivateKeyByteArray(): Uint8Array;
+
+  public abstract getPublicKeyByteArray(): Promise<Uint8Array>;
+
+  /**
+   * Returns the key of wallet
+   * @returns 
+   */
+  public getKey(): TKey {
+    return this.key;
+  }
+
+  /**
+   * Returns the refrence key of wallet
+   * either a private key for legacy wallet or derived path of sub-wallet of HD wallet
+   */
+  public abstract getReferenceKey(): string;
+
+  /**
+   * Returns the encryption type of wallet
+   * @returns 
+   */
+  public getEncryptionType(): EncryptionType {
+    return this.encryptionType;
+  }
+
   /**
    * Returns the private key of wallet
    */
-  public abstract getPrivateKey(): string;
+  public getPrivateKey(): string {
+    return TypeUtils.convertArrayToHexString(this.getPrivateKeyByteArray());
+  }
 
-  /**
-   * Returns the public key of wallet
-   */
-  public abstract getPublicKey(): Promise<string>;
+  public async getPublicKey(): Promise<string> {
+    const pubKey = await this.getPublicKeyByteArray();
+    return TypeUtils.convertArrayToHexString(pubKey);
+  }
 
   /**
    * Returns the public address of wallet
    */
-  public async getAddress(): Promise<string> {
+  public async getPublicAddress(): Promise<string> {
     const publicKey = await this.getPublicKey();
     return TypeUtils.convertArrayToHexString(CryptoUtils.hash160(TypeUtils.convertHexStringToArray(publicKey)));
+  }
+
+  /**
+   * Returns the public hash of wallet
+   */
+  public async getPublicHash(): Promise<string> {
+    const addr = await this.getPublicKeyByteArray();
+    const separator = new Uint8Array([0]);
+    const data = new Uint8Array([...CryptoUtils.convertTextToByteArray(this.getEncryptionType()), ...separator, ...addr]);
+    return TypeUtils.convertArrayToHexString(CryptoUtils.blake2bHash(data));
   }
 
   /**
@@ -47,6 +85,6 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   }
 
   protected getAsymmetricKey() {
-    return AsymmetricKeyFactory.getInstance(this.encryptionType);
+    return AsymmetricKeyFactory.getInstance(this.getEncryptionType());
   }
 }

@@ -1,5 +1,4 @@
 import { IHDKey } from "@/bips/bip32/hdkey";
-import { TypeUtils } from "@/utils";
 import { BaseWallet } from "../core/base-wallet";
 
 /**
@@ -7,13 +6,15 @@ import { BaseWallet } from "../core/base-wallet";
  */
 export class Wallet extends BaseWallet<IHDKey> {
 
-  public getPrivateKey(): string {
-    return TypeUtils.convertArrayToHexString(this.key.getPrivateKey());
+  public getReferenceKey(): string {
+    return this.getKey().getPath();
   }
 
-  public async getPublicKey(): Promise<string> {
-    const pubKey = await this.key.getPublicKey();
-    return TypeUtils.convertArrayToHexString(pubKey);
+  public getPrivateKeyByteArray(): Uint8Array {
+    return this.getKey().getPrivateKey();
   }
 
+  public getPublicKeyByteArray(): Promise<Uint8Array> {
+    return this.getKey().getPublicKey();
+  }
 }

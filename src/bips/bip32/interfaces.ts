@@ -6,15 +6,17 @@ import { IHDKey } from "./hdkey";
  * (mainnet: 0x0488B21E public, 0x0488ADE4 private; testnet: 0x043587CF public, 0x04358394 private)
  */
 export class Versions {
+
   /**
    * version to serialize private key
    */
-  private: number;
+  public private: number;
 
   /**
    * Version to serialize public key
    */
-  public: number;
+   public public: number;
+
 }
 
 /**
@@ -25,17 +27,17 @@ export class HDKeyConfig {
   /**
    * The encryption mode likes ed25119 or secp256k1
    */
-  encryptionType: EncryptionType;
+  public encryptionType: EncryptionType;
 
   /**
    * The versions to serialize private/public key (for mainnet or testnet)
    */
-  versions: Versions;
+   public versions: Versions;
 
   /**
    * The master secret
    */
-  masterSecret: Uint8Array;
+   public masterSecret: Uint8Array;
 
   /**
    * Ctor
@@ -48,8 +50,20 @@ export class HDKeyConfig {
     this.versions = versions;
     this.masterSecret = masterSecret;
   }
+
 }
 
+/**
+ * HD key manager, to initialize the root HD key from master seed
+ */
 export interface IHDKeyManager {
+
+  /**
+   * Create a new HDKey object from a seed
+   * @param {Uint8Array} seed - The seed to use to generate the master key.
+   * @param {Versions} [versions] - The version of the HDKey.
+   * @returns The HDKey object.
+   */
   fromMasterSeed(seed: Uint8Array, versions?: Versions): IHDKey;
+
 }

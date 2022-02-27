@@ -11,10 +11,20 @@ export abstract class HDKeyManagerBase implements IHDKeyManager {
 
   protected encryptionType: EncryptionType;
 
+  /**
+   * The constructor function takes a single parameter, which is the encryption type
+   * @param {EncryptionType} type - EncryptionType
+   */
   constructor(type: EncryptionType) {
     this.encryptionType = type;
   }
 
+  /**
+   * Create a new HDKey object from a seed
+   * @param {Uint8Array} seed - The seed to use to generate the master key.
+   * @param {Versions} [versions] - The version of the HDKey.
+   * @returns The HDKey object.
+   */
   public fromMasterSeed(seed: Uint8Array, versions?: Versions) {
     const { key, chainCode } = CryptoUtils.digestSHA512(seed, this.GetMasterSecret());
     return this.createNewHDKey(key, chainCode, versions || BITCOIN_VERSIONS);
