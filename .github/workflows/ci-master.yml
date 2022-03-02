@@ -40,6 +40,6 @@ jobs:
         - name: Send build result to slack channel
           uses: rtCamp/action-slack-notify@v2
           env: 
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_WEBHOOK: ${{ secrets.ORG_SLACK_URL }}
             SLACK_COLOR: ${{ job.status }}
             SLACK_FOOTER: Powered by CasperDash
