@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ master, feature/configure-ci ]
+    branches: [ master ]
 
 jobs:
   build_deploy:
