@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, feature/configure-ci ]
 
 jobs:
   build:
@@ -24,3 +24,10 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+    - uses: JS-DevTools/npm-publish@v1
+      with:
+          token: ${{ secrets.NPM_TOKEN }}
+    - if: steps.publish.outputs.type != 'none'
+      run: |  
+        echo "Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
+
