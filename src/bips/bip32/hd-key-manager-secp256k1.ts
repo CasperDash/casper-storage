@@ -4,7 +4,7 @@ import { IHDKey } from "./hdkey";
 import { HDKeySecp256k1 } from "./hdkey/hd-key-secp256k1";
 import { HDKeyConfig, Versions } from "./interfaces";
 
-const MASTER_SECRET = CryptoUtils.convertUt8ToByteArray("Bitcoin seed");
+const MASTER_SECRET = CryptoUtils.convertTextToByteArray("Bitcoin seed");
 
 /**
  * A wrapper of HDKey manager which uses ed25519 underlying

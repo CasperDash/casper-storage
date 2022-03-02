@@ -1,17 +1,25 @@
 import { EncryptionType } from "@/cryptography/core";
 import { CasperLegacyWallet } from "@/wallet/common/casper";
 
-const PRIVATE_KEY_TEST_01 = "5b608b9052d04bae771428ec6e09b4d8d30d9b57f64bf2923710d9d08ba78936";
-const PUBLIC_KEY_TEST_01  = "031b307f764b408adc049f9b390073962673afe95e2e670a9c534c60ca5f933d32";
+// Convert PEM to hex
+// openssl ec -in key.pem -text -noout
+
+const PRIVATE_KEY_TEST_01 = "06dc1d7d051969d411e966c6c02d3d025b586f6c1a9c5688efa168b5919708f4";
+const PUBLIC_KEY_TEST_01  = "027b8db8cf675252c61e3de6932b3ac790ba39f1e99275aa2d3f05496767fe37cf";
+const PUBLIC_HASH_TEST_01 = "7ba08fc9133f68480e22d41e0049eafe5de60d059f8b962ea91033e6654ae612";
 
 test(("casper-legcy-wallet.secp256k1.ctor"), async () => {
   let wallet = new CasperLegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
-  expect(wallet.encryptionType).toBe(EncryptionType.Secp256k1);
+  expect(wallet.getEncryptionType()).toBe(EncryptionType.Secp256k1);
   expect(wallet.getPrivateKey()).toBe(PRIVATE_KEY_TEST_01);
 });
 
 test(("casper-legcy-wallet.secp256k1.publicKey"), async () => {
   let wallet = new CasperLegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
-  expect(await wallet.getPublicKey()).toBe(PUBLIC_KEY_TEST_01);
-  expect(await wallet.getAddress()).toBe("02" + PUBLIC_KEY_TEST_01);
+  expect(await wallet.getPublicAddress()).toBe("02" + PUBLIC_KEY_TEST_01);
+});
+
+test(("casper-legcy-wallet.secp256k1.publicHash"), async () => {
+  let wallet = new CasperLegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
+  expect(await wallet.getPublicHash()).toBe(PUBLIC_HASH_TEST_01);
 });

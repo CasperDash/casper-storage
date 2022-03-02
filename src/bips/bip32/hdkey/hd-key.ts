@@ -11,7 +11,7 @@ import { HDKeyConfig } from "../interfaces";
  * 32 bytes: chain code
  * 33 bytes: the public key or private key
  */
-const LEN = 78;
+const LENGHT = 78;
 const HARDENED_OFFSET = 0x80000000;
 const ZERO_BYTES = new Uint8Array([0]);
 
@@ -207,7 +207,7 @@ export abstract class HDKey implements IHDKey {
    * @returns 
    */
   private serialize(version: number, key: Uint8Array): Uint8Array{
-    const ab = new ArrayBuffer(LEN);
+    const ab = new ArrayBuffer(LENGHT);
     const view = new DataView(ab);
 
     view.setUint32(0, version);
