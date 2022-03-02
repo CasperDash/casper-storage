@@ -24,6 +24,16 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+    
+  
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest 
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
     - uses: JS-DevTools/npm-publish@v1
       with:
           token: ${{ secrets.NPM_TOKEN }}
@@ -31,3 +41,15 @@ jobs:
       run: |  
         echo "Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
 
+
+  notification:
+      needs: [deploy]
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Send build result to slack channel
+          uses: rtCamp/action-slack-notify@v2
+          env: 
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            SLACK_COLOR: ${{ job.status }}
+            SLACK_FOOTER: Powered by CasperDash
