@@ -1,9 +1,9 @@
 import { IHDKey } from "@/bips/bip32";
-import { AESUtils } from "@/cryptography/utils/aes-utils";
 import { CasperHDWallet, IHDWallet, IWallet } from "@/wallet";
-import { CryptoUtils, EncryptionType, Hex, TypeUtils } from "..";
+import { CryptoUtils, EncoderUtils, EncryptionType, AESUtils } from "@/cryptography";
 import { IUser } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
+import { Hex, TypeUtils } from "@/utils";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -25,7 +25,7 @@ export class User implements IUser {
     }
 
     // We should not store the raw password in memory, let's hash it
-    this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash160(CryptoUtils.convertTextToByteArray(password)));
+    this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash160(EncoderUtils.encodeText(password)));
   }
 
   public setHDWallet(key: string, type: EncryptionType) {

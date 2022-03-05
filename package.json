@@ -37,7 +37,9 @@
     "@noble/hashes": "^0.5.9",
     "@noble/secp256k1": "^1.4.0",
     "@react-native-async-storage/async-storage": "^1.16.1",
+    "@scure/base": "^1.0.0",
     "aes-js": "^3.1.2",
+    "key-encoder": "^2.0.3",
     "micro-base": "^0.10.2"
   },
   "devDependencies": {

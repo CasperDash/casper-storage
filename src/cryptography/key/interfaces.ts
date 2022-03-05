@@ -20,13 +20,6 @@ export interface IAsymmetricKey {
   createPublicKey(privateKey: Hex, isCompessed?: boolean): Promise<Uint8Array>;
 
   /**
-   * Sign the message by using the keypair
-   * @param privateKey 
-   * @param msg 
-   */
-  sign(privateKey: Hex, msg: Uint8Array): Promise<Uint8Array>;
-
-  /**
    * Tweat the public key by adding the private key
    * @param publicKey 
    * @param tweak 

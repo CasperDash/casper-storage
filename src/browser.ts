@@ -2,8 +2,8 @@
 export * from "./index";
 
 import { TypeUtils } from "./index";
-import { KeyFactory } from "./index";
-import { EncryptionType, CryptoUtils, AESUtils } from "./index";
+import { KeyFactory, KeyParser } from "./index";
+import { EncryptionType, CryptoUtils, AESUtils, EncoderUtils } from "./index";
 import { CasperWallet, CasperHDWallet, CasperLegacyWallet } from "./index";
 import { User, StorageManager } from "./index";
 
@@ -21,6 +21,8 @@ const CasperStorage = {
   EncryptionType,
   CryptoUtils,
   AESUtils,
+  EncoderUtils,
+  KeyParser,
 
   // Wallets
   CasperWallet,

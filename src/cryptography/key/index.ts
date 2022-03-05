@@ -1,4 +1,5 @@
 export * from "./interfaces";
+export * from "./parser";
 
 import { EncryptionType } from "../core";
 import { Secp256k1 } from "./secp256k1";
@@ -25,4 +26,3 @@ export class AsymmetricKeyFactory {
   }
 
 }
-

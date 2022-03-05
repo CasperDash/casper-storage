@@ -6,7 +6,7 @@
  * - Replace randombytes module using functions from crypto module
  */
 
-import { CryptoUtils } from '@/cryptography';
+import { CryptoUtils, EncoderUtils } from '@/cryptography';
 import { TypeUtils } from '@/utils';
 import { _default as _DEFAULT_WORDLIST } from './_wordlists';
 
@@ -42,8 +42,8 @@ export function mnemonicToSeedSync(
   mnemonic: string,
   password?: string,
 ): Uint8Array {
-  const mnemonicArr = CryptoUtils.convertTextToByteArray(normalize(mnemonic));
-  const saltArr = CryptoUtils.convertTextToByteArray(salt(normalize(password)));
+  const mnemonicArr = EncoderUtils.encodeText(normalize(mnemonic));
+  const saltArr = EncoderUtils.encodeText(salt(normalize(password)));
   return CryptoUtils.pbkdf2Sync(mnemonicArr, saltArr, 2048, 64);
 }
 
@@ -53,8 +53,8 @@ export function mnemonicToSeed(
 ): Promise<Uint8Array> {
   return Promise.resolve().then(
     (): Promise<Uint8Array> => {
-      const mnemonicArr = CryptoUtils.convertTextToByteArray(normalize(mnemonic));
-      const saltArr = CryptoUtils.convertTextToByteArray(salt(normalize(password)));
+      const mnemonicArr = EncoderUtils.encodeText(normalize(mnemonic));
+      const saltArr = EncoderUtils.encodeText(salt(normalize(password)));
       return CryptoUtils.pbkdf2(mnemonicArr, saltArr, 2048, 64);
     },
   );

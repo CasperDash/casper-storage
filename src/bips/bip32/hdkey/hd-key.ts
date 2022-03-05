@@ -1,4 +1,4 @@
-import { AsymmetricKeyFactory, CryptoUtils } from "@/cryptography";
+import { AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "@/cryptography";
 import { IHDKey } from ".";
 import { HDKeyConfig } from "../interfaces";
 
@@ -92,7 +92,7 @@ export abstract class HDKey implements IHDKey {
       throw new Error("Cannot compute privateExtendedKey without privateKey");
     }
     const data = new Uint8Array([...ZERO_BYTES, ...this.privateKey]);
-    const result = CryptoUtils.base58Encode(this.serialize(this.config.versions.private, data));
+    const result = EncoderUtils.encodeBase58(this.serialize(this.config.versions.private, data));
     return Promise.resolve(result);
   }
 
@@ -102,7 +102,7 @@ export abstract class HDKey implements IHDKey {
    */
   public async getPublicExtendedKey(): Promise<string> {
     const publicKey = await this.getPublicKey();
-    return Promise.resolve(CryptoUtils.base58Encode(this.serialize(this.config.versions.public, publicKey)));
+    return Promise.resolve(EncoderUtils.encodeBase58(this.serialize(this.config.versions.public, publicKey)));
   }
 
   /**
