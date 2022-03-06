@@ -1,3 +1,4 @@
+import { bytesToHex, hexToBytes, concatBytes, createView } from '@noble/hashes/utils';
 
 /**
  * Definition of hex data, either a hex string or an array of hex value
@@ -10,6 +11,13 @@ export type Hex = string | Uint8Array;
  * - Check types
  */
 export class TypeUtils {
+
+  /**
+   * A byte-array of Zero
+   */
+  static getBytesOfZero(): Uint8Array {
+    return new Uint8Array([0]);
+  }
 
   /**
    * Convert the given array value to a hex string
@@ -74,6 +82,47 @@ export class TypeUtils {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static isString(input: any): boolean {
     return typeof input === 'string' || input instanceof String; 
+  }
+
+  /**
+   * Convert bytes to a bigint number
+   * @param bytes 
+   * @returns 
+   */
+  public static bytesToNumber(bytes: Uint8Array): bigint {
+    return BigInt(`0x${bytesToHex(bytes)}`);
+  }
+
+  /**
+   * Convert a bigint number to bytes
+   * @param num 
+   * @returns 
+   */
+  public static numberToBytes(num: bigint): Uint8Array {
+    return hexToBytes(num.toString(16).padStart(64, '0'));
+  }
+
+  /**
+   * Convert U32 number to bytes
+   * @param n 
+   * @returns 
+   */
+  public static convertU32ToBytes(n: number) {
+    if (!Number.isSafeInteger(n) || n < 0 || n > 2 ** 32 - 1) {
+      throw new Error(`Invalid number=${n}. Should be from 0 to 2 ** 32 - 1`);
+    }
+    const buf = new Uint8Array(4);
+    createView(buf).setUint32(0, n, false);
+    return buf;
+  }
+
+  /**
+   * Concat multiple byte-arrays into one
+   * @param arrays 
+   * @returns 
+   */
+  public static concatBytes(...arrays: Uint8Array[]): Uint8Array {
+    return concatBytes(...arrays);
   }
 
 }

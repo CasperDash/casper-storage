@@ -1,6 +1,6 @@
 import { EncryptionType, CryptoUtils } from "@/cryptography";
 import { IHDKeyManager, Versions } from "./interfaces";
-import { IHDKey } from "./hdkey";
+import { IHDKey } from "./hdkey/core";
 
 /**
  * Default versions
@@ -26,6 +26,10 @@ export abstract class HDKeyManagerBase implements IHDKeyManager {
    * @returns The HDKey object.
    */
   public fromMasterSeed(seed: Uint8Array, versions?: Versions) {
+    if (!seed || !seed.length) {
+      throw new Error("Master seed is required");
+    }
+
     const { key, chainCode } = CryptoUtils.digestSHA512(seed, this.GetMasterSecret());
     return this.createNewHDKey(key, chainCode, versions || BITCOIN_VERSIONS);
   }
