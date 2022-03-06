@@ -1,45 +1,33 @@
-name: CI
+name: ci-master
 
 on:
-  push:
-    branches: [ master ]
+  workflow_run:
+    workflows: ["ci-check"]
+    push:
+      branches: [master]
+    types:
+      - completed
 
 jobs:
   build_deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - uses: actions/checkout@v2.4.0
+    - name: Use Node ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - run: yarn install
-    - run: yarn testci
+    - name: Install
+      run: yarn install
+    - name: Test with coverage
+      run: yarn testci
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-    - uses: JS-DevTools/npm-publish@v1
-      with:
-          token: ${{ secrets.NPM_TOKEN }}
-    - if: steps.publish.outputs.type != 'none'
-      run: |  
-        echo "Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
-    
-  
-  notification:
-      needs: [build_deploy]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: Send build result to slack channel
-          uses: rtCamp/action-slack-notify@v2
-          env: 
-            SLACK_WEBHOOK: ${{ secrets.ORG_SLACK_URL }}
-            SLACK_COLOR: ${{ job.status }}
-            SLACK_FOOTER: Powered by CasperDash
