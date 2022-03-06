@@ -14,8 +14,6 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
-      - env:
-        INPUT_TOKEN: ""
       - uses: actions/checkout@v2.4.0
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -33,7 +31,10 @@ jobs:
         run: |  
           echo "Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
 
-      - run: yarn docs
+      - name: Generate document
+        env:
+          INPUT_TOKEN: ""
+        run: yarn docs
       - name: Deploy document
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
