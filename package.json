@@ -21,7 +21,6 @@
   "types": "./dist/tsc/cli.d.ts",
   "scripts": {
     "prepublishOnly": "yarn build-all",
-    "prepush": "yarn ensure",
     "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
     "test": "jest --env=./test/test-env.js",
     "testci": "jest --env=./test/test-env.js --coverage",
@@ -35,7 +34,7 @@
     "ts-node": "ts-node",
     "ensure": "yarn lint && yarn test",
     "deploy": "yarn build-all && npm publish",
-    "helpme": "echo 'prepush, test, build-all'"
+    "helpme": "echo 'ensure, test, build-all'"
   },
   "dependencies": {
     "@noble/ed25519": "^1.4.0",

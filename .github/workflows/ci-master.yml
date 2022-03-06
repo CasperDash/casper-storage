@@ -3,8 +3,7 @@ name: ci-master
 on:
   workflow_run:
     workflows: ["ci-check"]
-    push:
-      branches: [master]
+    branches: [master]
     types:
       - completed
 
