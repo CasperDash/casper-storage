@@ -1,6 +1,6 @@
+import { CryptoUtils } from "@/cryptography";
+import { TypeUtils } from "@/utils";
 import { HDKey } from "./hd-key";
-
-const ZERO_BYTES = new Uint8Array([0]);
 
 export class HDKeyED25519 extends HDKey {
 
@@ -21,20 +21,16 @@ export class HDKeyED25519 extends HDKey {
    * @returns An HDKey object.
    */
   protected deriveChild(index: number): Promise<HDKey> {
-    const prKey = this.getPrivateKey();
-    // data = 0x00 || ser256(kpar) || ser32(index)
-    const ab = new ArrayBuffer(1 + prKey.byteLength + 4);
-    const view = new DataView(ab);
-
-    let bIndex = 0;
-    view.setUint8(0, bIndex++);
-    for (let i = 0; i < prKey.byteLength; i++) {
-      view.setInt8(bIndex++, prKey[i]);
+    const privateKey = this.getPrivateKey();
+    if (!privateKey) {
+      throw new Error("Cannot derive a hardened child without private key")
     }
-    view.setUint32(bIndex++, index);
 
-    const data = new Uint8Array(ab);
-    return this.createChildHDKeyFromData(index, data);
+    // data = 0x00 || ser256(kpar) || ser32(index)
+    const data = TypeUtils.concatBytes(TypeUtils.getBytesOfZero(), privateKey, TypeUtils.convertU32ToBytes(index));
+
+    const { key, chainCode } = CryptoUtils.digestSHA512(data, this.getChainCode());
+    return this.createChildHDKey(index, key, chainCode, null);
   }
 
   /**
@@ -44,7 +40,7 @@ export class HDKeyED25519 extends HDKey {
   async getPublicKey(): Promise<Uint8Array> {
     if (!this.publicKey) {
       const publicKey = await this.getKeyFactory().createPublicKey(this.privateKey, true);
-      this.publicKey = new Uint8Array([...ZERO_BYTES, ...publicKey]);
+      this.publicKey = TypeUtils.concatBytes(TypeUtils.getBytesOfZero(), publicKey);
     }
     return Promise.resolve(this.publicKey);
   }

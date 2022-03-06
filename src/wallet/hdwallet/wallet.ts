@@ -1,4 +1,4 @@
-import { IHDKey } from "@/bips/bip32/hdkey";
+import { IHDKey } from "@/bips/bip32/hdkey/core";
 import { BaseWallet } from "../core/base-wallet";
 
 /**
