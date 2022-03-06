@@ -1,9 +1,14 @@
+import { EncryptionType } from "@/cryptography";
 import { BaseKeyParser } from "./base-key-parser";
 
 /**
  * Specific implementation of Ed25519 to parse keys
  */
 export class Ed25519KeyParser extends BaseKeyParser {
+
+  public constructor() {
+    super(EncryptionType.Ed25519);
+  }
 
   protected parsePrivateKey(data: Uint8Array): Uint8Array {
     return this.parseKey(data, 0, 32);

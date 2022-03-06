@@ -21,6 +21,6 @@ test("key-parser.parser-private-key_content-invalid", () => {
 
 test("key-parser.parser-private-key_content-test01", () => {
   const keyData = keyParser.convertPEMToPrivateKey(test01PrivatePEM);
-  const keyHex = TypeUtils.convertArrayToHexString(keyData);
+  const keyHex = TypeUtils.convertArrayToHexString(keyData.key);
   expect(keyHex).toBe(test01PrivateKey);
 })

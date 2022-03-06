@@ -155,6 +155,26 @@ await storage.remove("key");
 await storage.clear();
 ```
 
+### Misc
+1. Parse exported PEM files from Casper signer
+```
+import { KeyParser } from "casper-storage";
+
+// If you know exactly the encryption type, e.g Ed25519
+const keyValue = KeyParser.getInstance(EncryptionType.Ed25519).convertPEMToPrivateKey(yourPEMContent);
+
+// Otherwise, let it tries to guess
+// It will try to detect encryption type, if not possible then it will throw an error
+const keyValue = KeyParser.getInstance().convertPEMToPrivateKey(yourPEMContent);
+
+// The keyValue exposes 2 properties
+// Raw key
+const key = keyValue.key;
+// and its encryption type
+const encryptionType = keyValue.encryptionType;
+
+```
+
 ## Progress
 - [x] Key generator (mnemonic)
 - [x] Cryptography
@@ -163,10 +183,12 @@ await storage.clear();
     - [x] Secp256k1
   - [x] Utilities
     - [x] Common hash functions (HMAC, SHA256, SHA512, etc)
-    - [x] AES encryption
+    - [x] AES encrypt/decrypt functions
+    - [x] Encoder functions
 - [x] Wallet
   - [x] HD wallet
   - [x] Legacy wallet
+    - [x] Supports PEM files (which are exported from Casper signer)
 - [x] User management
   - [x] Manage HD wallets, legacy wallets
   - [x] Serialize/Deserialize (encrypted) user's information

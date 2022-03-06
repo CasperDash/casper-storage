@@ -1,16 +1,30 @@
-import { EncoderUtils } from "@/cryptography";
+import { EncoderUtils, EncryptionType, IKeyParser } from "@/cryptography";
+import { KeyValue } from ".";
 
 /**
- * Base key-parser, provider features to read and convert keys in specific formats to standard hex format.
+ * Base key-parser, provider features to read and convert keys in specific formats to hex value
  */
-export abstract class BaseKeyParser {
+export abstract class BaseKeyParser implements IKeyParser {
+
+  protected encryptionType: EncryptionType;
 
   /**
-   * Conver the given exported PEM as base64 to private-key as a hex bytearray
+   * Initialize the key-parser with a specific encryption type
+   * @param encryptionType 
+   */
+  public constructor(encryptionType: EncryptionType) {
+    if (!encryptionType) {
+      throw new Error("Encryption type is required");
+    }
+    this.encryptionType = encryptionType;
+  }
+
+  /**
+   * Convert the given exported PEM as base64 to private-key as a hex byte-array
    * @param content 
    * @returns 
    */
-  public convertPEMToPrivateKey(content: string): Uint8Array {
+  public convertPEMToPrivateKey(content: string): KeyValue {
     return this.convertPEMToKey(content);
   }
 
@@ -19,9 +33,9 @@ export abstract class BaseKeyParser {
    * @param content 
    * @returns 
    */
-  private convertPEMToKey(content: string): Uint8Array {
+  private convertPEMToKey(content: string): KeyValue {
     const data = EncoderUtils.readBase64PEM(content);
-    return this.parsePrivateKey(data);
+    return new KeyValue(this.parsePrivateKey(data), this.encryptionType);
   }
 
   /**
