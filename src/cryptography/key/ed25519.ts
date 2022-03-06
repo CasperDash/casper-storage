@@ -16,10 +16,6 @@ class KeyWrapper implements IAsymmetricKey {
     return ed.getPublicKey(TypeUtils.parseHexToArray(privateKey));
   }
 
-  sign(privateKey: Hex, msg: Uint8Array): Promise<Uint8Array> {
-    return ed.sign(TypeUtils.parseHexToArray(msg), privateKey);
-  }
-
   async publicKeyTweakAdd(publicKey: Hex, tweak: Hex): Promise<Uint8Array> {
     const pb = ed.Point.fromHex(publicKey);
     const pk = await ed.Point.fromPrivateKey(tweak);

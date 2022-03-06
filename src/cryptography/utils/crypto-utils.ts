@@ -2,13 +2,10 @@ import { hmac } from "@noble/hashes/hmac";
 import { sha256 } from "@noble/hashes/sha256";
 import { sha512 } from '@noble/hashes/sha512';
 import { ripemd160 } from '@noble/hashes/ripemd160';
-import { utf8ToBytes, randomBytes } from "@noble/hashes/utils";
+import { randomBytes } from "@noble/hashes/utils";
 import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
 import { blake2b } from "@noble/hashes/blake2b";
 import { scrypt } from '@noble/hashes/scrypt';
-import { base58check } from "micro-base";
-
-const base58c = base58check(sha256);
 
 /**
  * Provide utilities to due with cryptography
@@ -81,24 +78,6 @@ export class CryptoUtils {
    */
   static randomBytes(len: number): Uint8Array {
     return randomBytes(len);
-  }
-
-  /**
-   * It encodes the data into a base58 string.
-   * @param {Uint8Array} data - The data to be encoded.
-   * @returns The base58 encoded string.
-   */
-  static base58Encode(data: Uint8Array): string {
-    return base58c.encode(data);
-  }
-
-  /**
-   * Convert a string to a Uint8Array
-   * @param {string} input - The string to convert to a byte array.
-   * @returns The `convertTextToByteArray` function returns a `Uint8Array` object.
-   */
-  static convertTextToByteArray(input: string): Uint8Array {
-    return utf8ToBytes(input);
   }
 
   /**

@@ -1,4 +1,4 @@
-import { EncryptionType, AsymmetricKeyFactory, CryptoUtils } from "@/cryptography";
+import { EncryptionType, AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "@/cryptography";
 import { TypeUtils } from "@/utils";
 import { IWallet } from "../core";
 
@@ -71,17 +71,8 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
   public async getPublicHash(): Promise<string> {
     const addr = await this.getPublicKeyByteArray();
     const separator = new Uint8Array([0]);
-    const data = new Uint8Array([...CryptoUtils.convertTextToByteArray(this.getEncryptionType()), ...separator, ...addr]);
+    const data = new Uint8Array([...EncoderUtils.encodeText(this.getEncryptionType()), ...separator, ...addr]);
     return TypeUtils.convertArrayToHexString(CryptoUtils.blake2bHash(data));
-  }
-
-  /**
-   * Sign the message
-   * @param message 
-   * @returns 
-   */
-  public sign(message: Uint8Array): Promise<Uint8Array> {
-    return this.getAsymmetricKey().sign(this.getPrivateKey(), message);
   }
 
   protected getAsymmetricKey() {
