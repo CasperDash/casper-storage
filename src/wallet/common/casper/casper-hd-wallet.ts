@@ -13,9 +13,14 @@ export class CasperWallet extends Wallet {
    * Get the public address of current wallet
    */
   public async getPublicAddress(): Promise<string> {
-    const pubKey = await this.getPublicKey();
+    let pubKey = await this.getPublicKey();
+    if (this.getEncryptionType() === EncryptionType.Ed25519) {
+      // ! Casper doesn't use 00 prefix as standard SLIP-0010
+      pubKey = pubKey.slice(2);
+    }
     return CasperWalletUtils.getPublicAddress(this.getEncryptionType(), pubKey);
   }
+
 }
 
 /**

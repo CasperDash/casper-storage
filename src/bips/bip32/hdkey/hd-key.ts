@@ -72,13 +72,12 @@ export abstract class HDKey implements IHDKey {
   }
 
   /**
-   * Returns the public key Uint8Array
+   * It creates a public key from the private key.
    * @returns 
    */
   async getPublicKey(): Promise<Uint8Array> {
     if (!this.publicKey) {
-      const publicKey = await this.getKeyFactory().createPublicKey(this.privateKey, true);
-      this.publicKey = Uint8Array.from(publicKey);
+      this.publicKey = await this.getKeyFactory().createPublicKey(this.privateKey, true);
     }
     return Promise.resolve(this.publicKey);
   }
