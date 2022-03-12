@@ -73,7 +73,7 @@ export class WalletDescriptor {
  */
 export class WalletInfo {
   private _key: string;
-  private _type: EncryptionType;
+  private _encryptionType: EncryptionType;
   private _descriptor: WalletDescriptor;
 
   /**
@@ -87,7 +87,7 @@ export class WalletInfo {
     if (!type) throw new Error("Type is required");
 
     this._key = key;
-    this._type = type;
+    this._encryptionType = type;
     this._descriptor = WalletDescriptor.from(info);
   }
 
@@ -101,8 +101,8 @@ export class WalletInfo {
   /**
    * Get the encryption type of wallet
    */
-  public get type(): EncryptionType {
-    return this._type;
+  public get encryptionType(): EncryptionType {
+    return this._encryptionType;
   }
 
   /**
@@ -125,7 +125,7 @@ export class WalletInfo {
   public toJSON() {
     return {
       key: this.key,
-      type: this.type,
+      encryptionType: this.encryptionType,
       descriptor: this.descriptor
     }
   }
@@ -137,20 +137,20 @@ export class WalletInfo {
  */
 export class HDWalletInfo {
   private _key: string;
-  private _type: EncryptionType;
+  private _encryptionType: EncryptionType;
   private _derivedWallets: WalletInfo[];
 
   /**
    * Create a new HD wallet information with master key and encryption type
    * @param key 
-   * @param type 
+   * @param encryptionType 
    */
-  constructor(key: string, type: EncryptionType) {
+  constructor(key: string, encryptionType: EncryptionType) {
     if (!key) throw new Error("Key is required");
-    if (!type) throw new Error("Type is required");
+    if (!encryptionType) throw new Error("Type is required");
 
     this._key = key;
-    this._type = type;
+    this._encryptionType = encryptionType;
   }
 
   /**
@@ -163,8 +163,8 @@ export class HDWalletInfo {
   /**
    * Get encryption type of wallet
    */
-  public get type() {
-    return this._type;
+  public get encryptionType() {
+    return this._encryptionType;
   }
 
   /**
@@ -177,10 +177,10 @@ export class HDWalletInfo {
   /**
    * Set a derived wallet information
    * @param derivedPath 
-   * @param type 
+   * @param encryptionType 
    * @param info 
    */
-  public setDerivedWallet(derivedPath: string, type: EncryptionType, info?: string | WalletDescriptor) {
+  public setDerivedWallet(derivedPath: string, encryptionType: EncryptionType, info?: string | WalletDescriptor) {
     if (!this._derivedWallets) this._derivedWallets = [];
     let derived: WalletInfo = null;
     for (const item of this._derivedWallets) {
@@ -190,7 +190,7 @@ export class HDWalletInfo {
       }
     }
     if (!derived) {
-      derived = new WalletInfo(derivedPath, type);
+      derived = new WalletInfo(derivedPath, encryptionType);
       this._derivedWallets.push(derived);
     }
     if (info) {
@@ -214,7 +214,7 @@ export class HDWalletInfo {
   public toJSON() {
     return {
       key: this.key,
-      type: this.type,
+      encryptionType: this.encryptionType,
       derives: this.derivedWallets
     }
   }

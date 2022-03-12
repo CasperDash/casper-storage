@@ -11,7 +11,7 @@ export interface IUser {
 
   /**
    * Set the HD wallet information
-   * @param key the master (entropy) key
+   * @param key the master key (either words or seed hex)
    * @param type the encryption type
    */
   setHDWallet(key: string, type: EncryptionType): void;
@@ -20,6 +20,11 @@ export interface IUser {
    * Get the HD wallet
    */
   getHDWallet(): HDWalletInfo;
+
+  /**
+   * Check if we set the HD wallet already
+   */
+  hasHDWallet(): boolean;
 
   /**
    * Get the HD wallet account for the given index
@@ -45,7 +50,7 @@ export interface IUser {
    * @param wallet 
    * @param info 
    */
-  addLegacyWallet(wallet: IWallet<string>, info?: WalletDescriptor);
+  addLegacyWallet(wallet: IWallet<string>, info?: WalletDescriptor): void;
 
   /**
    * Get all current legacy wallets

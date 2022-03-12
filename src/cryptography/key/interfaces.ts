@@ -15,9 +15,9 @@ export interface IAsymmetricKey {
   /**
    * Create the public-key from a specific private key
    * @param privateKey 
-   * @param isCompessed 
+   * @param compressed 
    */
-  createPublicKey(privateKey: Hex, isCompessed?: boolean): Promise<Uint8Array>;
+  createPublicKey(privateKey: Hex, compressed?: boolean): Promise<Uint8Array>;
 
   /**
    * Tweat the public key by adding the private key

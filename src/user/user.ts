@@ -4,6 +4,7 @@ import { CryptoUtils, EncoderUtils, EncryptionType, AESUtils } from "@/cryptogra
 import { IUser } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex, TypeUtils } from "@/utils";
+import { KeyFactory } from "..";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -11,6 +12,19 @@ import { Hex, TypeUtils } from "@/utils";
  * We should never store user's password but its encrypted one to do extra actions.
  */
 export class User implements IUser {
+
+  /**
+   * Deserialize user information to an instance of user
+   * @param password 
+   * @param userEncryptedInfo 
+   * @returns 
+   */
+  public static deserializeFrom(password: string, userEncryptedInfo: string): User {
+    const user = new User(password);
+    user.deserialize(userEncryptedInfo);
+    return user;
+  }
+
   /**
    * Secret password (encrypted from user's password).
    * To serialize/deserialize the wallet information
@@ -28,8 +42,16 @@ export class User implements IUser {
     this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash160(EncoderUtils.encodeText(password)));
   }
 
-  public setHDWallet(key: string, type: EncryptionType) {
-    this.wallet = new HDWalletInfo(key, type);
+  public setHDWallet(key: string, encryptionType: EncryptionType) {
+    if (!key) throw new Error("Key is required");
+    if (!encryptionType) throw new Error("Type is required");
+
+    // The user-friendly key is provided, convert it to a seed before pushing into wallet info
+    if (key.indexOf(" ") > 0) {
+      key = KeyFactory.getInstance().toSeed(key);
+    }
+
+    this.wallet = new HDWalletInfo(key, encryptionType);
   }
 
   public getHDWallet(): HDWalletInfo {
@@ -41,13 +63,13 @@ export class User implements IUser {
   }
 
   public async addWalletAccount(index: number, info?: WalletDescriptor) : Promise<IWallet<IHDKey>>{
-    const acc = await this.getWallet().getAccount(index);
-    this.wallet.setDerivedWallet(acc.getReferenceKey(), acc.getEncryptionType(), info);
+    const acc = await this.getWalletAccount(index);
+    this.setHDWalletAccount(acc.getReferenceKey(), info);
     return this.getWalletAccount(index);
   }
 
   async removeWalletAccount(index: number) {
-    const acc = await this.getWallet().getAccount(index);
+    const acc = await this.getWalletAccount(index);
     this.wallet.removeDerivedWallet(acc.getReferenceKey());
   }
 
@@ -55,9 +77,7 @@ export class User implements IUser {
     const refKey = wallet.getReferenceKey();
     const walletInfo = new WalletInfo(refKey, wallet.getEncryptionType(), info);
 
-    if (!this.legacyWallets) {
-      this.legacyWallets = [];
-    }
+    if (!this.legacyWallets) this.legacyWallets = [];
     this.legacyWallets.push(walletInfo);
   }
 
@@ -69,10 +89,21 @@ export class User implements IUser {
     return this.legacyWallets && this.legacyWallets.length > 0;
   }
 
+  public hasHDWallet(): boolean {
+    return !!this.getHDWallet();
+  }
+
   public setWalletInfo(id: string, info: string | WalletDescriptor, legacyWallet?: boolean) {
-    const walletInfo = this.getWalletInfo(id, legacyWallet);
+    let walletInfo = this.getWalletInfo(id, legacyWallet);
     if (!walletInfo) {
-      throw new Error(`The requesting wallet is not available ${id}`)
+      // Not in legacy mode, we should automatically add the wallet account into the list
+      if (!legacyWallet && this.hasHDWallet()) {
+        this.setHDWalletAccount(id);
+        walletInfo = this.getWalletInfo(id, legacyWallet);
+      }
+      if (!walletInfo) {
+        throw new Error(`The requesting wallet is not available ${id}`)
+      }
     }
     walletInfo.descriptor = WalletDescriptor.from(info);
   }
@@ -120,11 +151,11 @@ export class User implements IUser {
     const obj = JSON.parse(text);
 
     if (obj.wallet) {
-      this.wallet = new HDWalletInfo(obj.wallet.key, obj.wallet.type);
+      this.wallet = new HDWalletInfo(obj.wallet.key, obj.wallet.encryptionType);
 
       if (obj.wallet.derives) {
         obj.wallet.derives.forEach((wl: WalletInfo) => {
-          this.wallet.setDerivedWallet(wl.key, wl.type, wl.descriptor);
+          this.wallet.setDerivedWallet(wl.key, wl.encryptionType, wl.descriptor);
         });
       }
     }
@@ -132,7 +163,7 @@ export class User implements IUser {
     if (obj.legacyWallets) {
       this.legacyWallets = [];
       obj.legacyWallets.forEach((wl: WalletInfo) => {
-        this.legacyWallets.push(new WalletInfo(wl.key, wl.type, wl.descriptor));
+        this.legacyWallets.push(new WalletInfo(wl.key, wl.encryptionType, wl.descriptor));
       });
     }
   }
@@ -143,8 +174,12 @@ export class User implements IUser {
     }
 
     const masterKey = this.wallet.key;
-    const wallet = new CasperHDWallet(masterKey, this.wallet.type); // ! Hardcoded to Casper for now
+    const wallet = new CasperHDWallet(masterKey, this.wallet.encryptionType); // ! Hardcoded to Casper for now
     return wallet;
+  }
+
+  private setHDWalletAccount(refKey: string, info?: WalletDescriptor) {
+    this.wallet.setDerivedWallet(refKey, this.getHDWallet().encryptionType, info);
   }
 
 }

@@ -1,6 +1,7 @@
 import { AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "@/cryptography";
-import { IHDKey } from ".";
+import { IHDKey } from "./core";
 import { HDKeyConfig } from "../interfaces";
+import { TypeUtils } from "@/utils";
 
 /**
  * Length of fields to serialize a data presents for a HD key
@@ -13,7 +14,6 @@ import { HDKeyConfig } from "../interfaces";
  */
 const LENGHT = 78;
 const HARDENED_OFFSET = 0x80000000;
-const ZERO_BYTES = new Uint8Array([0]);
 
 /**
  * A component for BIP32
@@ -72,13 +72,12 @@ export abstract class HDKey implements IHDKey {
   }
 
   /**
-   * Returns the public key Uint8Array
+   * It creates a public key from the private key.
    * @returns 
    */
   async getPublicKey(): Promise<Uint8Array> {
     if (!this.publicKey) {
-      const publicKey = await this.getKeyFactory().createPublicKey(this.privateKey, true);
-      this.publicKey = Uint8Array.from(publicKey);
+      this.publicKey = await this.getKeyFactory().createPublicKey(this.privateKey, true);
     }
     return Promise.resolve(this.publicKey);
   }
@@ -91,7 +90,7 @@ export abstract class HDKey implements IHDKey {
     if (!this.privateKey) {
       throw new Error("Cannot compute privateExtendedKey without privateKey");
     }
-    const data = new Uint8Array([...ZERO_BYTES, ...this.privateKey]);
+    const data = TypeUtils.concatBytes(TypeUtils.getBytesOfZero(), this.privateKey);
     const result = EncoderUtils.encodeBase58(this.serialize(this.config.versions.private, data));
     return Promise.resolve(result);
   }
@@ -132,8 +131,7 @@ export abstract class HDKey implements IHDKey {
     // eslint-disable-next-line  @typescript-eslint/no-this-alias
     let hdKey: HDKey = this;
 
-    // BIP32: a path starts with m character
-    if (path === "m" || path === 'M' || path === "m'" || path === "M'") {
+    if (/^[mM]'?$/.test(path)) {
       return Promise.resolve(hdKey);
     }
 
@@ -155,7 +153,7 @@ export abstract class HDKey implements IHDKey {
       }
 
       let childIndex = parseInt(level, 10);
-      if (childIndex >= HARDENED_OFFSET) {
+      if (!Number.isSafeInteger(childIndex) || childIndex >= HARDENED_OFFSET) {
         throw new Error("Invalid index");
       }
 
@@ -168,10 +166,6 @@ export abstract class HDKey implements IHDKey {
     return Promise.resolve(hdKey);
   }
 
-  protected createChildHDKeyFromData(index: number, data: Uint8Array) : Promise<HDKey> {
-    const { key, chainCode } = CryptoUtils.digestSHA512(data, this.getChainCode());
-    return this.createChildHDKey(index, key, chainCode, null);
-  }
 
   protected async createChildHDKey(index: number, privateKey: Uint8Array, chainCode: Uint8Array, publicKey: Uint8Array) : Promise<HDKey> {
     const key = this.createNewHDKey(privateKey, chainCode, publicKey);

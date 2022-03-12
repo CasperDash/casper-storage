@@ -12,8 +12,8 @@ class KeyWrapper implements IAsymmetricKey {
     return Promise.resolve(secp.utils.randomPrivateKey());
   }
 
-  createPublicKey(privateKey: Hex, isCompessed?: boolean): Promise<Uint8Array> {
-    return Promise.resolve(secp.getPublicKey(TypeUtils.parseHexToArray(privateKey), isCompessed));
+  createPublicKey(privateKey: Hex, compressed?: boolean): Promise<Uint8Array> {
+    return Promise.resolve(secp.getPublicKey(TypeUtils.parseHexToArray(privateKey), compressed));
   }
 
   publicKeyTweakAdd(publicKey: Hex, tweak: Hex, compressed?: boolean): Promise<Uint8Array> {

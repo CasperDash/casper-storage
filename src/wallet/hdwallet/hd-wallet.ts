@@ -1,5 +1,5 @@
 import { HDKeyManagerFactory } from "@/bips/bip32";
-import { IHDKey } from "@/bips/bip32/hdkey";
+import { IHDKey } from "@/bips/bip32/hdkey/core";
 import { EncryptionType } from "@/cryptography";
 import { TypeUtils, Hex } from "@/utils";
 import { IHDWallet, IWallet, IWalletConstructor, CoinPath } from "@/wallet/core";

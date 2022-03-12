@@ -1,5 +1,5 @@
 import { EncryptionType } from "@/cryptography";
-import { IHDKey } from "./hdkey";
+import { IHDKey } from "./hdkey/core";
 
 /**
  * Versions to serialize private/public keys.
