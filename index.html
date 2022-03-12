@@ -44,19 +44,25 @@
   <h3>Key generator</h3>
 </a>
 <ol>
-<li>In order to use work with keys, import the <em>KeyFactory</em> from <em>casper-storage</em><pre><code><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">KeyFactory</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;casper-storage&quot;</span><span class="hl-1">;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">keyManager</span><span class="hl-1"> = </span><span class="hl-2">KeyFactory</span><span class="hl-1">.</span><span class="hl-6">getInstance</span><span class="hl-1">();</span>
-</code></pre>
-</li>
-<li>To generate a new random key (default is mnemonic provider)<pre><code><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">generate</span><span class="hl-1">();</span><br/><span class="hl-7">// output will be something like *enlist announce climb census combine city endorse anxiety wedding combine sleep casino curtain only hedgehog venture inject funny banner cattle early erosion feed observe*</span>
-</code></pre>
-</li>
-<li>To convert the key to a seed, so we can use in as a master seed for HD wallet<pre><code><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">toSeedArray</span><span class="hl-1">(</span><span class="hl-3">&quot;your keyphrase here&quot;</span><span class="hl-1">);</span><br/><span class="hl-7">// output will be *an instance of Uint8Array*</span>
-</code></pre>
-</li>
-<li>To validate if a phrase is a valid key, following BIP39 standard<pre><code><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">validate</span><span class="hl-1">(</span><span class="hl-3">&quot;your keyphrase here&quot;</span><span class="hl-1">);</span><br/><span class="hl-7">// output will be *either true or false*</span>
-</code></pre>
-</li>
+<li>In order to use work with keys, import the <em>KeyFactory</em> from <em>casper-storage</em></li>
 </ol>
+<pre><code><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">KeyFactory</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;casper-storage&quot;</span><span class="hl-1">;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">keyManager</span><span class="hl-1"> = </span><span class="hl-2">KeyFactory</span><span class="hl-1">.</span><span class="hl-6">getInstance</span><span class="hl-1">();</span>
+</code></pre>
+<ol start="2">
+<li>To generate a new random key (default is mnemonic provider)</li>
+</ol>
+<pre><code><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">generate</span><span class="hl-1">();</span><br/><span class="hl-7">// output will be something like: enlist announce climb census combine city endorse anxiety wedding combine sleep casino curtain only hedgehog venture inject funny banner cattle early erosion feed observe</span>
+</code></pre>
+<ol start="3">
+<li>To convert the key to a seed, so we can use in as a master seed for HD wallet</li>
+</ol>
+<pre><code><span class="hl-7">// Convert a master-key to a seed as a hex string</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">seed</span><span class="hl-1">: </span><span class="hl-8">string</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">toSeed</span><span class="hl-1">(</span><span class="hl-3">&quot;your keyphrase here&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-7">// Convert a master-key to a seed as byte-array</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">seed</span><span class="hl-1">: </span><span class="hl-8">Uint8Array</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">toSeedArray</span><span class="hl-1">(</span><span class="hl-3">&quot;your keyphrase here&quot;</span><span class="hl-1">);</span>
+</code></pre>
+<ol start="4">
+<li>To validate if a phrase is a valid key, following BIP39 standard</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">isValid</span><span class="hl-1">: </span><span class="hl-8">boolean</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">validate</span><span class="hl-1">(</span><span class="hl-3">&quot;your keyphrase here&quot;</span><span class="hl-1">);</span>
+</code></pre>
 
 <a href="#casper-hd-wallet-with-keyphrase" id="casper-hd-wallet-with-keyphrase" style="color: inherit; text-decoration: none;">
   <h3>Casper HD wallet (with keyphrase)</h3>
@@ -64,96 +70,142 @@
 <pre><code><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">KeyFactory</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">, </span><span class="hl-2">CasperHDWallet</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;casper-storage&quot;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">keyManager</span><span class="hl-1"> = </span><span class="hl-2">KeyFactory</span><span class="hl-1">.</span><span class="hl-6">getInstance</span><span class="hl-1">();</span>
 </code></pre>
 <ol>
-<li>Create a new keyphrase (master key), default is 24-words-length phrase<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">masterKey</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">generate</span><span class="hl-1">()</span>
-</code></pre>
-</li>
-<li>Convert the master key to the master seed<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">masterSeed</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">toSeed</span><span class="hl-1">(</span><span class="hl-2">masterKey</span><span class="hl-1">)</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">masterSeedArray</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">toSeedArray</span><span class="hl-1">(</span><span class="hl-2">masterKey</span><span class="hl-1">)</span>
-</code></pre>
-</li>
-<li>Create a new instance HDWallet from the master seed (either hex value or array buffer), with desired encryption mode<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">hdWallet</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CasperHDWallet</span><span class="hl-1">(</span><span class="hl-2">masterSeed</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Ed25519</span><span class="hl-1">);</span>
-</code></pre>
-</li>
-<li>Get account wallet<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">acc0</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">hdWallet</span><span class="hl-1">.</span><span class="hl-6">getAccount</span><span class="hl-1">(</span><span class="hl-8">0</span><span class="hl-1">)</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">acc1</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">hdWallet</span><span class="hl-1">.</span><span class="hl-6">getAccount</span><span class="hl-1">(</span><span class="hl-8">1</span><span class="hl-1">)</span>
-</code></pre>
-</li>
-<li>Play with wallets
-```
-// Get the private key
-acc0.getPrivateKey()</li>
+<li>Create a new keyphrase (master key), default is 24-words-length phrase</li>
 </ol>
-<p>// Get the public key
-await acc0.getPublicKey()</p>
-<p>// Get the public address
-await acc0.getPublicAddress()</p>
-<p>// Get the public address&#39;s hash
-await acc0.getPublicHash()</p>
-<pre><code><br/><span class="hl-1">### </span><span class="hl-2">Casper</span><span class="hl-1"> </span><span class="hl-2">legacy</span><span class="hl-1"> </span><span class="hl-6">wallet</span><span class="hl-1"> (</span><span class="hl-2">with</span><span class="hl-1"> </span><span class="hl-2">single</span><span class="hl-1"> </span><span class="hl-2">private</span><span class="hl-1"> </span><span class="hl-2">key</span><span class="hl-1">)</span>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">masterKey</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">generate</span><span class="hl-1">()</span>
 </code></pre>
-<p>import { KeyFactory, EncryptionType, CasperLegacyWallet } from &quot;casper-storage&quot;</p>
-<pre><code><span class="hl-8">1.</span><span class="hl-1"> </span><span class="hl-2">Prepare</span><span class="hl-1"> </span><span class="hl-2">the</span><span class="hl-1"> </span><span class="hl-2">private</span><span class="hl-1"> </span><span class="hl-6">key</span><span class="hl-1"> (</span><span class="hl-2">input</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-1">, </span><span class="hl-2">or</span><span class="hl-1"> </span><span class="hl-2">read</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-2">a</span><span class="hl-1"> </span><span class="hl-2">file</span><span class="hl-1">)</span><br/><span class="hl-8">2.</span><span class="hl-1"> </span><span class="hl-2">Create</span><span class="hl-1"> </span><span class="hl-2">a</span><span class="hl-1"> </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-2">instance</span><span class="hl-1"> </span><span class="hl-4">of</span><span class="hl-1"> </span><span class="hl-2">CasperLegacyWallet</span><span class="hl-1"> </span><span class="hl-2">with</span><span class="hl-1"> </span><span class="hl-2">that</span><span class="hl-1"> </span><span class="hl-2">private</span><span class="hl-1"> </span><span class="hl-6">key</span><span class="hl-1"> (</span><span class="hl-2">either</span><span class="hl-1"> </span><span class="hl-2">hex</span><span class="hl-1"> </span><span class="hl-2">string</span><span class="hl-1"> </span><span class="hl-2">or</span><span class="hl-1"> </span><span class="hl-9">Uint8Array</span><span class="hl-1"> </span><span class="hl-2">data</span><span class="hl-1">)</span>
+<ol start="2">
+<li>Convert the master key to the master seed</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">masterSeed</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">toSeed</span><span class="hl-1">(</span><span class="hl-2">masterKey</span><span class="hl-1">)</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">masterSeedArray</span><span class="hl-1"> = </span><span class="hl-2">keyManager</span><span class="hl-1">.</span><span class="hl-6">toSeedArray</span><span class="hl-1">(</span><span class="hl-2">masterKey</span><span class="hl-1">)</span>
 </code></pre>
-<p>const wallet = new CasperLegacyWallet(&quot;a-private-key-hex-string&quot;, EncryptionType.Ed25519)
-const wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp256k1)</p>
-<pre><code><span class="hl-8">3.</span><span class="hl-1"> </span><span class="hl-2">This</span><span class="hl-1"> </span><span class="hl-2">wallet</span><span class="hl-1"> </span><span class="hl-2">will</span><span class="hl-1"> </span><span class="hl-2">also</span><span class="hl-1"> </span><span class="hl-2">share</span><span class="hl-1"> </span><span class="hl-2">the</span><span class="hl-1"> </span><span class="hl-2">same</span><span class="hl-1"> </span><span class="hl-2">methods</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-2">a</span><span class="hl-1"> </span><span class="hl-2">wallet</span><span class="hl-1"> </span><span class="hl-4">of</span><span class="hl-1"> </span><span class="hl-2">HDWallet</span>
+<ol start="3">
+<li>Create a new instance HDWallet from the master seed (either hex value or array buffer), with desired encryption mode</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">hdWallet</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CasperHDWallet</span><span class="hl-1">(</span><span class="hl-2">masterSeed</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Ed25519</span><span class="hl-1">);</span>
 </code></pre>
-<p>await wallet.getPublicAddress()</p>
-<pre><code><br/><span class="hl-1">### </span><span class="hl-2">User</span>
+<ol start="4">
+<li>Get account</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">acc0</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">hdWallet</span><span class="hl-1">.</span><span class="hl-6">getAccount</span><span class="hl-1">(</span><span class="hl-9">0</span><span class="hl-1">)</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">acc1</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">hdWallet</span><span class="hl-1">.</span><span class="hl-6">getAccount</span><span class="hl-1">(</span><span class="hl-9">1</span><span class="hl-1">)</span>
 </code></pre>
-<p>import { User } from &quot;casper-storage&quot;</p>
-<pre><code><span class="hl-8">1.</span><span class="hl-1"> </span><span class="hl-2">Prepare</span><span class="hl-1"> </span><span class="hl-2">a</span><span class="hl-1"> </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-1"> </span><span class="hl-2">instance</span>
+<ol start="5">
+<li>Play with wallets</li>
+</ol>
+<pre><code><span class="hl-7">// Get the private key</span><br/><span class="hl-2">acc0</span><span class="hl-1">.</span><span class="hl-6">getPrivateKey</span><span class="hl-1">()</span><br/><br/><span class="hl-7">// Get the public key</span><br/><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">acc0</span><span class="hl-1">.</span><span class="hl-6">getPublicKey</span><span class="hl-1">()</span><br/><br/><span class="hl-7">// Get the public address</span><br/><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">acc0</span><span class="hl-1">.</span><span class="hl-6">getPublicAddress</span><span class="hl-1">()</span><br/><br/><span class="hl-7">// Get the public address&#39;s hash</span><br/><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">acc0</span><span class="hl-1">.</span><span class="hl-6">getPublicHash</span><span class="hl-1">()</span>
 </code></pre>
-<p>const user = new User(&quot;user-provided-password&quot;)</p>
-<pre><code><span class="hl-8">2.</span><span class="hl-1"> </span><span class="hl-9">Set</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-3">&#39;s HD wallet with encryption typ</span><span class="hl-10">e</span>
+
+<a href="#casper-legacy-wallet-with-single-private-key" id="casper-legacy-wallet-with-single-private-key" style="color: inherit; text-decoration: none;">
+  <h3>Casper legacy wallet (with single private key)</h3>
+</a>
+<pre><code><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">KeyFactory</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">, </span><span class="hl-2">CasperLegacyWallet</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;casper-storage&quot;</span><br/>
 </code></pre>
-<p>user.setHDWallet(&quot;user-generated-master-key&quot;, EncryptionType.Ed25519);</p>
-<pre><code><span class="hl-8">3.</span><span class="hl-1"> </span><span class="hl-2">Add</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-3">&#39;s default first accoun</span><span class="hl-10">t</span>
+<ol>
+<li><p>Prepare a private key (input from user, or read from a file)</p>
+</li>
+<li><p>Create a new instance of CasperLegacyWallet with that private key (either hex string or Uint8Array data)</p>
+</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">wallet</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CasperLegacyWallet</span><span class="hl-1">(</span><span class="hl-3">&quot;a-private-key-hex-string&quot;</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Ed25519</span><span class="hl-1">)</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">wallet</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CasperLegacyWallet</span><span class="hl-1">(</span><span class="hl-2">privateUint8ArrayData</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Secp256k1</span><span class="hl-1">)</span>
 </code></pre>
-<p>user.addWalletAccount(0);
-const acc0 = await user.getWalletAccount(0);
-user.setWalletInfo(acc0.getKey().getPath(), new WalletDescriptor(&quot;Account 1&quot;));</p>
-<pre><code><span class="hl-8">4.</span><span class="hl-1"> </span><span class="hl-2">Scan</span><span class="hl-1"> </span><span class="hl-2">all</span><span class="hl-1"> </span><span class="hl-2">available</span><span class="hl-1"> </span><span class="hl-2">users</span><span class="hl-3">&#39;s account (index from 1+, maximum upto 20 following BIP&#39;</span><span class="hl-2">s</span><span class="hl-1"> </span><span class="hl-2">standard</span><span class="hl-1">) </span><span class="hl-2">and</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">them</span><span class="hl-1"> </span><span class="hl-2">into</span><span class="hl-1"> </span><span class="hl-2">the</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-1"> </span><span class="hl-2">instance</span><br/><span class="hl-8">5.</span><span class="hl-1"> </span><span class="hl-2">Optional</span><span class="hl-1">, </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-3">&#39;s legacy wallet</span><span class="hl-10">s</span>
+<ol start="3">
+<li>This wallet will also share the same methods from a wallet of HDWallet</li>
+</ol>
+<pre><code><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">wallet</span><span class="hl-1">.</span><span class="hl-6">getPublicAddress</span><span class="hl-1">()</span><br/><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">acc0</span><span class="hl-1">.</span><span class="hl-6">getPublicHash</span><span class="hl-1">()</span>
 </code></pre>
-<p>const wallet = new LegacyWallet(&quot;user-wallet-private-key&quot;, EncryptionType.Ed25519);
-user.addLegacyWallet(wallet, new WalletDescriptor(&quot;Legacy wallet 1&quot;));</p>
-<pre><code><span class="hl-8">6.</span><span class="hl-1"> </span><span class="hl-2">Retrive</span><span class="hl-1"> </span><span class="hl-2">all</span><span class="hl-1"> </span><span class="hl-5">HD</span><span class="hl-1"> </span><span class="hl-2">wallet</span><span class="hl-3">&#39;s derived wallets to show on U</span><span class="hl-10">I</span>
+
+<a href="#user" id="user" style="color: inherit; text-decoration: none;">
+  <h3>User</h3>
+</a>
+<pre><code><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">User</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;casper-storage&quot;</span>
 </code></pre>
-<p>user.getHDWallet().derivedWallets</p>
-<pre><code><span class="hl-8">7.</span><span class="hl-1"> </span><span class="hl-2">Retrieve</span><span class="hl-1"> </span><span class="hl-2">all</span><span class="hl-1"> </span><span class="hl-2">legacy</span><span class="hl-1"> </span><span class="hl-2">wallets</span><span class="hl-1"> </span><span class="hl-2">to</span><span class="hl-1"> </span><span class="hl-2">show</span><span class="hl-1"> </span><span class="hl-2">on</span><span class="hl-1"> </span><span class="hl-5">UI</span>
+<ol>
+<li>Prepare a new user instance</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">user</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">User</span><span class="hl-1">(</span><span class="hl-3">&quot;user-password&quot;</span><span class="hl-1">)</span>
 </code></pre>
-<p>user.getLegacyWallets()</p>
-<pre><code><span class="hl-8">8.</span><span class="hl-1"> </span><span class="hl-2">Each</span><span class="hl-1"> </span><span class="hl-2">derived</span><span class="hl-1"> </span><span class="hl-2">wallet</span><span class="hl-1"> </span><span class="hl-2">or</span><span class="hl-1"> </span><span class="hl-2">legacy</span><span class="hl-1"> </span><span class="hl-2">wallet</span><span class="hl-1"> </span><span class="hl-2">provides</span><span class="hl-1"> </span><span class="hl-2">a</span><span class="hl-1"> </span><span class="hl-2">WalletDescriptor</span><span class="hl-1"> </span><span class="hl-0">with</span><span class="hl-1"> </span><span class="hl-2">its</span><span class="hl-1"> </span><span class="hl-2">detailed</span><span class="hl-1"> </span><span class="hl-2">information</span>
+<ol start="2">
+<li>Set user&#39;s HD wallet with encryption type</li>
+</ol>
+<pre><code><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">setHDWallet</span><span class="hl-1">(</span><span class="hl-3">&quot;master-key&quot;</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Ed25519</span><span class="hl-1">);</span><br/><span class="hl-7">// master-key can be either a user-friendly key (12-24 words) or a hex string of seed</span>
 </code></pre>
-<p>const name = user.getHDWallet().derivedWallets[0].descriptor.name
-const name = user.getLegacyWallets()[0].descriptor.name</p>
-<pre><code><span class="hl-8">9.</span><span class="hl-1"> </span><span class="hl-2">Serialize</span><span class="hl-1">/</span><span class="hl-2">Deserialize</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-3">&#39;s informatio</span><span class="hl-10">n</span>
+<ol start="3">
+<li>Add user&#39;s default first account</li>
+</ol>
+<pre><code><span class="hl-7">// We can call addWalletAccount</span><br/><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">addWalletAccount</span><span class="hl-1">(</span><span class="hl-9">0</span><span class="hl-1">, </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">WalletDescriptor</span><span class="hl-1">(</span><span class="hl-3">&quot;Account 1&quot;</span><span class="hl-1">));</span><br/><br/><span class="hl-7">// or if we have the wallet account already</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">acc0</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">getWalletAccount</span><span class="hl-1">(</span><span class="hl-9">0</span><span class="hl-1">);</span><br/><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">setWalletInfo</span><span class="hl-1">(</span><span class="hl-2">acc0</span><span class="hl-1">.</span><span class="hl-6">getReferenceKey</span><span class="hl-1">(), </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">WalletDescriptor</span><span class="hl-1">(</span><span class="hl-3">&quot;Account 1&quot;</span><span class="hl-1">));</span>
 </code></pre>
-<p>const userInfo = user.serialize();
-const user2 = user.deserialize(userInfo);</p>
-<pre><code><br/><span class="hl-1">### </span><span class="hl-2">Storage</span>
+<ol start="4">
+<li><p>Scan all available users&#39;s account (index from 1+, maximum upto 20 following BIP&#39;s standard) and add them into the user instance</p>
+</li>
+<li><p>Optional, add user&#39;s legacy wallets</p>
+</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">wallet</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">LegacyWallet</span><span class="hl-1">(</span><span class="hl-3">&quot;user-wallet-private-key&quot;</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Ed25519</span><span class="hl-1">);</span><br/><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">addLegacyWallet</span><span class="hl-1">(</span><span class="hl-2">wallet</span><span class="hl-1">, </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">WalletDescriptor</span><span class="hl-1">(</span><span class="hl-3">&quot;Legacy wallet 1&quot;</span><span class="hl-1">));</span>
 </code></pre>
-<p>import { StorageManager } from &quot;casper-storage;
-const storage = StorageManager.getInstance();</p>
-<p>// Set item into storage
-await storage.set(&quot;key&quot;, &quot;value&quot;);</p>
-<p>// Get items from storage
-const value = await storage.get(&quot;key&quot;);</p>
-<p>// Other utils
-const exists = await storage.has(&quot;key&quot;);
-await storage.remove(&quot;key&quot;);
-await storage.clear();</p>
-<pre><code><br/><span class="hl-1">### </span><span class="hl-2">Misc</span><br/><span class="hl-8">1.</span><span class="hl-1"> </span><span class="hl-2">Parse</span><span class="hl-1"> </span><span class="hl-2">exported</span><span class="hl-1"> </span><span class="hl-5">PEM</span><span class="hl-1"> </span><span class="hl-2">files</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-2">Casper</span><span class="hl-1"> </span><span class="hl-2">signer</span>
+<ol start="6">
+<li>Retrive all wallets to show on UI</li>
+</ol>
+<pre><code><span class="hl-7">// HDWallet account</span><br/><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">getHDWallet</span><span class="hl-1">().</span><span class="hl-2">derivedWallets</span><br/><span class="hl-7">// Legacy wallets</span><br/><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">getLegacyWallets</span><span class="hl-1">()</span>
 </code></pre>
-<p>import { KeyParser } from &quot;casper-storage&quot;;</p>
-<p>// If you know exactly the encryption type, e.g Ed25519
-const keyValue = KeyParser.getInstance(EncryptionType.Ed25519).convertPEMToPrivateKey(yourPEMContent);</p>
-<p>// Otherwise, let it tries to guess
-// It will try to detect encryption type, if not possible then it will throw an error
-const keyValue = KeyParser.getInstance().convertPEMToPrivateKey(yourPEMContent);</p>
-<p>// The keyValue exposes 2 properties
-// Raw key
-const key = keyValue.key;
-// and its encryption type
-const encryptionType = keyValue.encryptionType;</p>
-<pre><code><br/><span class="hl-1">## </span><span class="hl-2">Progress</span><br/><span class="hl-1">- [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Key</span><span class="hl-1"> </span><span class="hl-6">generator</span><span class="hl-1"> (</span><span class="hl-2">mnemonic</span><span class="hl-1">)</span><br/><span class="hl-1">- [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Cryptography</span><br/><span class="hl-1">  - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Asymmetric</span><span class="hl-1"> </span><span class="hl-2">key</span><span class="hl-1"> </span><span class="hl-2">implementation</span><br/><span class="hl-1">    - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Ed25519</span><br/><span class="hl-1">    - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Secp256k1</span><br/><span class="hl-1">  - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Utilities</span><br/><span class="hl-1">    - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Common</span><span class="hl-1"> </span><span class="hl-2">hash</span><span class="hl-1"> </span><span class="hl-6">functions</span><span class="hl-1"> (</span><span class="hl-5">HMAC</span><span class="hl-1">, </span><span class="hl-5">SHA256</span><span class="hl-1">, </span><span class="hl-5">SHA512</span><span class="hl-1">, </span><span class="hl-2">etc</span><span class="hl-1">)</span><br/><span class="hl-1">    - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-5">AES</span><span class="hl-1"> </span><span class="hl-2">encrypt</span><span class="hl-1">/</span><span class="hl-2">decrypt</span><span class="hl-1"> </span><span class="hl-2">functions</span><br/><span class="hl-1">    - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Encoder</span><span class="hl-1"> </span><span class="hl-2">functions</span><br/><span class="hl-1">- [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Wallet</span><br/><span class="hl-1">  - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-5">HD</span><span class="hl-1"> </span><span class="hl-2">wallet</span><br/><span class="hl-1">  - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Legacy</span><span class="hl-1"> </span><span class="hl-2">wallet</span><br/><span class="hl-1">    - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Supports</span><span class="hl-1"> </span><span class="hl-5">PEM</span><span class="hl-1"> </span><span class="hl-6">files</span><span class="hl-1"> (</span><span class="hl-2">which</span><span class="hl-1"> </span><span class="hl-2">are</span><span class="hl-1"> </span><span class="hl-2">exported</span><span class="hl-1"> </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-2">Casper</span><span class="hl-1"> </span><span class="hl-2">signer</span><span class="hl-1">)</span><br/><span class="hl-1">- [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">User</span><span class="hl-1"> </span><span class="hl-2">management</span><br/><span class="hl-1">  - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Manage</span><span class="hl-1"> </span><span class="hl-5">HD</span><span class="hl-1"> </span><span class="hl-2">wallets</span><span class="hl-1">, </span><span class="hl-2">legacy</span><span class="hl-1"> </span><span class="hl-2">wallets</span><br/><span class="hl-1">  - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Serialize</span><span class="hl-1">/</span><span class="hl-6">Deserialize</span><span class="hl-1"> (</span><span class="hl-2">encrypted</span><span class="hl-1">) </span><span class="hl-2">user</span><span class="hl-3">&#39;s informatio</span><span class="hl-10">n</span><br/><span class="hl-1">- [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Storage</span><span class="hl-1"> </span><span class="hl-2">manament</span><br/><span class="hl-1">  - [</span><span class="hl-2">x</span><span class="hl-1">] </span><span class="hl-2">Cross</span><span class="hl-1">-</span><span class="hl-2">platform</span><span class="hl-1"> </span><span class="hl-2">storage</span><span class="hl-1"> </span><span class="hl-2">which</span><span class="hl-1"> </span><span class="hl-2">supports</span><span class="hl-1"> </span><span class="hl-2">web</span><span class="hl-1">, </span><span class="hl-2">react</span><span class="hl-1">-</span><span class="hl-6">native</span><span class="hl-1"> (</span><span class="hl-2">iOS</span><span class="hl-1">, </span><span class="hl-2">Android</span><span class="hl-1">)</span>
+<ol start="8">
+<li>Each derived wallet or legacy wallet provides a WalletDescriptor with its detailed information</li>
+</ol>
+<pre><code><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">name</span><span class="hl-1"> = </span><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">getHDWallet</span><span class="hl-1">().</span><span class="hl-2">derivedWallets</span><span class="hl-1">[</span><span class="hl-9">0</span><span class="hl-1">].</span><span class="hl-2">descriptor</span><span class="hl-1">.</span><span class="hl-2">name</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">name</span><span class="hl-1"> = </span><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">getLegacyWallets</span><span class="hl-1">()[</span><span class="hl-9">0</span><span class="hl-1">].</span><span class="hl-2">descriptor</span><span class="hl-1">.</span><span class="hl-2">name</span>
 </code></pre>
+<ol start="9">
+<li>Serialize/Deserialize user&#39;s information</li>
+</ol>
+<pre><code><span class="hl-7">// Serialize the user information to a secure encrypted string </span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">user</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">User</span><span class="hl-1">(</span><span class="hl-3">&quot;user-password&quot;</span><span class="hl-1">);</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">userInfo</span><span class="hl-1"> = </span><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">serialize</span><span class="hl-1">();</span><br/><br/><span class="hl-7">// Deserialize the user information from a secure encrypted string</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">user</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">User</span><span class="hl-1">(</span><span class="hl-3">&quot;user-password&quot;</span><span class="hl-1">);</span><br/><span class="hl-2">user</span><span class="hl-1">.</span><span class="hl-6">deserialize</span><span class="hl-1">(</span><span class="hl-3">&quot;user-encrypted-information&quot;</span><span class="hl-1">);</span><br/><span class="hl-7">// or</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">user</span><span class="hl-1"> = </span><span class="hl-2">User</span><span class="hl-1">.</span><span class="hl-6">deserializeFrom</span><span class="hl-1">(</span><span class="hl-3">&quot;user-password&quot;</span><span class="hl-1">, </span><span class="hl-3">&quot;user-encrypted-information&quot;</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#storage" id="storage" style="color: inherit; text-decoration: none;">
+  <h3>Storage</h3>
+</a>
+<pre><code><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">StorageManager</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;casper-storage</span><span class="hl-10">;</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">storage</span><span class="hl-1"> = </span><span class="hl-2">StorageManager</span><span class="hl-1">.</span><span class="hl-6">getInstance</span><span class="hl-1">();</span><br/><br/><span class="hl-7">// Set item into storage</span><br/><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">storage</span><span class="hl-1">.</span><span class="hl-6">set</span><span class="hl-1">(</span><span class="hl-3">&quot;key&quot;</span><span class="hl-1">, </span><span class="hl-3">&quot;value&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-7">// Get items from storage</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">value</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">storage</span><span class="hl-1">.</span><span class="hl-6">get</span><span class="hl-1">(</span><span class="hl-3">&quot;key&quot;</span><span class="hl-1">);</span><br/><br/><span class="hl-7">// Other utils</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">exists</span><span class="hl-1"> = </span><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">storage</span><span class="hl-1">.</span><span class="hl-6">has</span><span class="hl-1">(</span><span class="hl-3">&quot;key&quot;</span><span class="hl-1">);</span><br/><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">storage</span><span class="hl-1">.</span><span class="hl-6">remove</span><span class="hl-1">(</span><span class="hl-3">&quot;key&quot;</span><span class="hl-1">);</span><br/><span class="hl-0">await</span><span class="hl-1"> </span><span class="hl-2">storage</span><span class="hl-1">.</span><span class="hl-6">clear</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#misc" id="misc" style="color: inherit; text-decoration: none;">
+  <h3>Misc</h3>
+</a>
+<p>Parse exported PEM files from Casper signer</p>
+<pre><code><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">KeyParser</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;casper-storage&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-7">// If you know exactly the encryption type, e.g Ed25519</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">keyParser</span><span class="hl-1"> = </span><span class="hl-2">KeyParser</span><span class="hl-1">.</span><span class="hl-6">getInstance</span><span class="hl-1">(</span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Ed25519</span><span class="hl-1">);</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">keyValue</span><span class="hl-1"> = </span><span class="hl-2">keyParser</span><span class="hl-1">.</span><span class="hl-6">convertPEMToPrivateKey</span><span class="hl-1">(</span><span class="hl-2">yourPEMContent</span><span class="hl-1">);</span><br/><br/><span class="hl-7">// Otherwise, let it tries to guess</span><br/><span class="hl-7">// It will try to detect encryption type, if not possible then it will throw an error</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">keyParser</span><span class="hl-1"> = </span><span class="hl-2">KeyParser</span><span class="hl-1">.</span><span class="hl-6">getInstance</span><span class="hl-1">();</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">keyValue</span><span class="hl-1"> = </span><span class="hl-2">keyParser</span><span class="hl-1">.</span><span class="hl-6">convertPEMToPrivateKey</span><span class="hl-1">(</span><span class="hl-2">yourPEMContent</span><span class="hl-1">);</span><br/><br/><span class="hl-7">// The keyValue exposes 2 properties</span><br/><span class="hl-7">// Imported private-key</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">key</span><span class="hl-1"> = </span><span class="hl-2">keyValue</span><span class="hl-1">.</span><span class="hl-2">key</span><span class="hl-1">;</span><br/><span class="hl-7">// and its encryption type (EncryptionType.Ed25519 or EncryptionType.Secp256k1)</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">encryptionType</span><span class="hl-1"> = </span><span class="hl-2">keyValue</span><span class="hl-1">.</span><span class="hl-2">encryptionType</span><span class="hl-1">;</span>
+</code></pre>
+
+<a href="#progress" id="progress" style="color: inherit; text-decoration: none;">
+  <h2>Progress</h2>
+</a>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Key generator (mnemonic)</li>
+<li><input checked="" disabled="" type="checkbox"> Cryptography<ul>
+<li><input checked="" disabled="" type="checkbox"> Asymmetric key implementation<ul>
+<li><input checked="" disabled="" type="checkbox"> Ed25519</li>
+<li><input checked="" disabled="" type="checkbox"> Secp256k1</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> Utilities<ul>
+<li><input checked="" disabled="" type="checkbox"> Common hash functions (HMAC, SHA256, SHA512, etc)</li>
+<li><input checked="" disabled="" type="checkbox"> AES encrypt/decrypt functions</li>
+<li><input checked="" disabled="" type="checkbox"> Encoder functions</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> Wallet<ul>
+<li><input checked="" disabled="" type="checkbox"> HD wallet</li>
+<li><input checked="" disabled="" type="checkbox"> Legacy wallet<ul>
+<li><input checked="" disabled="" type="checkbox"> Supports PEM files (which are exported from Casper signer)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> User management<ul>
+<li><input checked="" disabled="" type="checkbox"> Manage HD wallets, legacy wallets</li>
+<li><input checked="" disabled="" type="checkbox"> Serialize/Deserialize (encrypted) user&#39;s information</li>
+</ul>
+</li>
+<li><input checked="" disabled="" type="checkbox"> Storage manament<ul>
+<li><input checked="" disabled="" type="checkbox"> Cross-platform storage which supports web, react-native (iOS, Android)</li>
+</ul>
+</li>
+</ul>
 </div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-enum"><a href="enums/CoinType.html" class="tsd-kind-icon">Coin<wbr/>Type</a></li><li class="tsd-kind-enum"><a href="enums/EncryptionType.html" class="tsd-kind-icon">Encryption<wbr/>Type</a></li><li class="tsd-kind-enum"><a href="enums/Network.html" class="tsd-kind-icon">Network</a></li><li class="tsd-kind-enum"><a href="enums/Purpose.html" class="tsd-kind-icon">Purpose</a></li><li class="tsd-kind-class"><a href="classes/AESUtils.html" class="tsd-kind-icon">AESUtils</a></li><li class="tsd-kind-class"><a href="classes/AsymmetricKeyFactory.html" class="tsd-kind-icon">Asymmetric<wbr/>Key<wbr/>Factory</a></li><li class="tsd-kind-class"><a href="classes/CasperHDWallet.html" class="tsd-kind-icon">CasperHDWallet</a></li><li class="tsd-kind-class"><a href="classes/CasperLegacyWallet.html" class="tsd-kind-icon">Casper<wbr/>Legacy<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/CasperWallet.html" class="tsd-kind-icon">Casper<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/CoinPath.html" class="tsd-kind-icon">Coin<wbr/>Path</a></li><li class="tsd-kind-class"><a href="classes/CryptoUtils.html" class="tsd-kind-icon">Crypto<wbr/>Utils</a></li><li class="tsd-kind-class"><a href="classes/EncoderUtils.html" class="tsd-kind-icon">Encoder<wbr/>Utils</a></li><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/HDWallet.html" class="tsd-kind-icon">HDWallet</a></li><li class="tsd-kind-class"><a href="classes/KeyFactory.html" class="tsd-kind-icon">Key<wbr/>Factory</a></li><li class="tsd-kind-class"><a href="classes/KeyParser.html" class="tsd-kind-icon">Key<wbr/>Parser</a></li><li class="tsd-kind-class"><a href="classes/KeyValue.html" class="tsd-kind-icon">Key<wbr/>Value</a></li><li class="tsd-kind-class"><a href="classes/LegacyWallet.html" class="tsd-kind-icon">Legacy<wbr/>Wallet</a></li><li class="tsd-kind-class"><a href="classes/Signature.html" class="tsd-kind-icon">Signature</a></li><li class="tsd-kind-class"><a href="classes/StorageManager.html" class="tsd-kind-icon">Storage<wbr/>Manager</a></li><li class="tsd-kind-class"><a href="classes/TypeUtils.html" class="tsd-kind-icon">Type<wbr/>Utils</a></li><li class="tsd-kind-class"><a href="classes/User.html" class="tsd-kind-icon">User</a></li><li class="tsd-kind-class"><a href="classes/Wallet.html" class="tsd-kind-icon">Wallet</a></li><li class="tsd-kind-interface"><a href="interfaces/IAddressGenerator.html" class="tsd-kind-icon">IAddress<wbr/>Generator</a></li><li class="tsd-kind-interface"><a href="interfaces/IAsymmetricKey.html" class="tsd-kind-icon">IAsymmetric<wbr/>Key</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/IHDWallet.html" class="tsd-kind-icon">IHDWallet</a></li><li class="tsd-kind-interface"><a href="interfaces/IKeyManager.html" class="tsd-kind-icon">IKey<wbr/>Manager</a></li><li class="tsd-kind-interface"><a href="interfaces/IKeyParser.html" class="tsd-kind-icon">IKey<wbr/>Parser</a></li><li class="tsd-kind-interface"><a href="interfaces/IStorage.html" class="tsd-kind-icon">IStorage</a></li><li class="tsd-kind-interface"><a href="interfaces/IUser.html" class="tsd-kind-icon">IUser</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/IWallet.html" class="tsd-kind-icon">IWallet</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/IWalletConstructor.html" class="tsd-kind-icon">IWallet<wbr/>Constructor</a></li><li class="tsd-kind-type-alias"><a href="modules.html#Hex" class="tsd-kind-icon">Hex</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li><li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
