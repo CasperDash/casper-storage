@@ -1,6 +1,10 @@
 import { HDKeyManagerFactory } from "@/bips/bip32"
 import { EncryptionType } from "@/cryptography";
 
+test("hd-key-manager-factory.getInstance.invalid", () => {
+  expect(() => HDKeyManagerFactory.getInstance(null)).toThrow("The encryption type null is not supported");
+})
+
 test("hd-key-manager-factory.getInstance.Ed25519", () => {
   const keyManager = HDKeyManagerFactory.getInstance(EncryptionType.Ed25519);
   expect(keyManager.encryptionType).toBe(EncryptionType.Ed25519);

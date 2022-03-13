@@ -19,16 +19,8 @@ class KeyWrapper implements IAsymmetricKey {
     return ed.getPublicKey(TypeUtils.parseHexToArray(privateKey));
   }
 
-  async publicKeyTweakAdd(publicKey: Hex, tweak: Hex): Promise<Uint8Array> {
-    // Ensure we have valid byte-array
-    publicKey = TypeUtils.parseHexToArray(publicKey);
-    tweak = TypeUtils.parseHexToArray(tweak);
-
-    const pb = ed.Point.fromHex(publicKey);
-    const pk = await ed.Point.fromPrivateKey(tweak);
-    return new Promise((resolve) => {
-      resolve(pb.add(pk).toRawBytes());
-    });
+  async publicKeyTweakAdd(): Promise<Uint8Array> {
+    throw new Error("This method is not supported")
   }
 
 }

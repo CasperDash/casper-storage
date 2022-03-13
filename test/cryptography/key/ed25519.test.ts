@@ -23,3 +23,7 @@ test("ed25519.createPublicKey-t1", async () => {
 test("ed25519.createPublicKey-t2", async () => {
   expect(TypeUtils.parseHexToString(await Ed25519.createPublicKey("551d333177df541ad876a60ea71f00447931c0a9da16f227c11ea080d7391b8d"))).toBe("47150c75db263559a70d5778bf36abbab30fb061ad69f69ece61a72b0cfa4fc0");
 })
+
+test("ed25519.publicKeyTweakAdd.not-supported", async () => {
+  await expect(Ed25519.publicKeyTweakAdd()).rejects.toThrowError("This method is not supported");
+})
