@@ -104,8 +104,8 @@ await acc0.getPublicHash()
 
 ```
 import { KeyFactory, EncryptionType, CasperLegacyWallet } from "casper-storage"
-
 ```
+
 1. Prepare a private key (input from user, or read from a file)
 
 2. Create a new instance of CasperLegacyWallet with that private key (either hex string or Uint8Array data)
