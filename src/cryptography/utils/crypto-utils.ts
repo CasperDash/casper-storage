@@ -6,6 +6,7 @@ import { randomBytes } from "@noble/hashes/utils";
 import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
 import { blake2b } from "@noble/hashes/blake2b";
 import { scrypt } from '@noble/hashes/scrypt';
+import { Hex, TypeUtils } from "@/utils";
 
 /**
  * Provide utilities to due with cryptography
@@ -18,7 +19,18 @@ export class CryptoUtils {
   * @param {Uint8Array} key - The private key.
   * @returns an object with two properties: `key` and `chainCode`.
   */
-  static digestSHA512(data: Uint8Array, key: Uint8Array) {
+  static digestSHA512(data: Hex, key: Hex) {
+    if (!data) {
+      throw new Error("Data is required");
+    }
+    if (!key) {
+      throw new Error("Key is required");
+    }
+
+    // Ensure to have the valid byte-array
+    data = TypeUtils.parseHexToArray(data);
+    key = TypeUtils.parseHexToArray(key);
+
     const I = hmac(sha512, key, data);
     const IL = I.slice(0, 32);
     const IR = I.slice(32);
@@ -33,7 +45,14 @@ export class CryptoUtils {
    * @param {Uint8Array} data - The data to be hashed.
    * @returns The hash256 function returns a hash256 value.
    */
-  static hash256(data: Uint8Array): Uint8Array {
+  static hash256(data: Hex): Uint8Array {
+    if (!data) {
+      throw new Error("Data is required");
+    }
+
+    // Ensure to have the valid byte-array
+    data = TypeUtils.parseHexToArray(data);
+
     return sha256(data);
   }
 
@@ -42,7 +61,14 @@ export class CryptoUtils {
    * @param {Uint8Array} data - The data to be hashed.
    * @returns The hash160 of the input data.
    */
-  static hash160(data: Uint8Array): Uint8Array {
+  static hash160(data: Hex): Uint8Array {
+    if (!data) {
+      throw new Error("Data is required");
+    }
+
+    // Ensure to have the valid byte-array
+    data = TypeUtils.parseHexToArray(data);
+
     return ripemd160(sha256(data));
   }
 

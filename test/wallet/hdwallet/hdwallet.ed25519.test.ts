@@ -1,5 +1,5 @@
 import { EncryptionType } from "@/cryptography/core";
-import { TypeUtils } from "@/utils";
+import { Hex, TypeUtils } from "@/utils";
 import { Wallet } from "@/wallet";
 import { CoinPath, CoinType, Purpose } from "@/wallet/core";
 import { HDWallet } from "@/wallet/hdwallet";
@@ -10,54 +10,54 @@ const testSeedSlip10Vector2 = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab
 // Test vectors: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 
 class TestHDWallet extends HDWallet<Wallet> {
-  constructor(seed: Uint8Array) {
+  constructor(seed: Hex) {
     super(Wallet, coinPath, EncryptionType.Ed25519, seed)
   }
 }
 
 test(("hd-wallet.Ed25519.ctor"), () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   expect(hdWallet.getEncryptionType()).toBe(EncryptionType.Ed25519);
   expect(hdWallet.getCoinPath().path).toBe(coinPath.path);
 });
 
 test(("hd-wallet.Ed25519.getMasterWallet"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getMasterWallet();
 
   expect(wallet.getKey().getPath()).toBe("m");
 });
 
 test(("hd-wallet.Ed25519.getAccount.external"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getAccount(0, false);
 
   expect(wallet.getKey().getPath()).toBe("m/44'/0'/0'/0");
 });
 
 test(("hd-wallet.Ed25519.getAccount.internal"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getAccount(0, true);
 
   expect(wallet.getKey().getPath()).toBe("m/44'/0'/0'/1");
 });
 
 test(("hd-wallet.Ed25519.getWallet.external.0"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getWallet(0, false, 0);
 
   expect(wallet.getKey().getPath()).toBe("m/44'/0'/0'/0/0");
 });
 
 test(("hd-wallet.Ed25519.getWallet.1.internal.2"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getWallet(1, true, 2);
 
   expect(wallet.getKey().getPath()).toBe("m/44'/0'/1'/1/2");
 });
 
 test(("hd-wallet.Ed25519.slip10-vector1-t1"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getMasterWallet();
 
   expect(wallet.getKey().getPath()).toBe("m");
@@ -69,7 +69,7 @@ test(("hd-wallet.Ed25519.slip10-vector1-t1"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector1.t2"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getWalletFromPath("m/0'");
 
   expect(wallet.getKey().getPath()).toBe("m/0'");
@@ -80,7 +80,7 @@ test(("hd-wallet.Ed25519.slip10-vector1.t2"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector1.t3"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getWalletFromPath("m/0'/1");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/1");
@@ -91,7 +91,7 @@ test(("hd-wallet.Ed25519.slip10-vector1.t3"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector1.t4"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getWalletFromPath("m/0'/1/2'");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/1/2'");
@@ -102,7 +102,7 @@ test(("hd-wallet.Ed25519.slip10-vector1.t4"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector1.t5"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getWalletFromPath("m/0'/1/2'/2");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/1/2'/2");
@@ -113,7 +113,7 @@ test(("hd-wallet.Ed25519.slip10-vector1.t5"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector1.t6"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector1));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
   let wallet = await hdWallet.getWalletFromPath("m/0'/1/2'/2/1000000000");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/1/2'/2/1000000000");
@@ -124,7 +124,7 @@ test(("hd-wallet.Ed25519.slip10-vector1.t6"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector2.t1"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector2));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector2);
   let wallet = await hdWallet.getMasterWallet();
 
   expect(wallet.getKey().getPath()).toBe("m");
@@ -135,7 +135,7 @@ test(("hd-wallet.Ed25519.slip10-vector2.t1"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector2.t2"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector2));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector2);
   let wallet = await hdWallet.getWalletFromPath("m/0'");
 
   expect(wallet.getKey().getPath()).toBe("m/0'");
@@ -146,7 +146,7 @@ test(("hd-wallet.Ed25519.slip10-vector2.t2"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector2.t3"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector2));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector2);
   let wallet = await hdWallet.getWalletFromPath("m/0'/2147483647'");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/2147483647'");
@@ -157,7 +157,7 @@ test(("hd-wallet.Ed25519.slip10-vector2.t3"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector2.t4"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector2));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector2);
   let wallet = await hdWallet.getWalletFromPath("m/0'/2147483647'/1'");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/2147483647'/1'");
@@ -168,7 +168,7 @@ test(("hd-wallet.Ed25519.slip10-vector2.t4"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector2.t5"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector2));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector2);
   let wallet = await hdWallet.getWalletFromPath("m/0'/2147483647'/1'/2147483646");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/2147483647'/1'/2147483646");
@@ -179,7 +179,7 @@ test(("hd-wallet.Ed25519.slip10-vector2.t5"), async () => {
 });
 
 test(("hd-wallet.Ed25519.slip10-vector2.t6"), async () => {
-  let hdWallet = new TestHDWallet(TypeUtils.convertHexStringToArray(testSeedSlip10Vector2));
+  let hdWallet = new TestHDWallet(testSeedSlip10Vector2);
   let wallet = await hdWallet.getWalletFromPath("m/0'/2147483647'/1'/2147483646/2");
 
   expect(wallet.getKey().getPath()).toBe("m/0'/2147483647'/1'/2147483646/2");

@@ -1,4 +1,5 @@
 import { EncryptionType } from "@/cryptography";
+import { Hex } from "@/utils";
 import { IHDKey } from "./hdkey/core";
 
 /**
@@ -59,11 +60,16 @@ export class HDKeyConfig {
 export interface IHDKeyManager {
 
   /**
+   * Get the underlying encryption type
+   */
+  get encryptionType(): EncryptionType;
+
+  /**
    * Create a new HDKey object from a seed
-   * @param {Uint8Array} seed - The seed to use to generate the master key.
+   * @param {Hex} seed - The master seed to use to generate the master key.
    * @param {Versions} [versions] - The version of the HDKey.
    * @returns The HDKey object.
    */
-  fromMasterSeed(seed: Uint8Array, versions?: Versions): IHDKey;
+  fromMasterSeed(seed: Hex, versions?: Versions): IHDKey;
 
 }

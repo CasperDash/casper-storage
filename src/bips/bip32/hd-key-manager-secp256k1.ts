@@ -2,7 +2,7 @@ import { EncoderUtils, EncryptionType } from "@/cryptography";
 import { HDKeyManagerBase as HDKeyManagerBase } from "./hd-key-manager-base";
 import { IHDKey } from "./hdkey/core";
 import { HDKeySecp256k1 } from "./hdkey/hd-key-secp256k1";
-import { HDKeyConfig, Versions } from "./interfaces";
+import { HDKeyConfig, Versions } from "./core";
 
 const MASTER_SECRET = EncoderUtils.encodeText("Bitcoin seed");
 
