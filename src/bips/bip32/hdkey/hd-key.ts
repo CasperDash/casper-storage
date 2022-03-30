@@ -1,6 +1,6 @@
 import { AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "@/cryptography";
 import { IHDKey } from "./core";
-import { HDKeyConfig } from "../interfaces";
+import { HDKeyConfig } from "../core";
 import { TypeUtils } from "@/utils";
 
 /**

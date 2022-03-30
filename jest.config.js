@@ -15,6 +15,10 @@ module.exports = {
   },
   "collectCoverageFrom": [
     "src/**/*.ts",
+    "!src/browser.ts",
+    "!src/cli.ts",
+    "!src/**/index.ts",
+    "!src/index.ts",
     "!test/**/*"
   ]
 }

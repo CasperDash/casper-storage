@@ -18,7 +18,7 @@ const WORDS_LENGTH_STRENGTH_MAP = new Map<number, number>([
 /**
  * Let's use the longest available length
  */
-const DEFAULT_WORDS_LENGTH = 24;
+const DEFAULT_WORDS_LENGTH = 12;
 
 /**
  * Wrapper to work with mnemonic

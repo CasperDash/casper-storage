@@ -11,14 +11,13 @@ export class Ed25519KeyParser extends BaseKeyParser {
   }
 
   protected parsePrivateKey(data: Uint8Array): Uint8Array {
+    if (data == null) {
+      throw new Error("Key data is required");
+    }
     return this.parseKey(data, 0, 32);
   }
 
   private parseKey(data: Uint8Array, from: number, to: number) {
-    if (data == null) {
-      throw new Error("Key data is required");
-    }
-
     let key: Uint8Array = null;
 
     const dataLength = data.length;

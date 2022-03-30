@@ -1,21 +1,43 @@
 import { EncryptionType } from "@/cryptography";
 import { User } from "@/user";
 import { WalletDescriptor } from "@/user/wallet-info";
-import { TypeUtils } from "@/utils";
+import { TypeUtils, ValidationResult } from "@/utils";
 import { LegacyWallet } from "@/wallet";
 
-const PASSWORD = "pwd";
+const PASSWORD = "abcdAbcd123.";
 const testKeySlip10Vector1 = "evoke embrace slogan bike carry tube shallow unfold breeze soul burden direct bind company vivid";
 const testSeedSlip10Vector1 = "e2d16ae1324693cc4a04ab4597bad00713455f69d8b43804de81c2679b24199ad3aed15700f4517403be451a2853e5e6f93a0b5a91cc11ef3599e72577ba747a";
 const PRIVATE_KEY_TEST_01 = "3076574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
 const PRIVATE_KEY_TEST_02 = "3f76574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
 
 test("user.create-invalid-password", () => {
-  expect(() => new User(null)).toThrowError("Password is required to work with user information");
+  expect(() => new User(null)).toThrowError("Password is required");
 })
 
 test("user.create-invalid-password-empty", () => {
-  expect(() => new User("")).toThrowError("Password is required to work with user information");
+  expect(() => new User("")).toThrowError("Password is required");
+})
+
+test("user.create-weak-password", () => {
+  expect(() => new User("abcd")).toThrowError("Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character");
+})
+
+test("user.create-password-custom-validator-weak", () => {
+  expect(() => new User("abcd", {
+    passwordValidator: (_) => {
+      return new ValidationResult(false, "Custom msg");
+    }
+  })).toThrowError("Custom msg");
+})
+
+test("user.create-password-custom-validator-ok", () => {
+  const user = new User("abcd", {
+    passwordValidator: (_) => {
+      return new ValidationResult(true);
+    }
+  });
+  expect(user.hasHDWallet()).toBeFalsy();
+  expect(user.hasLegacyWallets()).toBeFalsy();
 })
 
 test("user.create-ok", () => {

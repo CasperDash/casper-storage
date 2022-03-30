@@ -184,3 +184,7 @@ export function validateMnemonic(
 
   return true;
 }
+
+export function getWorkdList() {
+  return DEFAULT_WORDLIST;
+}

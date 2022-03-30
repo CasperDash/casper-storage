@@ -104,8 +104,8 @@ await acc0.getPublicHash()
 
 ```
 import { KeyFactory, EncryptionType, CasperLegacyWallet } from "casper-storage"
-
 ```
+
 1. Prepare a private key (input from user, or read from a file)
 
 2. Create a new instance of CasperLegacyWallet with that private key (either hex string or Uint8Array data)
@@ -250,3 +250,6 @@ const encryptionType = keyValue.encryptionType;
   - [x] Serialize/Deserialize (encrypted) user's information
 - [x] Storage manament
   - [x] Cross-platform storage which supports web, react-native (iOS, Android)
+
+## Workflow and contributions
+https://github.com/CasperDash/casperdash-client/wiki/Development-Workflow

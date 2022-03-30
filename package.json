@@ -1,13 +1,19 @@
 {
   "name": "casper-storage",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Provides standard implementation of wallet workflow, following standards BIPs, SLIPs",
   "author": "Caperdash.io <hello@casperdash.io>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CasperDash/casper-storage.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
   "keywords": [
     "casper",
     "storage",
