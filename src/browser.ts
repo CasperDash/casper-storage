@@ -7,30 +7,33 @@ import { EncryptionType, CryptoUtils, AESUtils, EncoderUtils } from "./index";
 import { CasperWallet, CasperHDWallet, CasperLegacyWallet } from "./index";
 import { User, StorageManager } from "./index";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const register = (window as any);
+// Map public classes to browser global object
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const register = (window as any);
 
-const CasperStorage = {
-  // Utilities
-  TypeUtils,
+  const CasperStorage = {
+    // Utilities
+    TypeUtils,
 
-  // Key - mnemophic
-  KeyFactory,
+    // Key - mnemophic
+    KeyFactory,
 
-  // crypto
-  EncryptionType,
-  CryptoUtils,
-  AESUtils,
-  EncoderUtils,
-  KeyParser,
+    // crypto
+    EncryptionType,
+    CryptoUtils,
+    AESUtils,
+    EncoderUtils,
+    KeyParser,
 
-  // Wallets
-  CasperWallet,
-  CasperHDWallet,
-  CasperLegacyWallet,
+    // Wallets
+    CasperWallet,
+    CasperHDWallet,
+    CasperLegacyWallet,
+  
+    User,
+    StorageManager
+  }
 
-  User,
-  StorageManager
+  register.CasperStorage = CasperStorage;
 }
-
-register.CasperStorage = CasperStorage;

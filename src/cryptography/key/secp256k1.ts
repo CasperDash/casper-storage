@@ -20,11 +20,16 @@ class KeyWrapper implements IAsymmetricKey {
   }
 
   public publicKeyTweakAdd(publicKey: Hex, tweak: Hex, compressed?: boolean): Promise<Uint8Array> {
-    // Ensure we have valid byte-array
-    publicKey = TypeUtils.parseHexToArray(publicKey);
-    tweak = TypeUtils.parseHexToArray(tweak);
+    return new Promise<Uint8Array>((resolve) => {
+      // Ensure we have valid byte-array
+      publicKey = TypeUtils.parseHexToArray(publicKey);
+      tweak = TypeUtils.parseHexToArray(tweak);
 
-    return Promise.resolve(secp.Point.fromHex(publicKey).add(secp.Point.fromPrivateKey(tweak)).toRawBytes(compressed));
+      const publicPoint = secp.Point.fromHex(publicKey);
+      const tweakPoint = secp.Point.fromHex(tweak);
+
+      return resolve(publicPoint.add(tweakPoint).toRawBytes(compressed));
+    });
   }
 
 }

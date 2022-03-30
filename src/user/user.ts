@@ -3,8 +3,27 @@ import { CasperHDWallet, IHDWallet, IWallet } from "@/wallet";
 import { CryptoUtils, EncoderUtils, EncryptionType, AESUtils } from "@/cryptography";
 import { IUser } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
-import { Hex, TypeUtils } from "@/utils";
+import { Hex, TypeUtils, ValidatorUtils, ValidationResult } from "@/utils";
 import { KeyFactory } from "..";
+
+/**
+ * Options to configure users
+ */
+export interface UserOptions {
+  /**
+   * A function to validate the password
+   */
+  passwordValidator: (pwd: string) => ValidationResult;
+
+  /**
+   * A regex string to validate the password
+   */
+  passwordValidatorRegex: string;
+}
+
+const defaultOptions = {
+  passwordValidator: ValidatorUtils.verifyStrongPassword
+}
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -17,10 +36,11 @@ export class User implements IUser {
    * Deserialize user information to an instance of user
    * @param password 
    * @param userEncryptedInfo 
+   * @param options Options to work with user's instance
    * @returns 
    */
-  public static deserializeFrom(password: string, userEncryptedInfo: string): User {
-    const user = new User(password);
+  public static deserializeFrom(password: string, userEncryptedInfo: string, options: Partial<UserOptions> = defaultOptions): User {
+    const user = new User(password, options);
     user.deserialize(userEncryptedInfo);
     return user;
   }
@@ -33,12 +53,33 @@ export class User implements IUser {
   private wallet: HDWalletInfo;
   private legacyWallets: WalletInfo[];
 
-  constructor(password: string) {
-    if (!password) {
-      throw new Error("Password is required to work with user information");
+  /**
+   * Initialize a new user instnace
+   * @param password a secure password to encrypt/decrypt user's data
+   * @param options Options to work with user's instance
+   */
+  constructor(password: string, options: Partial<UserOptions> = defaultOptions) {
+
+    // Validate password
+    if (options) {
+      if (options.passwordValidator) {
+        const result = options.passwordValidator(password);
+        if (!result.status) {
+          throw new Error(result.message);
+        }
+      }
+      if (options.passwordValidatorRegex) {
+        if (new RegExp(options.passwordValidatorRegex).test(password)) {
+          throw new Error("Password is not strong enough");
+        }
+      }
     }
 
-    // We should not store the raw password in memory, let's hash it
+    if (!password) {
+      throw new Error("Password is required");
+    }
+
+    // We should not store the raw password in memory, let's encrypt the user-given password
     this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash160(EncoderUtils.encodeText(password)));
   }
 
