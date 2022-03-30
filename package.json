@@ -1,6 +1,6 @@
 {
   "name": "casper-storage",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Provides standard implementation of wallet workflow, following standards BIPs, SLIPs",
   "author": "Caperdash.io <hello@casperdash.io>",
   "repository": {
@@ -64,7 +64,7 @@
     "jest": "^27.4.7",
     "jest-environment-jsdom": "^27.5.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.1.2",
+    "ts-jest": "27.1.4",
     "ts-node": "^10.4.0",
     "typedoc": "^0.22.12",
     "typescript": "^4.5.4"
