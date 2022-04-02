@@ -32,7 +32,10 @@ const keyManager = KeyFactory.getInstance();
 
 ```
 keyManager.generate();
-// output will be something like: enlist announce climb census combine city endorse anxiety wedding combine sleep casino curtain only hedgehog venture inject funny banner cattle early erosion feed observe
+// output will be something like: basket pluck awesome prison unveil umbrella spy safe powder lock swallow shuffle
+
+// By default, the outpult will a phrase with 12 words, we can ask for more
+keyManager.generate(24);
 ```
 
 3. To convert the key to a seed, so we can use in as a master seed for HD wallet
@@ -132,6 +135,26 @@ import { User } from "casper-storage"
 
 ```
 const user = new User("user-password")
+```
+
+- By default, user-password will be verified to ensure it is strong enought (at least 10 characters, including lowercase, uppercase, numberic and a specical character)
+we can override the validator by giving user options
+```
+// With a regex
+const user = new User("user-password", {
+  passwordValidatorRegex: "passwordRegexValidation"
+})
+
+// or with a custom function
+const user = new User("user-password", {
+  passwordValidator: function(password) {
+    if (!password || password.length <= 10) {
+      return new ValidationResult(false, "Password length must be greater than or equal to 10");
+    } else {
+      return new ValidationResult(true);
+    }
+  }
+})
 ```
 
 2. Set user's HD wallet with encryption type

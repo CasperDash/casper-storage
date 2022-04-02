@@ -69,7 +69,7 @@ export class User implements IUser {
         }
       }
       if (options.passwordValidatorRegex) {
-        if (new RegExp(options.passwordValidatorRegex).test(password)) {
+        if (!(new RegExp(options.passwordValidatorRegex).test(password))) {
           throw new Error("Password is not strong enough");
         }
       }
@@ -80,7 +80,7 @@ export class User implements IUser {
     }
 
     // We should not store the raw password in memory, let's encrypt the user-given password
-    this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash160(EncoderUtils.encodeText(password)));
+    this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash256(EncoderUtils.encodeText(password)));
   }
 
   public setHDWallet(key: string, encryptionType: EncryptionType) {
