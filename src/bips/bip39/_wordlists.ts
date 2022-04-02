@@ -3,7 +3,7 @@
 // based on what is present. (Bundles may remove wordlists they don't need)
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const _default: string[] = require('./wordlists/english.json');
+import { default as _default }  from './wordlists/english.json';
 
 const wordlists: { [index: string]: string[] } = {};
 wordlists.english = _default as string[];
