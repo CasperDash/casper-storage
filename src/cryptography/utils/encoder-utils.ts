@@ -1,7 +1,7 @@
 import { base64 } from "@scure/base"
 import { sha256 } from "@noble/hashes/sha256";
 import { utf8ToBytes } from "@noble/hashes/utils";
-import { base58check } from "micro-base";
+import { base58check } from "@scure/base";
 
 const base58c = base58check(sha256);
 
