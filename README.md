@@ -273,6 +273,3 @@ const encryptionType = keyValue.encryptionType;
   - [x] Serialize/Deserialize (encrypted) user's information
 - [x] Storage manament
   - [x] Cross-platform storage which supports web, react-native (iOS, Android)
-
-## Workflow and contributions
-https://github.com/CasperDash/casperdash-client/wiki/Development-Workflow

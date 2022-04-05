@@ -20,13 +20,13 @@ export interface IKeyManager {
    * Convert the readable key to entropy value
    * @param key 
    */
-  toEntropy(key: string): string;
+  toEntropy(key: string): Uint8Array;
 
   /**
    * Convert the readable key to entropy value async
    * @param key 
    */
-  toEntropyAsync(key: string): Promise<string>;
+  toEntropyAsync(key: string): Promise<Uint8Array>;
 
   /**
    * Convert the entropy value to readable key

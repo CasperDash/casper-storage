@@ -79,7 +79,7 @@ export class User implements IUser {
       throw new Error("Password is required");
     }
 
-    // We should not store the raw password in memory, let's encrypt the user-given password
+    // We should not store the raw password in memory, let's hashing the user-given password
     this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash256(EncoderUtils.encodeText(password)));
   }
 

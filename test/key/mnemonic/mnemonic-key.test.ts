@@ -82,7 +82,7 @@ test("toEntropy-toKey-not-valid-key", () => {
   const mnKey = new MnemonicKey();
   expect(() => {
     mnKey.toEntropy(NOT_STANDARD_KEY);
-  }).toThrowError(/Invalid mnemonic/);
+  }).toThrowError(/Unknown letter/);
 });
 
 test("toEntropyAsync-toKey", async () => {
@@ -93,7 +93,7 @@ test("toEntropyAsync-toKey", async () => {
 });
 
 test("toEntropyAsync-toKey-not-valid-key", async () => {
-  await expect(mnKey.toEntropyAsync(NOT_STANDARD_KEY)).rejects.toThrowError(/Invalid mnemonic/);
+  await expect(mnKey.toEntropyAsync(NOT_STANDARD_KEY)).rejects.toThrowError(/Unknown letter/);
 });
 
 test("toEntropyAsync-toKeyAsync", async () => {

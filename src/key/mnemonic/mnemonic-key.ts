@@ -1,7 +1,8 @@
-import * as bip39 from "@/bips/bip39";
+import * as bip39 from '@scure/bip39';
+import { wordlist } from '@scure/bip39/wordlists/english';
+
 import { IKeyManager } from "@/key/core";
 import { Hex, TypeUtils } from "@/utils";
-
 
 /**
  * Available options
@@ -32,25 +33,26 @@ export class MnemonicKey implements IKeyManager {
     if (!WORDS_LENGTH_STRENGTH_MAP.has(wordsLength)) {
       throw new Error(`Length of words must be in allowed list: ${Array.from(WORDS_LENGTH_STRENGTH_MAP.keys()).join(", ")}`)
     }
-    return bip39.generateMnemonic(WORDS_LENGTH_STRENGTH_MAP.get(wordsLength));
+    return bip39.generateMnemonic(wordlist, WORDS_LENGTH_STRENGTH_MAP.get(wordsLength));
   }
 
   validate(key: string): boolean {
-    return bip39.validateMnemonic(key);
+    return bip39.validateMnemonic(key, this.getWordList());
   }
 
-  toEntropy(key: string): string {
-    return bip39.mnemonicToEntropy(key);
+  toEntropy(key: string): Uint8Array {
+    return bip39.mnemonicToEntropy(key, this.getWordList());
   }
 
-  toEntropyAsync(key: string): Promise<string> {
+  toEntropyAsync(key: string): Promise<Uint8Array> {
     return new Promise((resolve) => {
       resolve(this.toEntropy(key));
     })
   }
 
   toKey(entropy: Hex): string {
-    const key = bip39.entropyToMnemonic(entropy);
+    const entropyArray = TypeUtils.parseHexToArray(entropy);
+    const key = bip39.entropyToMnemonic(entropyArray, this.getWordList());
     return key;
   }
 
@@ -79,6 +81,14 @@ export class MnemonicKey implements IKeyManager {
     return new Promise((resolve) => {
       resolve(this.toSeedArray(key, password));
     });
+  }
+
+  /**
+   * Returns the default wordlist
+   * @returns 
+   */
+  private getWordList() {
+    return wordlist;
   }
 
 }
