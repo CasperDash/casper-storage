@@ -6,7 +6,7 @@ https://github.com/CasperDash/casperdash-client/wiki/Development-Workflow
 ## Guidelines for development
 
 We use:
-- `yarn` to mangae packages
+- `yarn` to manage packages
 - `typescript` to develop the library
 - `jest` (ts-jest) to write and run tests
 - `esbuild` to build the library to different targets
