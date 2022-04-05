@@ -1,4 +1,4 @@
-import { ValidatorUtils } from "@/utils"
+import { ValidatorUtils } from "../../src/utils"
 
 const ERROR_GENERAL = "Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character";
 

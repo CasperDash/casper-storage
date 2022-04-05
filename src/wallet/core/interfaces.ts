@@ -1,5 +1,5 @@
-import { IHDKey } from "@/bips/bip32/hdkey/core";
-import { EncryptionType } from "@/cryptography";
+import { IHDKey } from "../../bips/bip32/hdkey/core";
+import { EncryptionType } from "../../cryptography";
 
 /**
  * A specific generator to generate addresses

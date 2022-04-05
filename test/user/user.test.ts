@@ -1,8 +1,8 @@
-import { EncryptionType } from "@/cryptography";
-import { User } from "@/user";
-import { WalletDescriptor } from "@/user/wallet-info";
-import { TypeUtils, ValidationResult } from "@/utils";
-import { LegacyWallet } from "@/wallet";
+import { EncryptionType } from "../../src/cryptography";
+import { User } from "../../src/user";
+import { WalletDescriptor } from "../../src/user/wallet-info";
+import { TypeUtils, ValidationResult } from "../../src/utils";
+import { LegacyWallet } from "../../src/wallet";
 
 const PASSWORD = "abcdAbcd123.";
 const testKeySlip10Vector1 = "evoke embrace slogan bike carry tube shallow unfold breeze soul burden direct bind company vivid";

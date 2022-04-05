@@ -1,4 +1,4 @@
-import { EncryptionType } from "@/cryptography"
+import { EncryptionType } from "../../../cryptography"
 
 /**
  * Key value to expose the raw key in byte-array data and its encryption type

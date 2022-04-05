@@ -1,4 +1,4 @@
-import { EncryptionType } from "@/cryptography";
+import { EncryptionType } from "../../cryptography";
 import { HDKeyManagerEd25519 } from "./hd-key-manager-ed25519";
 import { HDKeyManagerSecp256k1 } from "./hd-key-manager-secp256k1";
 import { IHDKeyManager } from "./core";

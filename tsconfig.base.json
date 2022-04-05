@@ -21,13 +21,7 @@
     "lib": [
       "ES6",
       "DOM"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    ]
   },
   "exclude": [ "node_modules" ]
 }

@@ -1,5 +1,5 @@
-import { CryptoUtils } from "@/cryptography";
-import { TypeUtils } from "@/utils";
+import { CryptoUtils } from "../../../cryptography";
+import { TypeUtils } from "../../../utils";
 import { HDKey } from "./hd-key";
 
 export class HDKeyED25519 extends HDKey {

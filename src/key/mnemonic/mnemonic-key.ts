@@ -1,8 +1,8 @@
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
 
-import { IKeyManager } from "@/key/core";
-import { Hex, TypeUtils } from "@/utils";
+import { IKeyManager } from "../../key/core";
+import { Hex, TypeUtils } from "../../utils";
 
 /**
  * Available options

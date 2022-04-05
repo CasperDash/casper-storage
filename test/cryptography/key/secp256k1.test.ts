@@ -1,5 +1,5 @@
-import { Secp256k1 } from "@/cryptography/key/secp256k1"
-import { TypeUtils } from "@/utils";
+import { Secp256k1 } from "../../../src/cryptography/key/secp256k1"
+import { TypeUtils } from "../../../src/utils";
 
 test("secp256k1.generatePrivateKey-ok", async () => {
   const privateKey = await Secp256k1.generatePrivateKey();

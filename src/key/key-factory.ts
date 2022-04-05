@@ -1,5 +1,5 @@
-import { IKeyManager } from "@/key/core";
-import { MnemonicKey } from "@/key/mnemonic";
+import { IKeyManager } from "../key/core";
+import { MnemonicKey } from "../key/mnemonic";
 
 /**
  * The factory to provide an instance of master key generator.

@@ -1,5 +1,5 @@
-import { EncryptionType } from "@/cryptography";
-import { CasperWalletUtils } from "@/wallet/common/casper/casper-wallet-utils";
+import { EncryptionType } from "../../../../src/cryptography";
+import { CasperWalletUtils } from "../../../../src/wallet/common/casper/casper-wallet-utils";
 
 test(("casper-wallet-utils.ed25519"), async () => {
   let value = CasperWalletUtils.getPublicAddress(EncryptionType.Ed25519, "testkey");

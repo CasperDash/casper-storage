@@ -1,4 +1,4 @@
-import { IHDKey } from "@/bips/bip32"
+import { IHDKey } from "../bips/bip32"
 import { EncryptionType, IWallet } from ".."
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info"
 

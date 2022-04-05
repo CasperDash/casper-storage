@@ -1,4 +1,4 @@
-import { EncoderUtils, EncryptionType, IKeyParser } from "@/cryptography";
+import { EncoderUtils, EncryptionType, IKeyParser } from "../../../cryptography";
 import { KeyValue } from ".";
 
 /**

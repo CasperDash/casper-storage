@@ -1,4 +1,4 @@
-import { CoinPath, CoinType, Purpose } from "@/wallet/core";
+import { CoinPath, CoinType, Purpose } from "../../../src/wallet/core";
 
 test("coint-path.ctor.bip44-bitcoin", () => {
   let coinPath = new CoinPath(Purpose.BIP44, CoinType.Bitcoin);

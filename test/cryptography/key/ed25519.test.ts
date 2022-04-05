@@ -1,5 +1,5 @@
-import { Ed25519 } from "@/cryptography/key/ed25519"
-import { TypeUtils } from "@/utils";
+import { Ed25519 } from "../../../src/cryptography/key/ed25519"
+import { TypeUtils } from "../../../src/utils";
 
 test("ed25519.generatePrivateKey-ok", async () => {
   const privateKey = await Ed25519.generatePrivateKey();

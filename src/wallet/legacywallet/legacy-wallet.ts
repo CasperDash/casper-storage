@@ -1,4 +1,4 @@
-import { Hex, TypeUtils } from "@/utils";
+import { Hex, TypeUtils } from "../../utils";
 import { BaseWallet } from "../core/base-wallet";
 
 /**

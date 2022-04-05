@@ -1,5 +1,5 @@
-import { EncryptionType } from "@/cryptography";
-import { TypeUtils } from "@/utils";
+import { EncryptionType } from "../cryptography";
+import { TypeUtils } from "../utils";
 
 /**
  * Descriptor of a wallet

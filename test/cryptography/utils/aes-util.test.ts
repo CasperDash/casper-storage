@@ -1,4 +1,4 @@
-import { AESUtils } from "@/cryptography/utils/aes-utils";
+import { AESUtils } from "../../../src/cryptography/utils/aes-utils";
 
 const TEST_PWD_01 = "password_to-test";
 

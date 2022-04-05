@@ -1,5 +1,5 @@
-import { HDKeyManagerFactory } from "@/bips/bip32"
-import { EncryptionType } from "@/cryptography";
+import { HDKeyManagerFactory } from "../../../src/bips/bip32"
+import { EncryptionType } from "../../../src/cryptography";
 
 test("hd-key-manager-factory.getInstance.invalid", () => {
   expect(() => HDKeyManagerFactory.getInstance(null)).toThrow("The encryption type null is not supported");

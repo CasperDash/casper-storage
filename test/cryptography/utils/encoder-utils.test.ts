@@ -1,5 +1,5 @@
-import { EncoderUtils } from "@/cryptography"
-import { TypeUtils } from "@/utils";
+import { EncoderUtils } from "../../../src/cryptography"
+import { TypeUtils } from "../../../src/utils";
 
 const test01PEM = `-----BEGIN PRIVATE KEY-----
 MC4CAQAwBQYDK2VwBCIEIDB2V0tM9GCF/5yIeiH2vKLm7BYvegpytGccLXcNoBSm

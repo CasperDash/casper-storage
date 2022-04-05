@@ -1,4 +1,4 @@
-import { KeyFactory } from "@/key";
+import { KeyFactory } from "../../src/key";
 
 test("getInstance.default", () => {
   let keyMgr = KeyFactory.getInstance();

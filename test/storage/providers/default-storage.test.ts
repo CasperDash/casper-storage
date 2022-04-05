@@ -1,4 +1,4 @@
-import { DefaultStorage } from "@/storage/providers/default-storage";
+import { DefaultStorage } from "../../../src/storage/providers/default-storage";
 
 test("default-storage-new", async () => {
   expect(async () => new DefaultStorage()).not.toThrowError();

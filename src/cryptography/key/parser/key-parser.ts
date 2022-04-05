@@ -1,4 +1,4 @@
-import { EncryptionType } from "@/cryptography";
+import { EncryptionType } from "../../../cryptography";
 import { IKeyParser } from "./core";
 import { AutoKeyParser } from "./auto-key-parser";
 import { Ed25519KeyParser } from "./ed25519-key-parser";

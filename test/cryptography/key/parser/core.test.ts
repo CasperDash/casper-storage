@@ -1,5 +1,5 @@
-import { EncryptionType, KeyValue } from "@/cryptography"
-import { TypeUtils } from "@/utils";
+import { EncryptionType, KeyValue } from "../../../../src/cryptography"
+import { TypeUtils } from "../../../../src/utils";
 
 test("KeyValue.construct.invalid-key", () => {
   expect(() => new KeyValue(null, EncryptionType.Ed25519)).toThrow("Key is required");

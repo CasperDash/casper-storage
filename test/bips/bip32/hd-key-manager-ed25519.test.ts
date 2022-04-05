@@ -1,6 +1,6 @@
-import { HDKeyManagerFactory } from "@/bips/bip32"
-import { EncryptionType } from "@/cryptography"
-import { TypeUtils } from "@/utils";
+import { HDKeyManagerFactory } from "../../../src/bips/bip32"
+import { EncryptionType } from "../../../src/cryptography"
+import { TypeUtils } from "../../../src/utils";
 
 const testSeedSlip10Vector1 = "000102030405060708090a0b0c0d0e0f";
 

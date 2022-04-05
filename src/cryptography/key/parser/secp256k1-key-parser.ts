@@ -1,7 +1,7 @@
 import { BaseKeyParser } from "./base-key-parser";
 import KeyEncoder from "key-encoder";
-import { TypeUtils } from "@/utils";
-import { EncryptionType } from "@/cryptography";
+import { TypeUtils } from "../../../utils";
+import { EncryptionType } from "../../../cryptography";
 
 const keyEncoder = new KeyEncoder('secp256k1');
 

@@ -1,4 +1,4 @@
-import { Hex } from "@/utils";
+import { Hex } from "../../utils";
 
 /**
  * Common interface for asymetric keys (ed25519, secp256k1).

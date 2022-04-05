@@ -1,5 +1,5 @@
-import { EncryptionType, AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "@/cryptography";
-import { TypeUtils } from "@/utils";
+import { EncryptionType, AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "../../cryptography";
+import { TypeUtils } from "../../utils";
 import { IWallet } from "../core";
 
 export abstract class BaseWallet<TKey> implements IWallet<TKey> {

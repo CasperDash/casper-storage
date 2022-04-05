@@ -1,4 +1,4 @@
-import { EncryptionType } from "@/cryptography";
+import { EncryptionType } from "../../../cryptography";
 
 const ED25119_PREFIX = "01";
 const SECP256_PREFIX = "02";

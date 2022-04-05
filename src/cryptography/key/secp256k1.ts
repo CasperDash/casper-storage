@@ -1,6 +1,6 @@
 import * as secp from "@noble/secp256k1";
 
-import { TypeUtils, Hex } from "@/utils";
+import { TypeUtils, Hex } from "../../utils";
 import { IAsymmetricKey } from "./interfaces";
 
 /**

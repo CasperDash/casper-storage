@@ -1,7 +1,7 @@
-import { EncryptionType } from "@/cryptography";
-import { CoinPath, CoinType, Purpose } from "@/wallet/core";
-import { Wallet, HDWallet } from "@/wallet";
-import { Hex } from "@/utils";
+import { EncryptionType } from "../../../cryptography";
+import { CoinPath, CoinType, Purpose } from "../../../wallet/core";
+import { Wallet, HDWallet } from "../../../wallet";
+import { Hex } from "../../../utils";
 import { CasperWalletUtils } from "./casper-wallet-utils";
 
 /**

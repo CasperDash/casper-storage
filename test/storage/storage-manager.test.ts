@@ -1,4 +1,4 @@
-import { IStorage, StorageManager } from "@/storage";
+import { IStorage, StorageManager } from "../../src/storage";
 
 class MockStorage implements IStorage {
   data: Map<string, string> = new Map<string, string>();

@@ -1,5 +1,5 @@
 import aes from "aes-js";
-import { TypeUtils } from "@/utils";
+import { TypeUtils } from "../../utils";
 import { CryptoUtils } from ".";
 
 /**

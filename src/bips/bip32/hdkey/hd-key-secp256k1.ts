@@ -1,9 +1,9 @@
 import { HDKey } from "./hd-key";
-import { CryptoUtils } from "@/cryptography";
+import { CryptoUtils } from "../../../cryptography";
 import { assertBytes } from '@noble/hashes/utils';
 
 import * as secp from '@noble/secp256k1';
-import { TypeUtils } from "@/utils";
+import { TypeUtils } from "../../../utils";
 
 export class HDKeySecp256k1 extends HDKey {
 

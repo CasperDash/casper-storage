@@ -1,4 +1,4 @@
-import { EncryptionType, KeyParser } from "@/cryptography";
+import { EncryptionType, KeyParser } from "../../../../src/cryptography";
 
 test("key-parser.getInstance.auto", () => {
   expect(KeyParser.getInstance()).not.toBeFalsy();

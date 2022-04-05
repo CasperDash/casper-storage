@@ -1,5 +1,5 @@
-import { EncryptionType } from "@/cryptography/core";
-import { CasperLegacyWallet } from "@/wallet/common/casper";
+import { EncryptionType } from "../../../../src/cryptography/core";
+import { CasperLegacyWallet } from "../../../../src/wallet/common/casper";
 
 // Convert PEM to hex
 // openssl ec -in key.pem -text -noout

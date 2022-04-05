@@ -1,4 +1,4 @@
-import { CryptoUtils } from "@/cryptography";
+import { CryptoUtils } from "../../../src/cryptography";
 
 test("crypto-utils.scrypt-invalid-put-null", () => {
   expect(() => CryptoUtils.scrypt(null)).toThrowError("Input is required");

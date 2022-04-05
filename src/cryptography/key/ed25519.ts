@@ -1,4 +1,4 @@
-import { TypeUtils, Hex } from "@/utils";
+import { TypeUtils, Hex } from "../../utils";
 import { IAsymmetricKey } from "./interfaces";
 
 import * as ed from "@noble/ed25519";

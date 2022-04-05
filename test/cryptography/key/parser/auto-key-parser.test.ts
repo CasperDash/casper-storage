@@ -1,5 +1,5 @@
-import { KeyParser } from "@/cryptography";
-import { TypeUtils } from "@/utils";
+import { KeyParser } from "../../../../src/cryptography";
+import { TypeUtils } from "../../../../src/utils";
 
 const keyParser = KeyParser.getInstance();
 

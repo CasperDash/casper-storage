@@ -1,7 +1,7 @@
-import { AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "@/cryptography";
+import { AsymmetricKeyFactory, CryptoUtils, EncoderUtils } from "../../../cryptography";
 import { IHDKey } from "./core";
 import { HDKeyConfig } from "../core";
-import { TypeUtils } from "@/utils";
+import { TypeUtils } from "../../../utils";
 
 /**
  * Length of fields to serialize a data presents for a HD key

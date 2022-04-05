@@ -1,5 +1,5 @@
-import { EncryptionType, KeyParser } from "@/cryptography";
-import { TypeUtils } from "@/utils";
+import { EncryptionType, KeyParser } from "../../../../src/cryptography";
+import { TypeUtils } from "../../../../src/utils";
 
 const keyParser = KeyParser.getInstance(EncryptionType.Ed25519);
 

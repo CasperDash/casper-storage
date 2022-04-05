@@ -1,8 +1,8 @@
-import { EncryptionType } from "@/cryptography/core";
-import { Hex, TypeUtils } from "@/utils";
-import { Wallet } from "@/wallet";
-import { CoinPath, CoinType, Purpose } from "@/wallet/core";
-import { HDWallet } from "@/wallet/hdwallet";
+import { EncryptionType } from "../../../src/cryptography/core";
+import { Hex, TypeUtils } from "../../../src/utils";
+import { Wallet } from "../../../src/wallet";
+import { CoinPath, CoinType, Purpose } from "../../../src/wallet/core";
+import { HDWallet } from "../../../src/wallet/hdwallet";
 
 const coinPath = new CoinPath(Purpose.BIP44, CoinType.Bitcoin);
 const testSeedSlip10Vector1 = "000102030405060708090a0b0c0d0e0f";

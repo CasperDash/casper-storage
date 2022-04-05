@@ -1,4 +1,4 @@
-import { ValidationResult } from "@/utils";
+import { ValidationResult } from "../../src/utils";
 
 test("ValidationResult.ctor-true", () => {
   const result = new ValidationResult(true);

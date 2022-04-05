@@ -1,9 +1,9 @@
-import { IHDKey } from "@/bips/bip32";
-import { CasperHDWallet, IHDWallet, IWallet } from "@/wallet";
-import { CryptoUtils, EncoderUtils, EncryptionType, AESUtils } from "@/cryptography";
+import { IHDKey } from "../bips/bip32";
+import { CasperHDWallet, IHDWallet, IWallet } from "../wallet";
+import { CryptoUtils, EncoderUtils, EncryptionType, AESUtils } from "../cryptography";
 import { IUser } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
-import { Hex, TypeUtils, ValidatorUtils, ValidationResult } from "@/utils";
+import { Hex, TypeUtils, ValidatorUtils, ValidationResult } from "../utils";
 import { KeyFactory } from "..";
 
 /**

@@ -1,4 +1,4 @@
-import { EncryptionType } from "@/cryptography";
+import { EncryptionType } from "../../../cryptography";
 import { BaseKeyParser } from "./base-key-parser";
 
 /**

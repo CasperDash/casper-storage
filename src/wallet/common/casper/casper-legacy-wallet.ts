@@ -1,4 +1,4 @@
-import { LegacyWallet } from "@/wallet/legacywallet/legacy-wallet";
+import { LegacyWallet } from "../../../wallet/legacywallet/legacy-wallet";
 import { CasperWalletUtils } from "./casper-wallet-utils";
 
 export class CasperLegacyWallet extends LegacyWallet {

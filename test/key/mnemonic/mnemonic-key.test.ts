@@ -1,5 +1,5 @@
-import { MnemonicKey } from "@/key/mnemonic";
-import { TypeUtils } from "@/utils";
+import { MnemonicKey } from "../../../src/key/mnemonic";
+import { TypeUtils } from "../../../src/utils";
 
 const mnKey = new MnemonicKey();
 const TEST_KEY_01 = "absent car gun loud shoot hold pill latin deliver suffer often panel enable struggle shallow";

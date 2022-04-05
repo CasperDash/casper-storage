@@ -1,5 +1,5 @@
-import { EncryptionType } from "@/cryptography";
-import { Hex } from "@/utils";
+import { EncryptionType } from "../../cryptography";
+import { Hex } from "../../utils";
 import { IHDKey } from "./hdkey/core";
 
 /**

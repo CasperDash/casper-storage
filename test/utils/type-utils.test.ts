@@ -1,4 +1,4 @@
-import { TypeUtils } from "@/utils";
+import { TypeUtils } from "../../src/utils";
 
 test("convertArrayToHexString.null", () => {
   expect(TypeUtils.convertArrayToHexString(null)).toBeNull();

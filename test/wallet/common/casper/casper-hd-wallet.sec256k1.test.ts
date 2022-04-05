@@ -1,6 +1,6 @@
-import { EncryptionType } from "@/cryptography/core";
-import { TypeUtils } from "@/utils";
-import { CasperHDWallet } from "@/wallet/common/casper";
+import { EncryptionType } from "../../../../src/cryptography/core";
+import { TypeUtils } from "../../../../src/utils";
+import { CasperHDWallet } from "../../../../src/wallet/common/casper";
 
 const testSeed01 = "000102030405060708090a0b0c0d0e0f";
 

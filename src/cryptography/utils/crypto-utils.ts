@@ -6,7 +6,7 @@ import { randomBytes } from "@noble/hashes/utils";
 import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
 import { blake2b } from "@noble/hashes/blake2b";
 import { scrypt } from '@noble/hashes/scrypt';
-import { Hex, TypeUtils } from "@/utils";
+import { Hex, TypeUtils } from "../../utils";
 
 /**
  * Provide utilities to due with cryptography

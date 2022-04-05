@@ -1,4 +1,4 @@
-import { EncoderUtils, EncryptionType } from "@/cryptography";
+import { EncoderUtils, EncryptionType } from "../../cryptography";
 import { HDKeyManagerBase as HDKeyManagerBase } from "./hd-key-manager-base";
 import { HDKeyED25519 } from "./hdkey/hd-key-ed25519";
 import { IHDKey } from "./hdkey/core";
