@@ -1,6 +1,30 @@
-import { IHDKey } from "../bips/bip32"
-import { EncryptionType, IWallet } from ".."
+import { IHDKey } from "../bips/bip32";
+import { EncryptionType } from "../cryptography";
+import { ValidationResult } from "../utils";
+import { IWallet } from "../wallet";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info"
+
+/**
+ * Options to validate password
+ */
+export interface PasswordOptions {
+  /**
+   * A function to validate the password
+   */
+   passwordValidator: (pwd: string) => ValidationResult;
+
+   /**
+    * A regex string to validate the password
+    */
+   passwordValidatorRegex: string;
+}
+
+/**
+ * Options to configure users
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UserOptions extends PasswordOptions {
+}
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -10,8 +34,15 @@ import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info"
 export interface IUser {
 
   /**
+   * Update password to serialize user's information
+   * @param password 
+   * @param options 
+   */
+  updatePassword(password: string, options: Partial<PasswordOptions>): void;
+
+  /**
    * Set the HD wallet information
-   * @param key the master key (either words or seed hex)
+   * @param key the master keyphrase (12-24 words)
    * @param type the encryption type
    */
   setHDWallet(key: string, type: EncryptionType): void;

@@ -155,13 +155,25 @@ const user = new User("user-password", {
     }
   }
 })
+
+// we can also update the password if needed
+user.updatePassword("new-user-password");
+
+// By default, new-user-password will be also verifed to ensure it is strong enought
+// we can override the validator by giving options
+user.updatePassword("new-user-password", {
+  passwordValidatorRegex: "passwordRegexValidation"
+});
 ```
 
 2. Set user's HD wallet with encryption type
 
 ```
+// master-key is a keyphrase 12-24 words
 user.setHDWallet("master-key", EncryptionType.Ed25519);
-// master-key can be either a user-friendly key (12-24 words) or a hex string of seed
+
+// we can retrieve back the master key
+const masterKey = user.getHDWallet().keyphrase;
 ```
 
 3. Add user's default first account

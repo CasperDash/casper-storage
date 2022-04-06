@@ -6,7 +6,6 @@ import { LegacyWallet } from "../../src/wallet";
 
 const PASSWORD = "abcdAbcd123.";
 const testKeySlip10Vector1 = "evoke embrace slogan bike carry tube shallow unfold breeze soul burden direct bind company vivid";
-const testSeedSlip10Vector1 = "e2d16ae1324693cc4a04ab4597bad00713455f69d8b43804de81c2679b24199ad3aed15700f4517403be451a2853e5e6f93a0b5a91cc11ef3599e72577ba747a";
 const PRIVATE_KEY_TEST_01 = "3076574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
 const PRIVATE_KEY_TEST_02 = "3f76574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
 
@@ -49,7 +48,7 @@ test("user.create-ok", () => {
 
 test("user.hd-wallet-master-seed-get-account-0", async () => {
   const user = new User(PASSWORD);
-  user.setHDWallet(testSeedSlip10Vector1, EncryptionType.Secp256k1);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
   const acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
@@ -58,7 +57,7 @@ test("user.hd-wallet-master-seed-get-account-0", async () => {
 
 test("user.hd-wallet-master-seed-get-account-1", async () => {
   const user = new User(PASSWORD);
-  user.setHDWallet(testSeedSlip10Vector1, EncryptionType.Secp256k1);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
   const acc = await user.getWalletAccount(1);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/1'");
@@ -69,7 +68,7 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
-  expect(user.getHDWallet().key).toBe(testSeedSlip10Vector1);
+  expect(user.getHDWallet().key).toBe(testKeySlip10Vector1);
 
   let acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
@@ -82,7 +81,7 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
 
 test("user.hd-wallet-set-wallet-info-acc-0", async () => {
   const user = new User(PASSWORD);
-  user.setHDWallet(testSeedSlip10Vector1, EncryptionType.Ed25519);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
 
   let acc = await user.getWalletAccount(0);
   user.setWalletInfo(acc.getKey().getPath(), new WalletDescriptor("Account 01"));
@@ -138,7 +137,7 @@ test("user.deserializeFrom", async () => {
 function prepareTestUser() {
   const user = new User(PASSWORD);
 
-  user.setHDWallet(testSeedSlip10Vector1, EncryptionType.Ed25519);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
 
   const wallet1 = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
   const wallet1Key = TypeUtils.parseHexToString(wallet1.getKey());

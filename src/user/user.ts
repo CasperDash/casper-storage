@@ -1,25 +1,9 @@
 import { IHDKey } from "../bips/bip32";
 import { CasperHDWallet, IHDWallet, IWallet } from "../wallet";
 import { CryptoUtils, EncoderUtils, EncryptionType, AESUtils } from "../cryptography";
-import { IUser } from "./core";
+import { IUser, PasswordOptions, UserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
-import { Hex, TypeUtils, ValidatorUtils, ValidationResult } from "../utils";
-import { KeyFactory } from "..";
-
-/**
- * Options to configure users
- */
-export interface UserOptions {
-  /**
-   * A function to validate the password
-   */
-  passwordValidator: (pwd: string) => ValidationResult;
-
-  /**
-   * A regex string to validate the password
-   */
-  passwordValidatorRegex: string;
-}
+import { Hex, TypeUtils, ValidatorUtils } from "../utils";
 
 const defaultOptions = {
   passwordValidator: ValidatorUtils.verifyStrongPassword
@@ -59,9 +43,17 @@ export class User implements IUser {
    * @param options Options to work with user's instance
    */
   constructor(password: string, options: Partial<UserOptions> = defaultOptions) {
+    this.updatePassword(password, options);
+  }
 
-    // Validate password
-    if (options) {
+  /**
+   * Update password to serialize user's information
+   * @param password 
+   * @param options 
+   */
+  public updatePassword(password: string, options: Partial<PasswordOptions> = defaultOptions) {
+     // Validate password
+     if (options) {
       if (options.passwordValidator) {
         const result = options.passwordValidator(password);
         if (!result.status) {
@@ -86,11 +78,6 @@ export class User implements IUser {
   public setHDWallet(key: string, encryptionType: EncryptionType) {
     if (!key) throw new Error("Key is required");
     if (!encryptionType) throw new Error("Type is required");
-
-    // The user-friendly key is provided, convert it to a seed before pushing into wallet info
-    if (key.indexOf(" ") > 0) {
-      key = KeyFactory.getInstance().toSeed(key);
-    }
 
     this.wallet = new HDWalletInfo(key, encryptionType);
   }
@@ -214,8 +201,7 @@ export class User implements IUser {
       return null;
     }
 
-    const masterKey = this.wallet.key;
-    const wallet = new CasperHDWallet(masterKey, this.wallet.encryptionType); // ! Hardcoded to Casper for now
+    const wallet = new CasperHDWallet(this.wallet.keySeed, this.wallet.encryptionType); // ! Hardcoded to Casper for now
     return wallet;
   }
 

@@ -16,5 +16,5 @@
 [shim.js](https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/shim.js)
 
 ```
-import "./shim
+import "./shim"
 ```

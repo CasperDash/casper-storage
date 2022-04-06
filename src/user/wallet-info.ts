@@ -1,3 +1,4 @@
+import { KeyFactory } from "../key";
 import { EncryptionType } from "../cryptography";
 import { TypeUtils } from "../utils";
 
@@ -140,6 +141,8 @@ export class HDWalletInfo {
   private _encryptionType: EncryptionType;
   private _derivedWallets: WalletInfo[];
 
+  private _keySeed: string;
+
   /**
    * Create a new HD wallet information with master key and encryption type
    * @param key 
@@ -172,6 +175,16 @@ export class HDWalletInfo {
    */
   public get derivedWallets() {
     return this._derivedWallets;
+  }
+
+  /**
+   * Get the key-seed (from the keyphrase)
+   */
+  public get keySeed(): string {
+    if (!this._keySeed) {
+      this._keySeed = KeyFactory.getInstance().toSeed(this._key);
+    }
+    return this._keySeed;
   }
 
   /**
