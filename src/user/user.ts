@@ -176,23 +176,26 @@ export class User implements IUser {
    */
   public deserialize(value: string) {
     const text = AESUtils.decrypt(this.password, value);
-    const obj = JSON.parse(text);
-
-    if (obj.wallet) {
-      this.wallet = new HDWalletInfo(obj.wallet.key, obj.wallet.encryptionType);
-
-      if (obj.wallet.derives) {
-        obj.wallet.derives.forEach((wl: WalletInfo) => {
-          this.wallet.setDerivedWallet(wl.key, wl.encryptionType, wl.descriptor);
+    try {
+      const obj = JSON.parse(text);
+      if (obj.wallet) {
+        this.wallet = new HDWalletInfo(obj.wallet.key, obj.wallet.encryptionType);
+  
+        if (obj.wallet.derives) {
+          obj.wallet.derives.forEach((wl: WalletInfo) => {
+            this.wallet.setDerivedWallet(wl.key, wl.encryptionType, wl.descriptor);
+          });
+        }
+      }
+  
+      if (obj.legacyWallets) {
+        this.legacyWallets = [];
+        obj.legacyWallets.forEach((wl: WalletInfo) => {
+          this.legacyWallets.push(new WalletInfo(wl.key, wl.encryptionType, wl.descriptor));
         });
       }
-    }
-
-    if (obj.legacyWallets) {
-      this.legacyWallets = [];
-      obj.legacyWallets.forEach((wl: WalletInfo) => {
-        this.legacyWallets.push(new WalletInfo(wl.key, wl.encryptionType, wl.descriptor));
-      });
+    } catch {
+      throw new Error("Password is invalid");
     }
   }
 

@@ -46,6 +46,41 @@ test("user.create-ok", () => {
   expect(user.hasLegacyWallets()).toBeFalsy();
 })
 
+test("user.updatePassword-invalid-password", () => {
+  const user = new User(PASSWORD);
+  expect(() => user.updatePassword(null)).toThrowError("Password is required");
+})
+
+test("user.updatePassword-invalid-password-empty", () => {
+  const user = new User(PASSWORD);
+  expect(() => user.updatePassword("")).toThrowError("Password is required");
+})
+
+test("user.updatePassword-weak-password", () => {
+  const user = new User(PASSWORD);
+  expect(() => user.updatePassword("abcd")).toThrowError("Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character");
+})
+
+test("user.updatePassword-password-custom-validator-weak", () => {
+  const user = new User(PASSWORD);
+  expect(() => user.updatePassword("abcd", {
+    passwordValidator: (_) => {
+      return new ValidationResult(false, "Custom msg");
+    }
+  })).toThrowError("Custom msg");
+})
+
+test("user.updatePassword-password-custom-validator-ok", () => {
+  const user = new User(PASSWORD);
+  user.updatePassword("abcd", {
+    passwordValidator: (_) => {
+      return new ValidationResult(true);
+    }
+  });
+  expect(user.hasHDWallet()).toBeFalsy();
+  expect(user.hasLegacyWallets()).toBeFalsy();
+})
+
 test("user.hd-wallet-master-seed-get-account-0", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
@@ -124,6 +159,14 @@ test("user.serialize-both-type-wallets", async () => {
   user2.deserialize(encryptedUserInfo);
 
   validateDecryptedUserInfo(user, user2);
+})
+
+test("user.serialize-deserialize-wrong-password", async () => {
+  const user = prepareTestUser();
+  const encryptedUserInfo = user.serialize();
+
+  const user2 = new User(PASSWORD + "Invalid");
+  expect(() => user2.deserialize(encryptedUserInfo)).toThrowError("Password is invalid");
 })
 
 test("user.deserializeFrom", async () => {
