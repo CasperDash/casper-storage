@@ -170,7 +170,7 @@ const user = new User("user-password", {
 });
 
 // we can also update the password if needed
-user.updatePassword("new-user-password","old-password");
+user.updatePassword("new-user-password");
 
 // By default, new-user-password will be also verified to ensure it is strong enough
 // we can override the validator by giving options

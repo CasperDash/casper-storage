@@ -83,7 +83,7 @@ test("user.updatePassword-weak-password", () => {
 test("user.updatePassword-password-custom-validator-weak", () => {
   const user = new User(PASSWORD);
   expect(() =>
-    user.updatePassword("abcd", null, {
+    user.updatePassword("abcd", {
       passwordValidator: (_) => {
         return new ValidationResult(false, "Custom msg");
       },
@@ -91,16 +91,10 @@ test("user.updatePassword-password-custom-validator-weak", () => {
   ).toThrowError("Custom msg");
 });
 
-test("user.updatePassword-wrong-old-password", () => {
-  const user = new User(PASSWORD);
-  expect(() => user.updatePassword("abcd", "def")).toThrowError(
-    "Wrong password"
-  );
-});
 
 test("user.updatePassword-password-custom-validator-ok", () => {
   const user = new User(PASSWORD);
-  user.updatePassword("abcd", null, {
+  user.updatePassword("abcd", {
     passwordValidator: (_) => {
       return new ValidationResult(true);
     },
@@ -111,7 +105,7 @@ test("user.updatePassword-password-custom-validator-ok", () => {
 
 test("user.updatePassword-success", () => {
   const user = new User(PASSWORD);
-  user.updatePassword("Test1234%^", PASSWORD);
+  user.updatePassword("Test1234%^");
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
 });
@@ -230,7 +224,6 @@ test("user.deserializeFrom", async () => {
   const user = prepareTestUser();
 
   const encryptedUserInfo = user.serialize();
-  await new Promise((r) => setTimeout(r, 2000));
   const user2 = User.deserializeFrom(PASSWORD, encryptedUserInfo, {
     passwordOptions: user.getPasswordHashingOptions(),
   });

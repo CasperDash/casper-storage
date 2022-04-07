@@ -48,7 +48,6 @@ export interface IUser {
    */
   updatePassword(
     newPassword: string,
-    oldPassword: string,
     options: Partial<PasswordOptions>
   ): void;
 

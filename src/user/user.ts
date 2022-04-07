@@ -49,7 +49,6 @@ export class User implements IUser {
   ) {
     this.updatePassword(
       password,
-      null,
       options && options.passwordOptions
     );
   }
@@ -61,20 +60,8 @@ export class User implements IUser {
    */
   public updatePassword(
     newPassword: string,
-    oldPassword?: string,
     options?: Partial<PasswordOptions>
   ) {
-    if (oldPassword) {
-      try {
-        const oldPass = new Password(oldPassword, options || this.getPasswordHashingOptions());
-        if (oldPass.getPassword() !== this.password.getPassword()) {
-          throw new Error();
-        }
-      } catch (error) {
-        // Should throw wrong password if invalid old password or the inputted password didn't match
-        throw new Error("Wrong password");
-      }
-    }
     this.password = new Password(newPassword, options);
   }
 
