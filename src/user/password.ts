@@ -28,6 +28,7 @@ export class Password {
       }
     }
 
+    // should generate random salt here, it'll get the same salt if put the code in default options
     this.salt = options.salt || CryptoUtils.randomBytes(16);
     this.iterations = options.iterations;
     this.keySize = options.keySize;
