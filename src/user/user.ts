@@ -1,13 +1,10 @@
 import { IHDKey } from "../bips/bip32";
 import { CasperHDWallet, IHDWallet, IWallet } from "../wallet";
-import { CryptoUtils, EncoderUtils, EncryptionType, AESUtils } from "../cryptography";
+import { EncryptionType, AESUtils } from "../cryptography";
 import { IUser, PasswordOptions, UserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
-import { Hex, TypeUtils, ValidatorUtils } from "../utils";
-
-const defaultOptions = {
-  passwordValidator: ValidatorUtils.verifyStrongPassword
-}
+import { Hex } from "../utils";
+import { Password } from "./password";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -15,15 +12,18 @@ const defaultOptions = {
  * We should never store user's password but its encrypted one to do extra actions.
  */
 export class User implements IUser {
-
   /**
    * Deserialize user information to an instance of user
-   * @param password 
-   * @param userEncryptedInfo 
+   * @param password
+   * @param userEncryptedInfo
    * @param options Options to work with user's instance
-   * @returns 
+   * @returns
    */
-  public static deserializeFrom(password: string, userEncryptedInfo: string, options: Partial<UserOptions> = defaultOptions): User {
+  public static deserializeFrom(
+    password: string,
+    userEncryptedInfo: string,
+    options?: Partial<UserOptions>
+  ): User {
     const user = new User(password, options);
     user.deserialize(userEncryptedInfo);
     return user;
@@ -33,7 +33,7 @@ export class User implements IUser {
    * Secret password (encrypted from user's password).
    * To serialize/deserialize the wallet information
    */
-  private password: string;
+  private password: Password;
   private wallet: HDWalletInfo;
   private legacyWallets: WalletInfo[];
 
@@ -42,37 +42,27 @@ export class User implements IUser {
    * @param password a secure password to encrypt/decrypt user's data
    * @param options Options to work with user's instance
    */
-  constructor(password: string, options: Partial<UserOptions> = defaultOptions) {
-    this.updatePassword(password, options);
+
+  constructor(
+    password: string,
+    options?: Partial<UserOptions>
+  ) {
+    this.updatePassword(
+      password,
+      options && options.passwordOptions
+    );
   }
 
   /**
    * Update password to serialize user's information
-   * @param password 
-   * @param options 
+   * @param password
+   * @param options
    */
-  public updatePassword(password: string, options: Partial<PasswordOptions> = defaultOptions) {
-     // Validate password
-     if (options) {
-      if (options.passwordValidator) {
-        const result = options.passwordValidator(password);
-        if (!result.status) {
-          throw new Error(result.message);
-        }
-      }
-      if (options.passwordValidatorRegex) {
-        if (!(new RegExp(options.passwordValidatorRegex).test(password))) {
-          throw new Error("Password is not strong enough");
-        }
-      }
-    }
-
-    if (!password) {
-      throw new Error("Password is required");
-    }
-
-    // We should not store the raw password in memory, let's hashing the user-given password
-    this.password = TypeUtils.convertArrayToHexString(CryptoUtils.hash256(EncoderUtils.encodeText(password)));
+  public updatePassword(
+    newPassword: string,
+    options?: Partial<PasswordOptions>
+  ) {
+    this.password = new Password(newPassword, options);
   }
 
   public setHDWallet(key: string, encryptionType: EncryptionType) {
@@ -90,7 +80,10 @@ export class User implements IUser {
     return await this.getWallet().getAccount(index);
   }
 
-  public async addWalletAccount(index: number, info?: WalletDescriptor) : Promise<IWallet<IHDKey>>{
+  public async addWalletAccount(
+    index: number,
+    info?: WalletDescriptor
+  ): Promise<IWallet<IHDKey>> {
     const acc = await this.getWalletAccount(index);
     this.setHDWalletAccount(acc.getReferenceKey(), info);
     return this.getWalletAccount(index);
@@ -121,7 +114,11 @@ export class User implements IUser {
     return !!this.getHDWallet();
   }
 
-  public setWalletInfo(id: string, info: string | WalletDescriptor, legacyWallet?: boolean) {
+  public setWalletInfo(
+    id: string,
+    info: string | WalletDescriptor,
+    legacyWallet?: boolean
+  ) {
     let walletInfo = this.getWalletInfo(id, legacyWallet);
     if (!walletInfo) {
       // Not in legacy mode, we should automatically add the wallet account into the list
@@ -130,7 +127,7 @@ export class User implements IUser {
         walletInfo = this.getWalletInfo(id, legacyWallet);
       }
       if (!walletInfo) {
-        throw new Error(`The requesting wallet is not available ${id}`)
+        throw new Error(`The requesting wallet is not available ${id}`);
       }
     }
     walletInfo.descriptor = WalletDescriptor.from(info);
@@ -160,12 +157,12 @@ export class User implements IUser {
   public serialize(encrypt = true): string {
     const obj = {
       wallet: this.getHDWallet(),
-      legacyWallets: this.getLegacyWallets()
-    }
+      legacyWallets: this.getLegacyWallets(),
+    };
 
     let result = JSON.stringify(obj);
     if (encrypt) {
-      result = AESUtils.encrypt(this.password, result);
+      result = AESUtils.encrypt(this.password.getPassword(), result);
     }
     return result;
   }
@@ -175,23 +172,32 @@ export class User implements IUser {
    * @param {string} value - string
    */
   public deserialize(value: string) {
-    const text = AESUtils.decrypt(this.password, value);
+    const text = AESUtils.decrypt(this.password.getPassword(), value);
     try {
       const obj = JSON.parse(text);
       if (obj.wallet) {
-        this.wallet = new HDWalletInfo(obj.wallet.key, obj.wallet.encryptionType);
-  
+        this.wallet = new HDWalletInfo(
+          obj.wallet.key,
+          obj.wallet.encryptionType
+        );
+
         if (obj.wallet.derives) {
           obj.wallet.derives.forEach((wl: WalletInfo) => {
-            this.wallet.setDerivedWallet(wl.key, wl.encryptionType, wl.descriptor);
+            this.wallet.setDerivedWallet(
+              wl.key,
+              wl.encryptionType,
+              wl.descriptor
+            );
           });
         }
       }
-  
+
       if (obj.legacyWallets) {
         this.legacyWallets = [];
         obj.legacyWallets.forEach((wl: WalletInfo) => {
-          this.legacyWallets.push(new WalletInfo(wl.key, wl.encryptionType, wl.descriptor));
+          this.legacyWallets.push(
+            new WalletInfo(wl.key, wl.encryptionType, wl.descriptor)
+          );
         });
       }
     } catch {
@@ -204,12 +210,29 @@ export class User implements IUser {
       return null;
     }
 
-    const wallet = new CasperHDWallet(this.wallet.keySeed, this.wallet.encryptionType); // ! Hardcoded to Casper for now
+    const wallet = new CasperHDWallet(
+      this.wallet.keySeed,
+      this.wallet.encryptionType
+    ); // ! Hardcoded to Casper for now
     return wallet;
   }
 
   private setHDWalletAccount(refKey: string, info?: WalletDescriptor) {
-    this.wallet.setDerivedWallet(refKey, this.getHDWallet().encryptionType, info);
+    this.wallet.setDerivedWallet(
+      refKey,
+      this.getHDWallet().encryptionType,
+      info
+    );
   }
 
+  public getPasswordHashingOptions(): Pick<
+    PasswordOptions,
+    "salt" | "iterations" | "keySize"
+  > {
+    return {
+      salt: this.password.getSalt(),
+      iterations: this.password.getIterations(),
+      keySize: this.password.getKeySize(),
+    };
+  }
 }

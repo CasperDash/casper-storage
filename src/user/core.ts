@@ -2,7 +2,7 @@ import { IHDKey } from "../bips/bip32";
 import { EncryptionType } from "../cryptography";
 import { ValidationResult } from "../utils";
 import { IWallet } from "../wallet";
-import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info"
+import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 
 /**
  * Options to validate password
@@ -11,19 +11,28 @@ export interface PasswordOptions {
   /**
    * A function to validate the password
    */
-   passwordValidator: (pwd: string) => ValidationResult;
+  passwordValidator: (pwd: string) => ValidationResult;
 
-   /**
-    * A regex string to validate the password
-    */
-   passwordValidatorRegex: string;
+  /**
+   * A regex string to validate the password
+   */
+  passwordValidatorRegex: string;
+
+  /* Salt is a random value that is used to make the hash more secure. */
+  salt: Uint8Array;
+
+  /* The number of iterations to use in the PBKDF2 function. */
+  iterations: number;
+
+  /* The size of the key in bits. */
+  keySize: number;
 }
 
 /**
  * Options to configure users
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UserOptions extends PasswordOptions {
+export interface UserOptions {
+  passwordOptions: Partial<PasswordOptions>;
 }
 
 /**
@@ -32,13 +41,15 @@ export interface UserOptions extends PasswordOptions {
  * We should never store user's password but its encrypted one to do extra actions.
  */
 export interface IUser {
-
   /**
    * Update password to serialize user's information
-   * @param password 
-   * @param options 
+   * @param password
+   * @param options
    */
-  updatePassword(password: string, options: Partial<PasswordOptions>): void;
+  updatePassword(
+    newPassword: string,
+    options: Partial<PasswordOptions>
+  ): void;
 
   /**
    * Set the HD wallet information
@@ -65,21 +76,24 @@ export interface IUser {
 
   /**
    * Add an account for HD wallet
-   * @param index 
-   * @param info 
+   * @param index
+   * @param info
    */
-  addWalletAccount(index: number, info?: WalletDescriptor): Promise<IWallet<IHDKey>>;
+  addWalletAccount(
+    index: number,
+    info?: WalletDescriptor
+  ): Promise<IWallet<IHDKey>>;
 
   /**
    * Remove an account from HD wallet
-   * @param index 
+   * @param index
    */
   removeWalletAccount(index: number): void;
 
   /**
    * Add a legacy wallet
-   * @param wallet 
-   * @param info 
+   * @param wallet
+   * @param info
    */
   addLegacyWallet(wallet: IWallet<string>, info?: WalletDescriptor): void;
 
@@ -95,28 +109,35 @@ export interface IUser {
 
   /**
    * Set wallet information
-   * @param id 
-   * @param name 
-   * @param legacyWallet 
+   * @param id
+   * @param name
+   * @param legacyWallet
    */
   setWalletInfo(id: string, name: string, legacyWallet?: boolean): void;
 
   /**
    * Get wallet information
-   * @param id 
-   * @param legacyWallet 
+   * @param id
+   * @param legacyWallet
    */
   getWalletInfo(id: string, legacyWallet?: boolean): WalletInfo;
 
   /**
    * Serialize the user information to a store-able string which is secured by user's password
-   * @param encrypt 
+   * @param encrypt
    */
   serialize(encrypt: boolean): string;
 
   /**
-   * Deserialize the serialized and encrypted value 
-   * @param value 
+   * Deserialize the serialized and encrypted value
+   * @param value
    */
   deserialize(value: string): void;
+
+  /* This is a type guard. It is saying that the return type of `getPasswordHashingOptions()` is a
+  `Pick` of the `PasswordOptions` interface. */
+  getPasswordHashingOptions(): Pick<
+    PasswordOptions,
+    "salt" | "iterations" | "keySize"
+  >;
 }
