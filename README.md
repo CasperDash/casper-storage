@@ -233,7 +233,6 @@ const name = user.getLegacyWallets()[0].descriptor.name
 // Serialize the user information to a secure encrypted string 
 const user = new User("user-password");
 const userInfo = user.serialize();
-const hasingOptions = user.getPasswordHashingOptions();
 
 // Deserialize the user information from a secure encrypted string
 const user2 = new User("user-password", encryptedUserInfo, {
