@@ -6,7 +6,6 @@ const defaultOptions = {
   passwordValidator: ValidatorUtils.verifyStrongPassword,
   iterations: 100,
   keySize: 512 / 32,
-  salt: CryptoUtils.randomBytes(16),
 };
 
 export class Password {
@@ -29,7 +28,7 @@ export class Password {
       }
     }
 
-    this.salt = options.salt;
+    this.salt = options.salt || CryptoUtils.randomBytes(16);
     this.iterations = options.iterations;
     this.keySize = options.keySize;
     // We should not store the raw password in memory, let's hashing the user-given password

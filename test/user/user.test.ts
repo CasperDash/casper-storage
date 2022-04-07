@@ -29,7 +29,7 @@ test("user.create-weak-password", () => {
 test("user.create-password-custom-validator-weak", () => {
   expect(
     () =>
-      new User("abcd", null, {
+      new User("abcd", {
         passwordOptions: {
           passwordValidator: (_) => {
             return new ValidationResult(false, "Custom msg");
@@ -40,7 +40,7 @@ test("user.create-password-custom-validator-weak", () => {
 });
 
 test("user.create-password-custom-validator-ok", () => {
-  const user = new User("abcd", null, {
+  const user = new User("abcd", {
     passwordOptions: {
       passwordValidator: (_) => {
         return new ValidationResult(true);
@@ -208,7 +208,9 @@ test("user.serialize-both-type-wallets", async () => {
   const user = prepareTestUser();
   const encryptedUserInfo = user.serialize();
 
-  const user2 = new User(PASSWORD);
+  const user2 = new User(PASSWORD, {
+    passwordOptions: user.getPasswordHashingOptions(),
+  });
   user2.deserialize(encryptedUserInfo);
 
   validateDecryptedUserInfo(user, user2);
@@ -226,9 +228,13 @@ test("user.serialize-deserialize-wrong-password", async () => {
 
 test("user.deserializeFrom", async () => {
   const user = prepareTestUser();
-  const encryptedUserInfo = user.serialize();
 
-  const user2 = User.deserializeFrom(PASSWORD, encryptedUserInfo);
+  const encryptedUserInfo = user.serialize();
+  await new Promise((r) => setTimeout(r, 2000));
+  const user2 = User.deserializeFrom(PASSWORD, encryptedUserInfo, {
+    passwordOptions: user.getPasswordHashingOptions(),
+  });
+
   validateDecryptedUserInfo(user, user2);
 });
 

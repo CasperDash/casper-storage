@@ -24,7 +24,7 @@ export class User implements IUser {
     userEncryptedInfo: string,
     options?: Partial<UserOptions>
   ): User {
-    const user = new User(password, null, options);
+    const user = new User(password, options);
     user.deserialize(userEncryptedInfo);
     return user;
   }
@@ -45,12 +45,11 @@ export class User implements IUser {
 
   constructor(
     password: string,
-    oldPassword?: string,
     options?: Partial<UserOptions>
   ) {
     this.updatePassword(
       password,
-      oldPassword,
+      null,
       options && options.passwordOptions
     );
   }
@@ -65,10 +64,9 @@ export class User implements IUser {
     oldPassword?: string,
     options?: Partial<PasswordOptions>
   ) {
-    // We should not store the raw password in memory, let's hashing the user-given password
     if (oldPassword) {
       try {
-        const oldPass = new Password(oldPassword, options);
+        const oldPass = new Password(oldPassword, options || this.getPasswordHashingOptions());
         if (oldPass.getPassword() !== this.password.getPassword()) {
           throw new Error();
         }
