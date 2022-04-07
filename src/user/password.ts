@@ -8,6 +8,7 @@ const defaultOptions = {
   keySize: 512 / 32,
 };
 
+/* This class is used to generate a password hash */
 export class Password {
   private password: string;
   private salt: Uint8Array;
