@@ -5,81 +5,112 @@ import { TypeUtils, ValidationResult } from "../../src/utils";
 import { LegacyWallet } from "../../src/wallet";
 
 const PASSWORD = "abcdAbcd123.";
-const testKeySlip10Vector1 = "evoke embrace slogan bike carry tube shallow unfold breeze soul burden direct bind company vivid";
-const PRIVATE_KEY_TEST_01 = "3076574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
-const PRIVATE_KEY_TEST_02 = "3f76574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
+const testKeySlip10Vector1 =
+  "evoke embrace slogan bike carry tube shallow unfold breeze soul burden direct bind company vivid";
+const PRIVATE_KEY_TEST_01 =
+  "3076574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
+const PRIVATE_KEY_TEST_02 =
+  "3f76574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
 
 test("user.create-invalid-password", () => {
   expect(() => new User(null)).toThrowError("Password is required");
-})
+});
 
 test("user.create-invalid-password-empty", () => {
   expect(() => new User("")).toThrowError("Password is required");
-})
+});
 
 test("user.create-weak-password", () => {
-  expect(() => new User("abcd")).toThrowError("Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character");
-})
+  expect(() => new User("abcd")).toThrowError(
+    "Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character"
+  );
+});
 
 test("user.create-password-custom-validator-weak", () => {
-  expect(() => new User("abcd", {
-    passwordValidator: (_) => {
-      return new ValidationResult(false, "Custom msg");
-    }
-  })).toThrowError("Custom msg");
-})
+  expect(
+    () =>
+      new User("abcd", null, {
+        passwordOptions: {
+          passwordValidator: (_) => {
+            return new ValidationResult(false, "Custom msg");
+          },
+        },
+      })
+  ).toThrowError("Custom msg");
+});
 
 test("user.create-password-custom-validator-ok", () => {
-  const user = new User("abcd", {
-    passwordValidator: (_) => {
-      return new ValidationResult(true);
-    }
+  const user = new User("abcd", null, {
+    passwordOptions: {
+      passwordValidator: (_) => {
+        return new ValidationResult(true);
+      },
+    },
   });
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
-})
+});
 
 test("user.create-ok", () => {
   const user = new User(PASSWORD);
 
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
-})
+  expect(Object.keys(user.getPasswordHashingOptions())).toEqual([ "salt" , "iterations","keySize"]);
+});
 
 test("user.updatePassword-invalid-password", () => {
   const user = new User(PASSWORD);
   expect(() => user.updatePassword(null)).toThrowError("Password is required");
-})
+});
 
 test("user.updatePassword-invalid-password-empty", () => {
   const user = new User(PASSWORD);
   expect(() => user.updatePassword("")).toThrowError("Password is required");
-})
+});
 
 test("user.updatePassword-weak-password", () => {
   const user = new User(PASSWORD);
-  expect(() => user.updatePassword("abcd")).toThrowError("Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character");
-})
+  expect(() => user.updatePassword("abcd")).toThrowError(
+    "Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character"
+  );
+});
 
 test("user.updatePassword-password-custom-validator-weak", () => {
   const user = new User(PASSWORD);
-  expect(() => user.updatePassword("abcd", {
-    passwordValidator: (_) => {
-      return new ValidationResult(false, "Custom msg");
-    }
-  })).toThrowError("Custom msg");
-})
+  expect(() =>
+    user.updatePassword("abcd", null, {
+      passwordValidator: (_) => {
+        return new ValidationResult(false, "Custom msg");
+      },
+    })
+  ).toThrowError("Custom msg");
+});
+
+test("user.updatePassword-wrong-old-password", () => {
+  const user = new User(PASSWORD);
+  expect(() => user.updatePassword("abcd", "def")).toThrowError(
+    "Wrong password"
+  );
+});
 
 test("user.updatePassword-password-custom-validator-ok", () => {
   const user = new User(PASSWORD);
-  user.updatePassword("abcd", {
+  user.updatePassword("abcd", null, {
     passwordValidator: (_) => {
       return new ValidationResult(true);
-    }
+    },
   });
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
-})
+});
+
+test("user.updatePassword-success", () => {
+  const user = new User(PASSWORD);
+  user.updatePassword("Test1234%^", PASSWORD);
+  expect(user.hasHDWallet()).toBeFalsy();
+  expect(user.hasLegacyWallets()).toBeFalsy();
+});
 
 test("user.hd-wallet-master-seed-get-account-0", async () => {
   const user = new User(PASSWORD);
@@ -87,8 +118,10 @@ test("user.hd-wallet-master-seed-get-account-0", async () => {
 
   const acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
-  expect(await acc.getPublicKey()).toBe("03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8");
-})
+  expect(await acc.getPublicKey()).toBe(
+    "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
+  );
+});
 
 test("user.hd-wallet-master-seed-get-account-1", async () => {
   const user = new User(PASSWORD);
@@ -96,8 +129,10 @@ test("user.hd-wallet-master-seed-get-account-1", async () => {
 
   const acc = await user.getWalletAccount(1);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/1'");
-  expect(await acc.getPublicKey()).toBe("02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7");
-})
+  expect(await acc.getPublicKey()).toBe(
+    "02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7"
+  );
+});
 
 test("user.hd-wallet-master-key-get-account-0", async () => {
   const user = new User(PASSWORD);
@@ -107,23 +142,30 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
 
   let acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
-  expect(await acc.getPublicKey()).toBe("03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8");
+  expect(await acc.getPublicKey()).toBe(
+    "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
+  );
 
   acc = await user.getWalletAccount(1);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/1'");
-  expect(await acc.getPublicKey()).toBe("02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7");
-})
+  expect(await acc.getPublicKey()).toBe(
+    "02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7"
+  );
+});
 
 test("user.hd-wallet-set-wallet-info-acc-0", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
 
-  let acc = await user.getWalletAccount(0);
-  user.setWalletInfo(acc.getKey().getPath(), new WalletDescriptor("Account 01"));
+  const acc = await user.getWalletAccount(0);
+  user.setWalletInfo(
+    acc.getKey().getPath(),
+    new WalletDescriptor("Account 01")
+  );
 
-  let walletInfo = user.getWalletInfo(acc.getKey().getPath());
+  const walletInfo = user.getWalletInfo(acc.getKey().getPath());
   expect(walletInfo.descriptor.name).toBe("Account 01");
-})
+});
 
 test("user.legacy-wallet-set-wallet-1", async () => {
   const user = new User(PASSWORD);
@@ -133,23 +175,30 @@ test("user.legacy-wallet-set-wallet-1", async () => {
 
   expect(user.hasLegacyWallets()).toBeTruthy();
 
-  const acc = user.getWalletInfo(TypeUtils.parseHexToString(wallet.getKey()), true);
+  const acc = user.getWalletInfo(
+    TypeUtils.parseHexToString(wallet.getKey()),
+    true
+  );
   expect(acc.key).toBe(PRIVATE_KEY_TEST_01);
-})
+});
 
 test("user.legacy-wallet-set-wallet-1-add-info", async () => {
   const user = new User(PASSWORD);
 
-  let wallet = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
+  const wallet = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
   user.addLegacyWallet(wallet);
 
   const walletKey = TypeUtils.parseHexToString(wallet.getKey());
 
-  user.setWalletInfo(walletKey, new WalletDescriptor("My legacy wallet 1"), true)
+  user.setWalletInfo(
+    walletKey,
+    new WalletDescriptor("My legacy wallet 1"),
+    true
+  );
 
   const acc = user.getWalletInfo(walletKey, true);
   expect(acc.descriptor.name).toBe("My legacy wallet 1");
-})
+});
 
 test("user.serialize-both-type-wallets", async () => {
   const user = prepareTestUser();
@@ -159,15 +208,17 @@ test("user.serialize-both-type-wallets", async () => {
   user2.deserialize(encryptedUserInfo);
 
   validateDecryptedUserInfo(user, user2);
-})
+});
 
 test("user.serialize-deserialize-wrong-password", async () => {
   const user = prepareTestUser();
   const encryptedUserInfo = user.serialize();
 
   const user2 = new User(PASSWORD + "Invalid");
-  expect(() => user2.deserialize(encryptedUserInfo)).toThrowError("Password is invalid");
-})
+  expect(() => user2.deserialize(encryptedUserInfo)).toThrowError(
+    "Password is invalid"
+  );
+});
 
 test("user.deserializeFrom", async () => {
   const user = prepareTestUser();
@@ -175,7 +226,7 @@ test("user.deserializeFrom", async () => {
 
   const user2 = User.deserializeFrom(PASSWORD, encryptedUserInfo);
   validateDecryptedUserInfo(user, user2);
-})
+});
 
 function prepareTestUser() {
   const user = new User(PASSWORD);
@@ -185,9 +236,16 @@ function prepareTestUser() {
   const wallet1 = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
   const wallet1Key = TypeUtils.parseHexToString(wallet1.getKey());
   user.addLegacyWallet(wallet1);
-  user.setWalletInfo(wallet1Key, new WalletDescriptor("My legacy wallet 1"), true);
+  user.setWalletInfo(
+    wallet1Key,
+    new WalletDescriptor("My legacy wallet 1"),
+    true
+  );
 
-  const wallet2 = new LegacyWallet(PRIVATE_KEY_TEST_02, EncryptionType.Secp256k1);
+  const wallet2 = new LegacyWallet(
+    PRIVATE_KEY_TEST_02,
+    EncryptionType.Secp256k1
+  );
   user.addLegacyWallet(wallet2, new WalletDescriptor("My legacy wallet 2"));
 
   return user;
@@ -196,7 +254,9 @@ function prepareTestUser() {
 function validateDecryptedUserInfo(user: User, user2: User) {
   expect(user2.getHDWallet()).not.toBeNull();
   expect(user2.getHDWallet().key).toBe(user.getHDWallet().key);
-  expect(user2.getHDWallet().encryptionType).toBe(user.getHDWallet().encryptionType);
+  expect(user2.getHDWallet().encryptionType).toBe(
+    user.getHDWallet().encryptionType
+  );
 
   expect(user2.getLegacyWallets().length).toBe(2);
   const user2Wallet1 = user.getWalletInfo(user.getLegacyWallets()[0].key, true);
