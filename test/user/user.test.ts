@@ -56,7 +56,11 @@ test("user.create-ok", () => {
 
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
-  expect(Object.keys(user.getPasswordHashingOptions())).toEqual([ "salt" , "iterations","keySize"]);
+  expect(Object.keys(user.getPasswordHashingOptions())).toEqual([
+    "salt",
+    "iterations",
+    "keySize",
+  ]);
 });
 
 test("user.updatePassword-invalid-password", () => {
