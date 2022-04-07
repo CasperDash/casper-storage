@@ -47,8 +47,8 @@ export interface IUser {
    * @param options
    */
   updatePassword(
-    oldPassword: string,
     newPassword: string,
+    oldPassword: string,
     options: Partial<PasswordOptions>
   ): void;
 
@@ -134,4 +134,11 @@ export interface IUser {
    * @param value
    */
   deserialize(value: string): void;
+
+  /* This is a type guard. It is saying that the return type of `getPasswordHashingOptions()` is a
+  `Pick` of the `PasswordOptions` interface. */
+  getPasswordHashingOptions(): Pick<
+    PasswordOptions,
+    "salt" | "iterations" | "keySize"
+  >;
 }
