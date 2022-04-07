@@ -1,6 +1,6 @@
 {
   "name": "casper-storage",
-  "version": "0.1.18",
+  "version": "0.2.0",
   "description": "Provides standard implementation of wallet workflow, following standards BIPs, SLIPs",
   "author": "Caperdash.io <hello@casperdash.io>",
   "repository": {
