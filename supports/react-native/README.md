@@ -11,6 +11,9 @@
 1. Install required dependencies
 - big-integer
 - react-native-randombytes
+- text-encoding
+- buffer
+- casper-storage
 
 2. Copy the prepared "shim.js" and import it into the main entry file
 [shim.js](https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/shim.js)

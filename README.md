@@ -20,7 +20,21 @@
 
 ## Usage
 
-### Key generator
+- [Key-phrase generator](#key-generator)
+- [Casper HD wallet](#casper-hd-wallet)
+  - [Access properties of wallets](#wallet-properties)
+- [Casper legacy wallet](#casper-legacy-wallet)
+  - [Access properties of wallets](#legacy-wallet-properties)
+- [User](#user)
+  - [Create a new user](#user-create)
+  - [Add walets to user](#user-add-wallets)
+  - [Retrieve wallets from user](#user-get-wallets)
+  - [Serialize/Deseialize user's information](#user-info)
+- [Storage](#storage)
+- [Misc](#misc)
+  - [Parse PEM files](#misc-parse-pem)
+
+### Key generator <a name="key-generator"></a>
 1. In order to use work with keys, import the *KeyFactory* from *casper-storage*
 
 ``` javascript
@@ -54,7 +68,7 @@ const seed: Uint8Array = keyManager.toSeedArray("your keyphrase here");
 const isValid: boolean = keyManager.validate("your keyphrase here");
 ```
 
-### Casper HD wallet (with keyphrase)
+### Casper HD wallet (with keyphrase) <a name="casper-hd-wallet"></a>
 
 ``` javascript
 import { KeyFactory, EncryptionType, CasperHDWallet } from "casper-storage"
@@ -87,7 +101,7 @@ const acc0 = await hdWallet.getAccount(0)
 const acc1 = await hdWallet.getAccount(1)
 ```
 
-5. Play with wallets
+5. Play with wallets <a name="wallet-properties"></a>
 
 ``` javascript
 // Get the private key
@@ -103,7 +117,7 @@ await acc0.getPublicAddress()
 await acc0.getPublicHash()
 ```
 
-### Casper legacy wallet (with single private key)
+### Casper legacy wallet (with single private key) <a name="casper-legacy-wallet"></a>
 
 ``` javascript
 import { KeyFactory, EncryptionType, CasperLegacyWallet } from "casper-storage"
@@ -118,20 +132,20 @@ const wallet = new CasperLegacyWallet("a-private-key-hex-string", EncryptionType
 const wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp256k1)
 ```
 
-3. This wallet will also share the same methods from a wallet of HDWallet
+3. This wallet will also share the same methods from a wallet of HDWallet <a name="legacy-wallet-properties"></a>
 
 ``` javascript
 await wallet.getPublicAddress()
 await acc0.getPublicHash()
 ```
 
-### User
+### User <a name="user"></a>
 
 ``` javascript
 import { User } from "casper-storage"
 ```
 
-1. Prepare a new user instance
+1. Prepare a new user instance <a name="user-create"></a>
 
 ``` javascript
 const user = new User("user-password")
@@ -191,7 +205,7 @@ user.setHDWallet("master-key", EncryptionType.Ed25519);
 const masterKey = user.getHDWallet().keyphrase;
 ```
 
-3. Add user's default first account
+3. Add user's default first account <a name="user-add-wallets"></a>
 
 ``` javascript
 // We can call addWalletAccount
@@ -211,9 +225,9 @@ const wallet = new LegacyWallet("user-wallet-private-key", EncryptionType.Ed2551
 user.addLegacyWallet(wallet, new WalletDescriptor("Legacy wallet 1"));
 ```
 
-6. Retrieve all wallets to show on UI
+6. Retrieve all wallets to show on UI <a name="user-get-wallets"></a>
 
-``` javascript
+``` typescript
 // HDWallet account
 const walletsInfo: WalletInfo[] = user.getHDWallet().derivedWallets;
 // Legacy wallets
@@ -235,7 +249,7 @@ const legacyWalletInfo = legacyWalletsInfo[0];
 const wallet = new CasperLegacyWallet(legacyWalletInfo.key, legacyWalletInfo.encryptionType);
 ```
 
-7. Serialize/Deserialize user's information
+7. Serialize/Deserialize user's information <a name="user-info"></a>
 
 ``` javascript
 // Serialize the user information to a secure encrypted string 
@@ -255,7 +269,7 @@ const user2 = User.deserializeFrom("user-password", "user-encrypted-information"
 
 ```
 
-### Storage
+### Storage <a name="storage"></a>
 
 ``` javascript
 import { StorageManager } from "casper-storage;
@@ -273,8 +287,8 @@ await storage.remove("key");
 await storage.clear();
 ```
 
-### Misc
-Parse exported PEM files from Casper signer
+### Misc <a name="misc"></a>
+Parse exported PEM files from Casper signer <a name="misc-parse-pem"></a>
 
 ``` javascript
 import { KeyParser } from "casper-storage";

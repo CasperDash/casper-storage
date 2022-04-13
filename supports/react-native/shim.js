@@ -1,3 +1,11 @@
+/**
+ * Guidelines
+ * 
+ * 1) Install required dependencies
+ * big-integer, text-encoding, react-native-randombytes, buffer and casper-storage
+ * 2) Import the whole shim.js in the main file
+ */
+
 // Polyfill BigInt, only available for browser/node for now (fix for android)
 if (typeof BigInt === 'undefined') {
   const bigInt = require('big-integer');
@@ -57,6 +65,18 @@ import { CryptoUtils } from 'casper-storage';
 // Override the randomBytes method, which is also only available for browser/node
 import { randomBytes } from 'react-native-randombytes';
 CryptoUtils.randomBytes = randomBytes;
+
+if (typeof window === 'object') {
+  const wCrypto = window.crypto = window.crypto || {}
+  if (!wCrypto.getRandomValues) {
+    wCrypto.getRandomValues = function getRandomValues(arr) {
+      const bytes = CryptoUtils.randomBytes(arr.length)
+      for (var i = 0; i < bytes.length; i++) {
+        arr[i] = bytes[i]
+      }
+    }
+  }
+}
 
 // Buffer
 // casper-js-sdk relies heavily on
