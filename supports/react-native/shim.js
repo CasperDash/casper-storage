@@ -66,18 +66,6 @@ import { CryptoUtils } from 'casper-storage';
 import { randomBytes } from 'react-native-randombytes';
 CryptoUtils.randomBytes = randomBytes;
 
-if (typeof window === 'object') {
-  const wCrypto = window.crypto = window.crypto || {}
-  if (!wCrypto.getRandomValues) {
-    wCrypto.getRandomValues = function getRandomValues(arr) {
-      const bytes = CryptoUtils.randomBytes(arr.length)
-      for (var i = 0; i < bytes.length; i++) {
-        arr[i] = bytes[i]
-      }
-    }
-  }
-}
-
 // Buffer
 // casper-js-sdk relies heavily on
 global.Buffer = global.Buffer || require('buffer').Buffer;

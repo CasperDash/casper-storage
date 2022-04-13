@@ -114,9 +114,16 @@ export class WalletInfo {
   }
 
   /**
+   * Set descriptor of wallet
+   */
+  public set descriptor(info: WalletDescriptor) {
+    this._descriptor = info;
+  }
+
+  /**
    * Get the account index (only applicable for wallets from HD wallet)
    */
-  public get index(): number {
+    public get index(): number {
     const parts = this.key.split('/');
     if (parts.length < 4) {
       throw new Error("This is not a HD wallet account");
@@ -126,13 +133,6 @@ export class WalletInfo {
       throw new Error("This is not a HD wallet account");
     }
     return index;
-  }
-
-  /**
-   * Set descriptor of wallet
-   */
-  public set descriptor(info: WalletDescriptor) {
-    this._descriptor = info;
   }
 
   /**

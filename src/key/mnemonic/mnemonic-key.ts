@@ -1,6 +1,6 @@
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-
+import { CryptoUtils } from '../../cryptography';
 import { IKeyManager } from "../../key/core";
 import { Hex, TypeUtils } from "../../utils";
 
@@ -33,7 +33,9 @@ export class MnemonicKey implements IKeyManager {
     if (!WORDS_LENGTH_STRENGTH_MAP.has(wordsLength)) {
       throw new Error(`Length of words must be in allowed list: ${Array.from(WORDS_LENGTH_STRENGTH_MAP.keys()).join(", ")}`)
     }
-    return bip39.generateMnemonic(wordlist, WORDS_LENGTH_STRENGTH_MAP.get(wordsLength));
+    const byteLength = WORDS_LENGTH_STRENGTH_MAP.get(wordsLength);
+    const entropy = CryptoUtils.randomBytes(byteLength / 8);
+    return bip39.entropyToMnemonic(entropy, wordlist);
   }
 
   validate(key: string): boolean {

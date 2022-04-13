@@ -48,7 +48,7 @@ const keyManager = KeyFactory.getInstance();
 keyManager.generate();
 // output will be something like: basket pluck awesome prison unveil umbrella spy safe powder lock swallow shuffle
 
-// By default, the outpult will a phrase with 12 words, we can ask for more
+// By default, the outpult will be a phrase with 12 words, we can ask for more
 keyManager.generate(24);
 ```
 
