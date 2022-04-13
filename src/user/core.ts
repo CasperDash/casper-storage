@@ -75,6 +75,12 @@ export interface IUser {
   getWalletAccount(index: number): Promise<IWallet<IHDKey>>;
 
   /**
+   * Get the HD wallet account for the given reference key (path)
+   * @param refKey account ref key (path)
+   */
+  getWalletAccountByRefKey(refKey: string): Promise<IWallet<IHDKey>>;
+
+  /**
    * Add an account for HD wallet
    * @param index
    * @param info

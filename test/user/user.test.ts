@@ -151,6 +151,57 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
   );
 });
 
+test("user.hd-wallet-master-key-get-account-0-by-index", async () => {
+  const user = new User(PASSWORD);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+
+  expect(user.getHDWallet().key).toBe(testKeySlip10Vector1);
+  await user.addWalletAccount(0);
+  await user.addWalletAccount(1);
+
+  let walletInfo = user.getHDWallet().derivedWallets[0];
+  expect(walletInfo.key).toBe("m/44'/506'/0'");
+  expect(walletInfo.descriptor.name).toBe("Account 1");
+  expect(walletInfo.encryptionType).toBe(EncryptionType.Secp256k1);
+  expect(walletInfo.index).toBe(0);
+
+  const acc = await user.getWalletAccount(walletInfo.index);
+  expect(await acc.getPublicKey()).toBe(
+    "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
+  );
+
+  walletInfo = user.getHDWallet().derivedWallets[1];
+  expect(walletInfo.key).toBe("m/44'/506'/1'");
+  expect(walletInfo.descriptor.name).toBe("Account 2");
+  expect(walletInfo.encryptionType).toBe(EncryptionType.Secp256k1);
+  expect(walletInfo.index).toBe(1);
+});
+
+test("user.hd-wallet-master-key-get-accounts-ref-key", async () => {
+  const user = new User(PASSWORD);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+
+  expect(user.getHDWallet().key).toBe(testKeySlip10Vector1);
+  await user.addWalletAccount(0);
+  await user.addWalletAccount(1);
+
+  let walletInfo = user.getHDWallet().derivedWallets[0];
+  expect(walletInfo.key).toBe("m/44'/506'/0'");
+
+  let acc = await user.getWalletAccountByRefKey(walletInfo.key);
+  expect(await acc.getPublicKey()).toBe(
+    "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
+  );
+
+  walletInfo = user.getHDWallet().derivedWallets[1];
+  expect(walletInfo.key).toBe("m/44'/506'/1'");
+
+  acc = await user.getWalletAccountByRefKey(walletInfo.key);
+  expect(await acc.getPublicKey()).toBe(
+    "02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7"
+  );
+});
+
 test("user.hd-wallet-set-wallet-info-acc-0", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
@@ -178,6 +229,7 @@ test("user.legacy-wallet-set-wallet-1", async () => {
     true
   );
   expect(acc.key).toBe(PRIVATE_KEY_TEST_01);
+  expect(acc.descriptor.name).toBe("Legacy wallet 1");
 });
 
 test("user.legacy-wallet-set-wallet-1-add-info", async () => {

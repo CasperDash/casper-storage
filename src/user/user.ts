@@ -80,6 +80,10 @@ export class User implements IUser {
     return await this.getWallet().getAccount(index);
   }
 
+  public async getWalletAccountByRefKey(key: string): Promise<IWallet<IHDKey>> {
+    return await this.getWallet().getWalletFromPath(key);
+  }
+
   public async addWalletAccount(
     index: number,
     info?: WalletDescriptor
@@ -95,10 +99,14 @@ export class User implements IUser {
   }
 
   public addLegacyWallet(wallet: IWallet<Hex>, info?: WalletDescriptor) {
+    if (!this.legacyWallets) this.legacyWallets = [];
+
     const refKey = wallet.getReferenceKey();
+    if (!info) {
+      info = new WalletDescriptor("Legacy wallet " + (this.legacyWallets.length + 1));
+    }
     const walletInfo = new WalletInfo(refKey, wallet.getEncryptionType(), info);
 
-    if (!this.legacyWallets) this.legacyWallets = [];
     this.legacyWallets.push(walletInfo);
   }
 

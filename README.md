@@ -215,19 +215,27 @@ user.addLegacyWallet(wallet, new WalletDescriptor("Legacy wallet 1"));
 
 ``` javascript
 // HDWallet account
-user.getHDWallet().derivedWallets
+const walletsInfo: WalletInfo[] = user.getHDWallet().derivedWallets;
 // Legacy wallets
-user.getLegacyWallets()
+const legacyWalletsInfo: WalletInfo[] = user.getLegacyWallets();
+
+// Wallet infornation
+const walletInfo: WalletInfo  = walletsInfo[0];
+const refKey: string = walletInfo.key;
+const encryptionType: EncryptionType = walletInfo.encryptionType;
+const name: string = walletInfo.descriptor.name;
+
+// Construct HD wallet's accounts
+const wallet: IWallet<IHDKey> = await user.getWalletAccountByRefKey(refKey);
+// or
+const wallet: IWallet<IHDKey> = await user.getWalletAccount(walletInfo.index); // only for HD wallets
+
+// Construct legacy wallet
+const legacyWalletInfo = legacyWalletsInfo[0];
+const wallet = new CasperLegacyWallet(legacyWalletInfo.key, legacyWalletInfo.encryptionType);
 ```
 
-8. Each derived wallet or legacy wallet provides a WalletDescriptor with its detailed information
-
-``` javascript
-const name = user.getHDWallet().derivedWallets[0].descriptor.name
-const name = user.getLegacyWallets()[0].descriptor.name
-```
-
-9. Serialize/Deserialize user's information
+7. Serialize/Deserialize user's information
 
 ``` javascript
 // Serialize the user information to a secure encrypted string 

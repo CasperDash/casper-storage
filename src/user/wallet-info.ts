@@ -114,6 +114,21 @@ export class WalletInfo {
   }
 
   /**
+   * Get the account index (only applicable for wallets from HD wallet)
+   */
+  public get index(): number {
+    const parts = this.key.split('/');
+    if (parts.length < 4) {
+      throw new Error("This is not a HD wallet account");
+    }
+    const index = parseInt(parts[3]); // ' will be ignored
+    if (isNaN(index)) {
+      throw new Error("This is not a HD wallet account");
+    }
+    return index;
+  }
+
+  /**
    * Set descriptor of wallet
    */
   public set descriptor(info: WalletDescriptor) {
@@ -208,6 +223,8 @@ export class HDWalletInfo {
     }
     if (info) {
       derived.descriptor = WalletDescriptor.from(info);
+    } else {
+      derived.descriptor = WalletDescriptor.from("Account " + (derived.index + 1));
     }
   }
  
