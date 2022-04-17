@@ -1,5 +1,6 @@
 import { IStorage } from "./interfaces";
-import { DefaultStorage } from "./providers/default-storage";
+import { LocalStorage } from "./providers/local-storage";
+import { AsyncStorage } from "./providers/async-storage";
 
 /**
  * Provides storage mangement integration
@@ -13,7 +14,20 @@ export class StorageManager {
    */
   public static getInstance(): IStorage {
     if (!StorageManager._storage) {
-      StorageManager._storage = new DefaultStorage();
+      let storage: IStorage = new AsyncStorage();
+      if (storage.isAvailable()) {
+        StorageManager._storage = storage;
+        return storage;
+      }
+
+      storage = new LocalStorage();
+      if(storage.isAvailable()) {
+        StorageManager._storage = storage;
+        return storage;
+      }
+
+      throw new Error(`No storage is available, please implement one with IStorage and register with StorageManager.register.
+Or if you're using react-native, @react-native-async-storage/async-storage should be installed`);
     }
     return StorageManager._storage;
   }

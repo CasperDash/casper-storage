@@ -132,6 +132,8 @@ const wallet = new CasperLegacyWallet("a-private-key-hex-string", EncryptionType
 const wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp256k1)
 ```
 
+If users have PEM files (which are exported from casper-signer), we need to use [KeyParser](#misc-parse-pem) to parse it into a hex private string.
+
 3. This wallet will also share the same methods from a wallet of HDWallet <a name="legacy-wallet-properties"></a>
 
 ``` javascript

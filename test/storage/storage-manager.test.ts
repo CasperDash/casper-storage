@@ -24,6 +24,9 @@ class MockStorage implements IStorage {
     throw new Error("Method not implemented.");
   }
 
+  isAvailable(): boolean {
+    return true;
+  }
 }
 
 test("storage-manager.default", async () => {

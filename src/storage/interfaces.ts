@@ -34,4 +34,9 @@ export interface IStorage {
    */
   clear(): Promise<void>;
 
+  /**
+   * Check whether the storage is available to use
+   */
+  isAvailable(): boolean;
+
 }

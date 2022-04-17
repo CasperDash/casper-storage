@@ -1,22 +1,22 @@
-import { DefaultStorage } from "../../../src/storage/providers/default-storage";
+import { LocalStorage } from "../../../src/storage/providers/local-storage";
 
 test("default-storage-new", async () => {
-  expect(async () => new DefaultStorage()).not.toThrowError();
+  expect(async () => new LocalStorage()).not.toThrowError();
 })
 
 test("default-storage-get-null", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
   expect(await storage.get("key")).toBeNull();
 })
 
 test("default-storage-get-and-set", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
   await storage.set("key", "something")
   expect(await storage.get("key")).toBe("something");
 })
 
 test("default-storage-get-and-set-multiple-keys", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
   await storage.set("key", "something");
   await storage.set("key1", "something1");
   await storage.set("key2", "something2");
@@ -27,7 +27,7 @@ test("default-storage-get-and-set-multiple-keys", async () => {
 })
 
 test("default-storage-get-and-set-remove", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
 
   await storage.set("key", "something");
   expect(await storage.get("key")).toBe("something");
@@ -37,7 +37,7 @@ test("default-storage-get-and-set-remove", async () => {
 })
 
 test("default-storage-get-and-set-clear", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
   await storage.set("key", "something");
   expect(await storage.get("key")).toBe("something");
   
@@ -46,13 +46,13 @@ test("default-storage-get-and-set-clear", async () => {
 })
 
 test("default-storage-has-false", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
   expect(await storage.has("key")).toBe(false);
   expect(await storage.has("key2")).toBe(false);
 })
 
 test("default-storage-has-true", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
   await storage.set("key", "something");
   expect(await storage.has("key")).toBe(true);
 
@@ -61,7 +61,7 @@ test("default-storage-has-true", async () => {
 })
 
 test("default-storage-has-mixed", async () => {
-  const storage = new DefaultStorage();
+  const storage = new LocalStorage();
   await storage.set("key", "something");
 
   expect(await storage.has("key")).toBe(true);
