@@ -131,6 +131,7 @@
 </ol>
 <pre><code class="language-javascript"><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">wallet</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CasperLegacyWallet</span><span class="hl-1">(</span><span class="hl-3">&quot;a-private-key-hex-string&quot;</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Ed25519</span><span class="hl-1">)</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">wallet</span><span class="hl-1"> = </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CasperLegacyWallet</span><span class="hl-1">(</span><span class="hl-2">privateUint8ArrayData</span><span class="hl-1">, </span><span class="hl-2">EncryptionType</span><span class="hl-1">.</span><span class="hl-2">Secp256k1</span><span class="hl-1">)</span>
 </code></pre>
+<p>If users have PEM files (which are exported from casper-signer), we need to use <a href="#misc-parse-pem">KeyParser</a> to parse it into a hex private string.</p>
 <ol start="3">
 <li>This wallet will also share the same methods from a wallet of HDWallet <a name="legacy-wallet-properties"></a></li>
 </ol>
