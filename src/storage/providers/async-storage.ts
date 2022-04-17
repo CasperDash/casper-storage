@@ -5,6 +5,7 @@ let storage: any;
 try {
   // Only try to require the package
   // If no storages are available we will throw error and asking for one on runtime
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   storage = require('@react-native-async-storage/async-storage').default;
 }
 catch (error) {
