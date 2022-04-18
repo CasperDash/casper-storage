@@ -53,7 +53,7 @@ import "./shim"
 - Temporary fix for transformation (for ios) while waiting for metro to release the latest version
 - Make TextEncoder methods be available at root object
 
-Simply copy [shim-legacy.js](https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/shim.js) to root folder and import into the main entry file, right after the `shim.js` in previous step
+Simply copy [shim-legacy.js](https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/shim-legacy.js) to root folder and import into the main entry file, right after the `shim.js` in previous step
 
 ```javascript
 import "./shim"
