@@ -9,30 +9,38 @@
 
 ### Browser
 `<script src="https://cdn.jsdelivr.net/npm/casper-storage"></script>`
-
-### Node
+```html
+<script>
+  const wallet = new CasperStorage.CasperHDWallet("user-master-key", CasperStorage.EncryptionType.Ed25519);
+</script>
+```
+### NPM
 `npm install casper-storage` or `yarn add casper-storage`
 
 ### React-native
-> Due to missing features of JavascriptCore, we need to polyfill and overrides some features (e.g BigInt, encoding, etc)
+> Due to missing features of JavascriptCore, we need to polyfill and overrides some features (e.g randombytes, encoding, etc)
 
 [Click here](https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/README.md) for more detailed information
 
-## Usage
+## Table of contents
+- [Usage](#usage)
+  - [Key-phrase generator](#key-generator)
+  - [Casper HD wallet](#casper-hd-wallet)
+    - [Access properties of wallets](#wallet-properties)
+  - [Casper legacy wallet](#casper-legacy-wallet)
+    - [Access properties of wallets](#legacy-wallet-properties)
+  - [User](#user)
+    - [Create a new user](#user-create)
+    - [Add walets to user](#user-add-wallets)
+    - [Retrieve wallets from user](#user-get-wallets)
+    - [Serialize/Deseialize user's information](#user-info)
+  - [Storage](#storage)
+  - [Misc](#misc)
+    - [Parse PEM files](#misc-parse-pem)
+- [Development](#development)
+- [Progress](#progress)
 
-- [Key-phrase generator](#key-generator)
-- [Casper HD wallet](#casper-hd-wallet)
-  - [Access properties of wallets](#wallet-properties)
-- [Casper legacy wallet](#casper-legacy-wallet)
-  - [Access properties of wallets](#legacy-wallet-properties)
-- [User](#user)
-  - [Create a new user](#user-create)
-  - [Add walets to user](#user-add-wallets)
-  - [Retrieve wallets from user](#user-get-wallets)
-  - [Serialize/Deseialize user's information](#user-info)
-- [Storage](#storage)
-- [Misc](#misc)
-  - [Parse PEM files](#misc-parse-pem)
+## Usage <a name="usage"></a>
 
 ### Key generator <a name="key-generator"></a>
 1. In order to use work with keys, import the *KeyFactory* from *casper-storage*
@@ -132,7 +140,7 @@ const wallet = new CasperLegacyWallet("a-private-key-hex-string", EncryptionType
 const wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp256k1)
 ```
 
-If users have PEM files (which are exported from casper-signer), we need to use [KeyParser](#misc-parse-pem) to parse it into a hex private string.
+> If users have PEM files (which are exported from casper-signer), we need to use [KeyParser](#misc-parse-pem) to parse it into a hex private string.
 
 3. This wallet will also share the same methods from a wallet of HDWallet <a name="legacy-wallet-properties"></a>
 
@@ -311,7 +319,23 @@ const key = keyValue.key;
 const encryptionType = keyValue.encryptionType;
 ```
 
-## Progress
+## Development <a name="development"></a>
+
+### Requirements and toolings
+- LTS node 16x
+- `yarn` to manage packages (`npm install -g yarn`)
+- `typescript` tooling to develop
+- `jest` to write unit-tests
+
+### Basic commands
+- `yarn lint` to ensure coding standards
+- `yarn test` to run tests
+- `yarn testci` to run tests with test coverage
+- `yarn build` to compile `typescript` to `javascript` with declarations
+- `yarn build-all` to build the library to final output
+- `yarn docs` to generate document with `typedoc`
+
+## Progress <a name="progress"></a>
 - [x] Key generator (mnemonic)
 - [x] Cryptography
   - [x] Asymmetric key implementation
