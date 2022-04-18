@@ -10,23 +10,33 @@
 
 1. Install required dependencies
 ```
-yard add casper-storage
-yard add @react-native-async-storage/async-storage
+yarn add casper-storage
+yarn add @react-native-async-storage/async-storage
 ```
 
-2. Install required dev-dependencies
-```
-yard add -D rn-nodeify
-```
-
-3. Update `package.json`, add a `postinstall` script
+2. Update `package.json`, add a `postinstall` script
 ```json
 {
   "postinstall": "rn-nodeify --install process,stream,crypto --hack"
 }
 ```
 
-4. When installing packages or run it manually, "shim.js" will be generated at root folder
+or with yarn
+
+```json
+{
+  "postinstall": "rn-nodeify --install process,stream,crypto --hack --yarn"
+}
+```
+
+3. Ensure that you don't have a custom `shim.js` in root folder, if you do please rename it to another one (e.g myshim.js)
+
+4. Install required dev-dependencies
+```
+yarn add -D rn-nodeify
+```
+
+5. When installing packages or run it manually, "shim.js" will be generated at root folder
 
 ```
 yarn rn-nodeify --install process,stream,crypto --hack
@@ -38,7 +48,7 @@ Import it into the main entry file
 import "./shim"
 ```
 
-5. Beside that, we also need to import another custom shim file
+6. Beside that, we also need to import another custom shim file
 
 - Temporary fix for transformation (for ios) while waiting for metro to release the latest version
 - Make TextEncoder methods be available at root object

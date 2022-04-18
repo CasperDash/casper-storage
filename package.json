@@ -23,6 +23,7 @@
     "url": "https://github.com/CasperDash/casper-storage/issues"
   },
   "browser": "./dist/esbuild/browser.js",
+  "react-native": "./dist/tsc/cli.js",
   "main": "./dist/tsc/cli.js",
   "types": "./dist/tsc/cli.d.ts",
   "scripts": {
