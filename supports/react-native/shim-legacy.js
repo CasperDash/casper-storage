@@ -1,3 +1,21 @@
+// Polyfill BigInt, only available for browser/node for now (fix for android)
+if (typeof BigInt === 'undefined') {
+  const bigInt = require('big-integer');
+
+  // The polyfill doesn't support hex yet, provide a temporary fix
+  function myBigInt(value) {
+    if (typeof value === 'string') {
+      const match = value.match(/^0([xo])([0-9a-f]+)$/i);
+      if (match) {
+        return bigInt(match[2], match[1].toLowerCase() === 'x' ? 16 : 8);
+      }
+    }
+    return bigInt(value);
+  }
+
+  global.BigInt = myBigInt;
+}
+
 // Hack for ** transformation (fix for ios)
 // This hack should be removed after upgrading to metro which has version >0.66.2
 {

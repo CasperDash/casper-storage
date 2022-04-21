@@ -2,8 +2,8 @@
 > Following crypto standard libraries, BIPs, SLIPs, etc this library provides a generic solution which lets developers have a standard way to manage wallets
 
 ## Documents
-- [Initial design](https://github.com/CasperDash/casper-storage/blob/master/document/01-casper-storage-design.md)
-- [Technical document](https://casperdash.github.io/casper-storage/)
+
+[Technical document](https://casperdash.github.io/casper-storage/)
 
 ## Setup
 
@@ -18,11 +18,12 @@
 `npm install casper-storage` or `yarn add casper-storage`
 
 ### React-native
-> Due to missing features of JavascriptCore, we need to polyfill and overrides some features (e.g randombytes, encoding, etc)
+> Due to missing features of JavascriptCore, we need to polyfill and override some features (e.g randombytes, encoding, etc)
 
 [Click here](https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/README.md) for more detailed information
 
 ## Table of contents
+- [Scenarios](#scenarios)
 - [Usage](#usage)
   - [Key-phrase generator](#key-generator)
   - [Casper HD wallet](#casper-hd-wallet)
@@ -40,10 +41,106 @@
 - [Development](#development)
 - [Progress](#progress)
 
+## Scenarios <a name="scenarios"></a>
+
+A new user (Alice) accesses a wallet management (`CasperWallet`) for the very first time
+
+- Alice asks for a new wallet
+
+- `CasperWallet` generates 12-words keyphrase and shows her on the next screen, then asks her to back-up it (by writing down)
+
+```javascript
+import { KeyFactory } from "casper-storage";
+
+const keyphrase = KeyFactory.getInstance().generate();
+// Example: "picture sight smart spike squeeze invest rose need basket error garden ski"
+```
+
+- Alice confirms she keeps this master keyphrase in a safe place
+
+- `CasperWallet` asks her to choose an `encryption mode` (either secp256k1 or ed25519) 
+> `CasperWallet` recommends her to choose `ed25519` over secp256k1 due to security and performance, unless Alice explicitly wants to use secp256k1 because of Bitcoin, Ethereum compatible 
+```javascript
+import { EncryptionType } from "casper-storage"
+
+const encryptionType = EncryptionType.Ed25519;
+```
+
+- `CasperWallet` asks her for a **secure** `password`, Alice gives `Abcd1234` and `CasperWallet` tries to intialize a `User` instance
+```javascript
+import { User } from "caper-storage";
+
+// Alice's password
+const password = "Abcd1234";
+
+// Initialize a new user with password
+const user = new User(password);
+```
+
+- `CasperWallet` rejects because the given password is not strong enough
+
+- `CasperWallet` asks her to give another one which is stronger and more **secure**
+
+- Alice gives `AliP2sw0rd.1` and `CasperWallet` re-tries
+```javascript
+const password = "AliP2sw0rd.1";
+
+const user = new User(password);
+
+// Successfully created the user instance, let's set the HDWallet information
+user.setHDWallet(keyphrase, encryptionType);
+```
+
+- `CasperWallet` also needs to backup the hashing options in order to retrieve back later the user's information
+```javascript
+import { Storage } from "casper-storage";
+
+// Take the hashing options from user's instance
+const hashingOptions = user.getPasswordHashingOptions();
+
+// Backup it into the storage
+await Storage.getInstance().set("casperwallet_userhashingoptions", JSON.stringify(hashingOptions));
+```
+
+- `CasperWallet` creates the first wallet account 
+```javascript
+const wallet = await user.addWalletAccount(0, new WalletDescriptor("Account 1"));
+```
+
+- `CasperWallet` serializes user's information and store it into storage
+```javascript
+import { Storage } from "casper-storage";
+
+const userInfo = user.serialize();
+await Storage.getInstance().set("casperwallet_userinformation", userInfo);
+```
+
+- Alice renames her first account to "Salary account"
+```javascript
+const wallet = await user.getWalletAccount(0);
+user.setWalletInfo(wallet.getReferenceKey(), "Salary account");
+
+const userInfo = user.serialize();
+await Storage.getInstance().set("casperwallet_userinformation", userInfo);
+```
+
+- Alice locks her wallet
+
+- Alice comes back, `CasperStorage` asks for the password. Assuming that she gives the right password, `CasperStorage` retrieves back the user's information
+```javascript
+import { Storage, User } from "casper-storage";
+
+const hashingOptions = JSON.parse(await Storage.getInstance().get("casperwallet_userhashingoptions"));
+const userInfo = await Storage.getInstance().get("casperwallet_userinformation");
+
+const user = new User(password, hashingOptions);
+user.deserialize(userInfo);
+```
+
 ## Usage <a name="usage"></a>
 
 ### Key generator <a name="key-generator"></a>
-1. In order to use work with keys, import the *KeyFactory* from *casper-storage*
+1. In order to work with keys, import the *KeyFactory* from *casper-storage*
 
 ``` javascript
 import { KeyFactory } from "casper-storage";

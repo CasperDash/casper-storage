@@ -4,6 +4,7 @@ export * from "./cryptography";
 export * from "./wallet";
 export * from "./user";
 export * from "./storage";
+export * from "./bips/bip32/hdkey/core";
 
 // Replace the native implementaion of sha512 inside ed25519
 // by the one from hashes, which can be polyfilled by rn-nodeify

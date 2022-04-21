@@ -12,6 +12,7 @@
 ```
 yarn add casper-storage
 yarn add @react-native-async-storage/async-storage
+yarn add big-integer
 ```
 
 2. Update `package.json`, add a `postinstall` script
