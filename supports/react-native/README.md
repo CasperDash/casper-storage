@@ -15,7 +15,9 @@ yarn add @react-native-async-storage/async-storage
 yarn add big-integer
 ```
 
-2. Update `package.json`, add a `postinstall` script
+2. Ensure that `metro-react-native-babel-preset` package is updated to latest version (>=0.70.2)
+
+3. Update `package.json`, add a `postinstall` script
 ```json
 {
   "postinstall": "rn-nodeify --install process,stream,crypto --hack"
@@ -30,14 +32,14 @@ or with yarn
 }
 ```
 
-3. Ensure that you don't have a custom `shim.js` in root folder, if you do please rename it to another one (e.g myshim.js)
+4. Ensure that you don't have a custom `shim.js` in root folder, if you do please rename it to another one (e.g myshim.js)
 
-4. Install required dev-dependencies
+5. Install required dev-dependencies
 ```
 yarn add -D rn-nodeify
 ```
 
-5. When installing packages or run it manually, "shim.js" will be generated at root folder
+6. When installing packages or run it manually, "shim.js" will be generated at root folder
 
 ```
 yarn rn-nodeify --install process,stream,crypto --hack
@@ -49,7 +51,7 @@ Import it into the main entry file
 import "./shim"
 ```
 
-6. Beside that, we also need to import another custom shim file
+7. Beside that, we also need to import another custom shim file
 
 - Temporary fix for transformation (for ios) while waiting for metro to release the latest version
 - Make TextEncoder methods be available at root object
