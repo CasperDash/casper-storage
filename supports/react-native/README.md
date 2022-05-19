@@ -1,4 +1,4 @@
-# React-native
+# React-native ![visitors](https://visitor-badge.glitch.me/badge?page_id=casperdash.casper-storage-reactnative)
 > Due to missing features of JavascriptCore, we need to pofyfill some core modules
 
 ## Examples
