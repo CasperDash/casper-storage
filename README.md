@@ -23,6 +23,7 @@
 [Click here](https://github.com/CasperDash/casper-storage/blob/master/supports/react-native/README.md) for more detailed information
 
 ## Table of contents
+
 - [Scenarios](#scenarios)
 - [Usage](#usage)
   - [Key-phrase generator](#key-generator)
@@ -42,6 +43,11 @@
 - [Progress](#progress)
 
 ## Scenarios <a name="scenarios"></a>
+
+```mermaid
+flowchart
+  Alice --> [WL](Access CasperWallet)
+```
 
 A new user (Alice) accesses a wallet management (`CasperWallet`) for the very first time
 
@@ -209,17 +215,18 @@ const acc1 = await hdWallet.getAccount(1)
 5. Play with wallets <a name="wallet-properties"></a>
 
 ``` javascript
-// Get the private key
+// Get the private key of wallet
 acc0.getPrivateKey()
 
-// Get the public key
+// Get the raw public key of wallet, which is computed, untouched data from private key
+await acc0.getRawPublicKey()
+
+// Get the public key of wallet, which is alternated depends on the chain
+// For examples: Casper will prefix 01 or 02 depends on the encryption type
 await acc0.getPublicKey()
 
-// Get the public address
+// Get the public address of wallet, which is computed from public key
 await acc0.getPublicAddress()
-
-// Get the public address's hash
-await acc0.getPublicHash()
 ```
 
 ### Casper legacy wallet (with single private key) <a name="casper-legacy-wallet"></a>
@@ -242,8 +249,8 @@ const wallet = new CasperLegacyWallet(privateUint8ArrayData, EncryptionType.Secp
 3. This wallet will also share the same methods from a wallet of HDWallet <a name="legacy-wallet-properties"></a>
 
 ``` javascript
+await wallet.getPublicKey()
 await wallet.getPublicAddress()
-await acc0.getPublicHash()
 ```
 
 ### User <a name="user"></a>
@@ -395,6 +402,7 @@ await storage.clear();
 ```
 
 ### Misc <a name="misc"></a>
+
 Parse exported PEM files from Casper signer <a name="misc-parse-pem"></a>
 
 ``` javascript
@@ -419,12 +427,14 @@ const encryptionType = keyValue.encryptionType;
 ## Development <a name="development"></a>
 
 ### Requirements and toolings
+
 - LTS node 16x
 - `yarn` to manage packages (`npm install -g yarn`)
 - `typescript` tooling to develop
 - `jest` to write unit-tests
 
 ### Basic commands
+
 - `yarn lint` to ensure coding standards
 - `yarn test` to run tests
 - `yarn testci` to run tests with test coverage
@@ -433,6 +443,7 @@ const encryptionType = keyValue.encryptionType;
 - `yarn docs` to generate document with `typedoc`
 
 ## Progress <a name="progress"></a>
+
 - [x] Key generator (mnemonic)
 - [x] Cryptography
   - [x] Asymmetric key implementation

@@ -116,7 +116,7 @@ test("user.hd-wallet-master-seed-get-account-0", async () => {
 
   const acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
-  expect(await acc.getPublicKey()).toBe(
+  expect(await acc.getRawPublicKey()).toBe(
     "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
   );
 });
@@ -127,7 +127,7 @@ test("user.hd-wallet-master-seed-get-account-1", async () => {
 
   const acc = await user.getWalletAccount(1);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/1'");
-  expect(await acc.getPublicKey()).toBe(
+  expect(await acc.getRawPublicKey()).toBe(
     "02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7"
   );
 });
@@ -140,13 +140,13 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
 
   let acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
-  expect(await acc.getPublicKey()).toBe(
+  expect(await acc.getRawPublicKey()).toBe(
     "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
   );
 
   acc = await user.getWalletAccount(1);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/1'");
-  expect(await acc.getPublicKey()).toBe(
+  expect(await acc.getRawPublicKey()).toBe(
     "02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7"
   );
 });
@@ -166,7 +166,7 @@ test("user.hd-wallet-master-key-get-account-0-by-index", async () => {
   expect(walletInfo.index).toBe(0);
 
   const acc = await user.getWalletAccount(walletInfo.index);
-  expect(await acc.getPublicKey()).toBe(
+  expect(await acc.getRawPublicKey()).toBe(
     "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
   );
 
@@ -189,7 +189,7 @@ test("user.hd-wallet-master-key-get-accounts-ref-key", async () => {
   expect(walletInfo.key).toBe("m/44'/506'/0'");
 
   let acc = await user.getWalletAccountByRefKey(walletInfo.key);
-  expect(await acc.getPublicKey()).toBe(
+  expect(await acc.getRawPublicKey()).toBe(
     "03d8313be4f6450756b1928efcc6b0811e4a101dd66f40fd4f92f98fe20fedf7e8"
   );
 
@@ -197,7 +197,7 @@ test("user.hd-wallet-master-key-get-accounts-ref-key", async () => {
   expect(walletInfo.key).toBe("m/44'/506'/1'");
 
   acc = await user.getWalletAccountByRefKey(walletInfo.key);
-  expect(await acc.getPublicKey()).toBe(
+  expect(await acc.getRawPublicKey()).toBe(
     "02028391e1a891662d5fb5a6d360fed721b3b3bf599e986eae78fd9927e1e5eae7"
   );
 });

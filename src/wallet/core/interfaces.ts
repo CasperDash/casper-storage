@@ -21,6 +21,7 @@ export interface IWallet<TKey> {
 
   /**
    * The key (private) of wallet
+   * either the private key of legacy wallet or a detailed key holder of a HD wallet
    */
   getKey(): TKey;
 
@@ -41,9 +42,19 @@ export interface IWallet<TKey> {
   getPrivateKeyByteArray(): Uint8Array;
 
   /**
-  * Returns the public key of wallet
+  * Returns the raw public key of wallet, which is computed from the private key
+  */
+  getRawPublicKeyByteArray(): Promise<Uint8Array>;
+
+  /**
+  * Returns the public key of wallet, which is formated depends on chains
   */
   getPublicKeyByteArray(): Promise<Uint8Array>;
+
+  /**
+  * Returns the public address of wallet, depends on each chain we use different methods to produce it from the public key (e.g hashing)
+  */
+  getPublicAddressByteArray(): Promise<Uint8Array>;
 
   /**
    * Returns the private key of wallet
@@ -51,19 +62,19 @@ export interface IWallet<TKey> {
   getPrivateKey(): string;
 
   /**
-  * Returns the public key of wallet
+  * Returns the raw public key of wallet, which is computed from the private key
   */
+  getRawPublicKey(): Promise<string>;
+
+  /**
+   * Returns the formatted public key of wallet, depends on each chain one will format/prefix the public key with different values
+   */
   getPublicKey(): Promise<string>;
 
   /**
-   * Returns the public address of wallet
+   * Returns the public address of wallet, depends on each chain we use different methods to produce it from the public key (e.g hashing)
    */
   getPublicAddress(): Promise<string>;
-
-  /**
-   * Returns the public hash of wallet
-   */
-  getPublicHash(): Promise<string>;
 
 }
 

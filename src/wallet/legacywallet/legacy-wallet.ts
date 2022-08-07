@@ -14,7 +14,7 @@ export class LegacyWallet extends BaseWallet<Hex> {
     return TypeUtils.parseHexToArray(this.getKey());
   }
 
-  public async getPublicKeyByteArray(): Promise<Uint8Array> {
+  public async getRawPublicKeyByteArray(): Promise<Uint8Array> {
     const pubKey = await this.getAsymmetricKey().createPublicKey(this.getPrivateKey(), true);
     return pubKey;
   }

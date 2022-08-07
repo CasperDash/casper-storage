@@ -12,5 +12,5 @@ test(("legacy-wallet.Ed25519.ctor"), async () => {
 
 test(("legacy-wallet.Ed25519.publicKey"), async () => {
   let wallet = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
-  expect(await wallet.getPublicKey()).toBe(PUBLIC_KEY_TEST_01);
+  expect(await wallet.getRawPublicKey()).toBe(PUBLIC_KEY_TEST_01);
 });

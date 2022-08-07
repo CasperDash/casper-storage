@@ -17,15 +17,15 @@ test(("casper-legcy-wallet.secp256k1.ctor"), async () => {
 
 test(("casper-legcy-wallet.secp256k1.publicKey"), async () => {
   let wallet = new CasperLegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
-  expect(await wallet.getPublicKey()).toBe(PUBLIC_KEY_TEST_01);
+  expect(await wallet.getRawPublicKey()).toBe(PUBLIC_KEY_TEST_01);
 });
 
 test(("casper-legcy-wallet.secp256k1.publicAddress"), async () => {
   let wallet = new CasperLegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
-  expect(await wallet.getPublicAddress()).toBe(PUBLIC_ADDRESS_TEST_01);
+  expect(await wallet.getPublicKey()).toBe(PUBLIC_ADDRESS_TEST_01);
 });
 
 test(("casper-legcy-wallet.secp256k1.publicHash"), async () => {
   let wallet = new CasperLegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Secp256k1);
-  expect(await wallet.getPublicHash()).toBe(PUBLIC_HASH_TEST_01);
+  expect(await wallet.getPublicAddress()).toBe(PUBLIC_HASH_TEST_01);
 });

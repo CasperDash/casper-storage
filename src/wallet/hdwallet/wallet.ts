@@ -14,7 +14,8 @@ export class Wallet extends BaseWallet<IHDKey> {
     return this.getKey().getPrivateKey();
   }
 
-  public getPublicKeyByteArray(): Promise<Uint8Array> {
+  public getRawPublicKeyByteArray(): Promise<Uint8Array> {
     return this.getKey().getPublicKey();
   }
+
 }

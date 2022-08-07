@@ -19,9 +19,31 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
     this.encryptionType = encryptionType;
   }
 
+  /**
+   * Returns the private key as byte-array
+   */
   public abstract getPrivateKeyByteArray(): Uint8Array;
 
-  public abstract getPublicKeyByteArray(): Promise<Uint8Array>;
+  /**
+   * Returns the raw public key as byte-array
+   */
+  public abstract getRawPublicKeyByteArray(): Promise<Uint8Array>;
+
+  /**
+   * Returns the formated public key as byte-array
+   */
+  public async getPublicKeyByteArray(): Promise<Uint8Array> {
+    let key = await this.getPublicKey();
+    return TypeUtils.convertHexStringToArray(key);
+  }
+  
+  /**
+   * Returns the public address as byte-array
+   */
+  public async getPublicAddressByteArray(): Promise<Uint8Array> {
+    let key = await this.getPublicAddress();
+    return TypeUtils.convertHexStringToArray(key);
+  }
 
   /**
    * Returns the key of wallet
@@ -52,24 +74,27 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
     return TypeUtils.convertArrayToHexString(this.getPrivateKeyByteArray());
   }
 
-  public async getPublicKey(): Promise<string> {
-    const pubKey = await this.getPublicKeyByteArray();
+  /**
+   * Returns the raw public key of wallet
+   */
+  public async getRawPublicKey(): Promise<string> {
+    const pubKey = await this.getRawPublicKeyByteArray();
     return TypeUtils.convertArrayToHexString(pubKey);
   }
 
   /**
-   * Returns the public address of wallet
+   * Returns the formated public address of wallet
    */
-  public async getPublicAddress(): Promise<string> {
-    const publicKey = await this.getPublicKey();
+  public async getPublicKey(): Promise<string> {
+    const publicKey = await this.getRawPublicKey();
     return TypeUtils.convertArrayToHexString(CryptoUtils.hash160(TypeUtils.convertHexStringToArray(publicKey)));
   }
 
   /**
    * Returns the public hash of wallet
    */
-  public async getPublicHash(): Promise<string> {
-    const addr = await this.getPublicKeyByteArray();
+  public async getPublicAddress(): Promise<string> {
+    const addr = await this.getRawPublicKeyByteArray();
     const separator = new Uint8Array([0]);
     const data = new Uint8Array([...EncoderUtils.encodeText(this.getEncryptionType()), ...separator, ...addr]);
     return TypeUtils.convertArrayToHexString(CryptoUtils.blake2bHash(data));
