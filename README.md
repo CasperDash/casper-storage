@@ -44,11 +44,6 @@
 
 ## Scenarios <a name="scenarios"></a>
 
-```mermaid
-flowchart
-  Alice --> [WL](Access CasperWallet)
-```
-
 A new user (Alice) accesses a wallet management (`CasperWallet`) for the very first time
 
 - Alice asks for a new wallet
