@@ -33,7 +33,7 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
    * Returns the formated public key as byte-array
    */
   public async getPublicKeyByteArray(): Promise<Uint8Array> {
-    let key = await this.getPublicKey();
+    const key = await this.getPublicKey();
     return TypeUtils.convertHexStringToArray(key);
   }
   
@@ -41,7 +41,7 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
    * Returns the public address as byte-array
    */
   public async getPublicAddressByteArray(): Promise<Uint8Array> {
-    let key = await this.getPublicAddress();
+    const key = await this.getPublicAddress();
     return TypeUtils.convertHexStringToArray(key);
   }
 
