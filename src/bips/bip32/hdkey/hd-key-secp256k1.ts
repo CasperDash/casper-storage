@@ -1,6 +1,6 @@
 import { HDKey } from "./hd-key";
 import { CryptoUtils } from "../../../cryptography";
-import { assertBytes } from '@noble/hashes/utils';
+import { bytes as assertBytes } from '@noble/hashes/_assert';
 
 import * as secp from '@noble/secp256k1';
 import { TypeUtils } from "../../../utils";
