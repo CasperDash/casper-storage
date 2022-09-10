@@ -381,7 +381,7 @@ const user2 = User.deserializeFrom("user-password", "user-encrypted-information"
 ### Storage <a name="storage"></a>
 
 ``` javascript
-import { StorageManager } from "casper-storage;
+import { StorageManager } from "casper-storage";
 const storage = StorageManager.getInstance();
 
 // Set item into storage

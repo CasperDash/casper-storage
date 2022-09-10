@@ -117,16 +117,16 @@ export interface IUser {
    * Set wallet information
    * @param id
    * @param name
-   * @param legacyWallet
    */
-  setWalletInfo(id: string, name: string, legacyWallet?: boolean): void;
+  setWalletInfo(id: string, name: string): void;
 
   /**
    * Get wallet information
    * @param id
-   * @param legacyWallet
    */
-  getWalletInfo(id: string, legacyWallet?: boolean): WalletInfo;
+  getWalletInfo(wl: WalletInfo): WalletInfo;
+  getWalletInfo(id: WalletInfo): WalletInfo;
+  getWalletInfo(wlOrId: any): WalletInfo;
 
   /**
    * Serialize the user information to a store-able string which is secured by user's password
