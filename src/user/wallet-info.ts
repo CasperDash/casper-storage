@@ -1,5 +1,5 @@
 import { KeyFactory } from "../key";
-import { EncryptionType } from "../cryptography";
+import { CryptoUtils, EncoderUtils, EncryptionType } from "../cryptography";
 import { TypeUtils } from "../utils";
 
 /**
@@ -9,16 +9,12 @@ import { TypeUtils } from "../utils";
 export class WalletDescriptor {
 
   /**
-   * Name of wallet
-   */
-  private _name: string;
-
-  /**
    * Create a new instance of the `WalletDescriptor` class
-   * @param {string} [name] - The name of wallet.
+   * @param {string} [_name] - The name of wallet.
+   * @param {string} [_icon] - The icon of wallet.
+   * @param {string} [_description] - The description of wallet.
    */
-  constructor(name?: string) {
-    this._name = name;
+  constructor(private _name?: string, private _icon?: string, private _description?: string) {
   }
 
   /**
@@ -38,6 +34,38 @@ export class WalletDescriptor {
   }
 
   /**
+   * Get the icon of wallet
+   * @returns The icon of wallet.
+   */
+  public get icon(): string {
+    return this._icon;
+  }
+
+  /**
+   * It sets the icon of wallet.
+   * @param {string} icon - The icon of wallet.
+   */
+  public set icon(icon: string) {
+    this._icon = icon;
+  }
+
+  /**
+   * Get the description of wallet
+   * @returns The description of wallet.
+   */
+  public get description(): string {
+    return this._description;
+  }
+
+  /**
+   * It sets the description of wallet.
+   * @param {string} description - The description of wallet.
+   */
+  public set description(description: string) {
+    this._description = description;
+  }
+
+  /**
    * It creates a WalletDescriptor object from a string or object.
    * @param {string | WalletDescriptor} info - string | WalletDescriptor
    * @returns A WalletDescriptor object.
@@ -51,7 +79,7 @@ export class WalletDescriptor {
       descriptor = new WalletDescriptor(info as string);
     } else {
       const infoObj = info as WalletDescriptor;
-      descriptor = new WalletDescriptor(infoObj.name);
+      descriptor = new WalletDescriptor(infoObj.name, infoObj.icon, infoObj.description);
     }
     return descriptor;
   }
@@ -62,13 +90,15 @@ export class WalletDescriptor {
   public toJSON() {
     return {
       name: this.name,
+      icon: this.icon,
+      description: this.description,
     }
   }
 }
 
 /**
  * Wallet information
- * - Wallet key (private key or derived path)
+ * - Wallet id (private key or derived path)
  * - Encryption type
  * - Descriptor (name, icon, etc)
  */
@@ -93,10 +123,18 @@ export class WalletInfo {
   }
 
   /**
-   * Get key of wallet (private key or derived path)
+   * Get id of wallet (private key or derived path)
    */
   public get id(): string {
     return this._id;
+  }
+
+  /**
+   * Get uid (hashed of id) of wallet
+   */
+  public get uid(): string {
+    const id = EncoderUtils.encodeText(this.id);
+    return TypeUtils.convertArrayToHexString(CryptoUtils.hash256(id));
   }
 
   /**
@@ -178,7 +216,7 @@ export class HDWalletInfo {
    * @param encryptionType 
    */
   constructor(id: string, encryptionType: EncryptionType) {
-    if (!id) throw new Error("Key is required");
+    if (!id) throw new Error("ID (master key) is required");
     if (!encryptionType) throw new Error("Type is required");
 
     this._id = id;

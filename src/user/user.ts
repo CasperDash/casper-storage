@@ -3,7 +3,7 @@ import { CasperHDWallet, IHDWallet, IWallet } from "../wallet";
 import { EncryptionType, AESUtils } from "../cryptography";
 import { IUser, PasswordOptions, UserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
-import { Hex, TypeUtils } from "../utils";
+import { Hex } from "../utils";
 import { Password } from "./password";
 
 /**
@@ -143,30 +143,62 @@ export class User implements IUser {
     walletInfo.descriptor = WalletDescriptor.from(info);
   }
 
-  public getWalletInfo(wl: WalletInfo): WalletInfo;
-  public getWalletInfo(id: string): WalletInfo;
-  public getWalletInfo(wlOrId: any): WalletInfo {
+  public getWalletInfo(id: string): WalletInfo {
     let info: WalletInfo = null;
-    let id: string;
-    if (TypeUtils.isString(wlOrId)) {
-      id = wlOrId;
-    } else {
-      id = wlOrId.id;
-    }
 
-    if (this.isLegacyWalletID(id)) {
-      if (this.legacyWallets) {
-        info = this.legacyWallets.filter((x) => x.id == id)[0];
-      }
-    } else {
-      if (this.wallet) {
-        const derives = this.wallet.derivedWallets;
-        if (derives) {
-          info = derives.filter((x) => x.id == id)[0];
+    // Start with HD wallet (as we should in this mode instead of legacy)
+    if (this.wallet) {
+      const derives = this.wallet.derivedWallets;
+      if (derives) {
+        for (let i = 0; i < derives.length; i++) {
+          const wl = derives[i];
+          if (wl.id === id || wl.uid === id) {
+            info = wl;
+            break;
+          }
         }
       }
     }
+
+    if (!info) {
+      if (this.legacyWallets) {
+        for (let i = 0; i < this.legacyWallets.length; i++) {
+          const wl = this.legacyWallets[i];
+          if (wl.id === id || wl.uid === id) {
+            info = wl;
+            break;
+          }
+        }
+      }
+    }
+
     return info;
+  }
+
+  public removeWalletInfo(id: string): void {
+    // Start with HD wallet (as we should in this mode instead of legacy)
+    if (this.wallet) {
+      const derives = this.wallet.derivedWallets;
+      if (derives) {
+        for (let i = 0; i < derives.length; i++) {
+          const wl = derives[i];
+          if (wl.id === id || wl.uid === id) {
+            derives.splice(i, 1);
+            return;
+          }
+        }
+      }
+    }
+
+    if (this.legacyWallets) {
+      for (let i = 0; i < this.legacyWallets.length; i++) {
+        const wl = this.legacyWallets[i];
+        if (wl.id === id || wl.uid === id) {
+          this.legacyWallets.splice(i, 1);
+          return;
+        }
+      }
+    }
   }
 
   /**
@@ -193,10 +225,19 @@ export class User implements IUser {
    */
   public deserialize(value: string, encrypted = true): void {
     let text = value;
-    if (encrypted) {
-      text = AESUtils.decrypt(this.password.getPassword(), value);
-    }
     try {
+      if (encrypted) {
+        text = AESUtils.decrypt(this.password.getPassword(), value);
+      }
+    } catch (err) {
+      throw new Error(`Unable to decrypt user information. Error: ${err}`);
+    }
+
+    try {
+      if (encrypted) {
+        text = AESUtils.decrypt(this.password.getPassword(), value);
+      }
+
       const obj = JSON.parse(text);
       if (obj.wallet) {
         this.wallet = new HDWalletInfo(
@@ -223,9 +264,17 @@ export class User implements IUser {
           );
         });
       }
-    } catch {
-      throw new Error("Password is invalid");
+    } catch (err) {
+      throw new Error(`Unable to parse user information. Error: ${err}`);
     }
+  }
+
+  public encrypt(value: string): string {
+    return AESUtils.encrypt(this.password.getPassword(), value);
+  }
+
+  public decrypt(value: string): string {
+    return AESUtils.decrypt(this.password.getPassword(), value);
   }
 
   private getWallet(): IHDWallet<IWallet<IHDKey>> {

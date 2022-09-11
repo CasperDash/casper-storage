@@ -35,6 +35,7 @@
     - [Create a new user](#user-create)
     - [Add walets to user](#user-add-wallets)
     - [Retrieve wallets from user](#user-get-wallets)
+    - [Understand wallet information](#user-walletinfo)
     - [Serialize/Deseialize user's information](#user-info)
   - [Storage](#storage)
   - [Misc](#misc)
@@ -358,7 +359,34 @@ const legacyWalletInfo = legacyWalletsInfo[0];
 const wallet = new CasperLegacyWallet(legacyWalletInfo.key, legacyWalletInfo.encryptionType);
 ```
 
-7. Serialize/Deserialize user's information <a name="user-info"></a>
+7. Understand and retrieve information of wallets (`WalletInfo`) <a name="user-walletinfo"></a>
+
+> `WalletInfo` represents a legacy wallet or a derived HD wallet, which is available in `User`
+
+- Each `WalletInfo` contains 2 main things
+  - Encryption type and id/uid
+    - id is the private key of a legacy wallet or path of a HD wallet
+    - uid is the hashed of id, which is secured to store in any storage
+  - Descriptor (name, icon, description)
+
+```typescript
+// Asume that we have the wallet infornation at anytime
+const storedWalletInfo: WalletInfo  = walletsInfo[0];
+
+// We store either id/uid to storage
+const id = storedWalletInfo.id;
+const uid = storedWalletInfo.uid;
+
+// We have 2 ways to retrieve back wallet information
+const walletInfo: WalletInfo = user.getWalletInfo(storedWalletInfo.id);
+const walletInfo: WalletInfo = user.getWalletInfo(storedWalletInfo.uid);
+
+// Both above calls return the same instance
+// However we recommend developers to store `uid` of wallet info,
+// and use it to retrieve back information from user later
+```
+
+8. Serialize/Deserialize user's information <a name="user-info"></a>
 
 ``` javascript
 // Serialize the user information to a secure encrypted string 
@@ -376,6 +404,9 @@ const user2 = User.deserializeFrom("user-password", "user-encrypted-information"
     passwordOptions: user.getPasswordHashingOptions(),
 });
 
+// In additional, User also exposes 2 methods to encrypt/decrypt data with user's password
+const encryptedText = user.encrypt("Raw string value");
+const decryptedText = user.decrypt(encryptedText);
 ```
 
 ### Storage <a name="storage"></a>

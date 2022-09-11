@@ -115,18 +115,23 @@ export interface IUser {
 
   /**
    * Set wallet information
-   * @param id
+   * @param id coule be id or uid from wallet info in case of updating,
+   * otherwise it must be an id (private key of legacy wallet or path of hd wallet)
    * @param name
    */
   setWalletInfo(id: string, name: string): void;
 
   /**
    * Get wallet information
-   * @param id
+   * @param id could be id or uid of from wallet info
    */
-  getWalletInfo(wl: WalletInfo): WalletInfo;
-  getWalletInfo(id: WalletInfo): WalletInfo;
-  getWalletInfo(wlOrId: any): WalletInfo;
+  getWalletInfo(id: string): WalletInfo;
+
+  /**
+   * Remove a wallet from user
+   * @param id could be id or uid of from wallet info
+   */
+  removeWalletInfo(id: string): void;
 
   /**
    * Serialize the user information to a store-able string which is secured by user's password
@@ -139,6 +144,18 @@ export interface IUser {
    * @param value
    */
   deserialize(value: string): void;
+
+  /**
+   * Encrypt the given value by user's password
+   * @param value 
+   */
+  encrypt(value: string): string;
+
+  /**
+   * Decrypt the given value by user's password
+   * @param value 
+   */
+  decrypt(value: string): string;
 
   /* This is a type guard. It is saying that the return type of `getPasswordHashingOptions()` is a
   `Pick` of the `PasswordOptions` interface. */
