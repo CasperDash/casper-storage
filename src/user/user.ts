@@ -150,25 +150,14 @@ export class User implements IUser {
     if (this.wallet) {
       const derives = this.wallet.derivedWallets;
       if (derives) {
-        for (let i = 0; i < derives.length; i++) {
-          const wl = derives[i];
-          if (wl.id === id || wl.uid === id) {
-            info = wl;
-            break;
-          }
-        }
+        info = derives.find(x => x.id === id || x.uid === id);
       }
     }
 
+    // No available HD wallet for given id, try with legacy ones
     if (!info) {
       if (this.legacyWallets) {
-        for (let i = 0; i < this.legacyWallets.length; i++) {
-          const wl = this.legacyWallets[i];
-          if (wl.id === id || wl.uid === id) {
-            info = wl;
-            break;
-          }
-        }
+        info = this.legacyWallets.find(x => x.id === id || x.uid === id);
       }
     }
 
@@ -180,22 +169,19 @@ export class User implements IUser {
     if (this.wallet) {
       const derives = this.wallet.derivedWallets;
       if (derives) {
-        for (let i = 0; i < derives.length; i++) {
-          const wl = derives[i];
-          if (wl.id === id || wl.uid === id) {
-            derives.splice(i, 1);
-            return;
-          }
+        let idx = derives.findIndex(x => x.id === id || x.uid === id);
+        if (idx >= 0) {
+          derives.splice(idx, 1);
+          return;
         }
       }
     }
 
     if (this.legacyWallets) {
       for (let i = 0; i < this.legacyWallets.length; i++) {
-        const wl = this.legacyWallets[i];
-        if (wl.id === id || wl.uid === id) {
-          this.legacyWallets.splice(i, 1);
-          return;
+        let idx = this.legacyWallets.findIndex(x => x.id === id || x.uid === id);
+        if (idx >= 0) {
+          this.legacyWallets.splice(idx, 1);
         }
       }
     }

@@ -247,6 +247,42 @@ test("user.hd-wallet-get-wallet-info-by-uid", async () => {
   expect(wlInfo.id).toBe(acc.getKey().getPath());
 });
 
+test("user.hd-wallet-remove-wallet-info-by-id", async () => {
+  const user = new User(PASSWORD);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+
+  const acc = await user.getWalletAccount(0);
+  user.setWalletInfo(
+    acc.getKey().getPath(),
+    new WalletDescriptor("Account 01")
+  );
+
+  const walletInfo = user.getWalletInfo(acc.getKey().getPath());
+
+  user.removeWalletInfo(walletInfo.id);
+
+  const wlInfo = user.getWalletInfo(walletInfo.id);
+  expect(wlInfo).toBeUndefined();
+});
+
+test("user.hd-wallet-remove-wallet-info-by-uid", async () => {
+  const user = new User(PASSWORD);
+  user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+
+  const acc = await user.getWalletAccount(0);
+  user.setWalletInfo(
+    acc.getKey().getPath(),
+    new WalletDescriptor("Account 01")
+  );
+
+  const walletInfo = user.getWalletInfo(acc.getKey().getPath());
+
+  user.removeWalletInfo(walletInfo.uid);
+
+  const wlInfo = user.getWalletInfo(walletInfo.id);
+  expect(wlInfo).toBeUndefined();
+});
+
 test("user.legacy-wallet-set-wallet-1", async () => {
   const user = new User(PASSWORD);
 
@@ -300,6 +336,38 @@ test("user.legacy-wallet-get-wallet-by-uid", async () => {
 
   const wlInfo = user.getWalletInfo(acc.uid);
   expect(wlInfo.id).toBe(PRIVATE_KEY_TEST_01);
+});
+
+test("user.legacy-wallet-remove-wallet-by-id", async () => {
+  const user = new User(PASSWORD);
+
+  const wallet = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
+  user.addLegacyWallet(wallet);
+
+  expect(user.hasLegacyWallets()).toBeTruthy();
+
+  const acc = user.getWalletInfo(TypeUtils.parseHexToString(wallet.getKey()));
+
+  user.removeWalletInfo(acc.id);
+
+  const wlInfo = user.getWalletInfo(acc.id);
+  expect(wlInfo).toBeUndefined();
+});
+
+test("user.legacy-wallet-remove-wallet-by-uid", async () => {
+  const user = new User(PASSWORD);
+
+  const wallet = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
+  user.addLegacyWallet(wallet);
+
+  expect(user.hasLegacyWallets()).toBeTruthy();
+
+  const acc = user.getWalletInfo(TypeUtils.parseHexToString(wallet.getKey()));
+
+  user.removeWalletInfo(acc.uid);
+
+  const wlInfo = user.getWalletInfo(acc.id);
+  expect(wlInfo).toBeUndefined();
 });
 
 test("user.serialize-both-type-wallets", async () => {
