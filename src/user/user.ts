@@ -128,10 +128,10 @@ export class User implements IUser {
   ) {
     let walletInfo = this.getWalletInfo(id);
     if (!walletInfo) {
-      const isLegacyWallet = this.isLegacyWalletID(id);
 
-      // Not in legacy mode, we should automatically add the wallet account into the list
-      if (!isLegacyWallet && this.hasHDWallet()) {
+      // The wallet does not exist yet, if the given id is a derived path of HD wallet
+      // Automatically create one and insert it into the list
+      if (this.isHDWalletPath(id) && this.hasHDWallet()) {
         this.setHDWalletAccount(id);
         walletInfo = this.getWalletInfo(id);
       }
@@ -169,7 +169,7 @@ export class User implements IUser {
     if (this.wallet) {
       const derives = this.wallet.derivedWallets;
       if (derives) {
-        let idx = derives.findIndex(x => x.id === id || x.uid === id);
+        const idx = derives.findIndex(x => x.id === id || x.uid === id);
         if (idx >= 0) {
           derives.splice(idx, 1);
           return;
@@ -179,7 +179,7 @@ export class User implements IUser {
 
     if (this.legacyWallets) {
       for (let i = 0; i < this.legacyWallets.length; i++) {
-        let idx = this.legacyWallets.findIndex(x => x.id === id || x.uid === id);
+        const idx = this.legacyWallets.findIndex(x => x.id === id || x.uid === id);
         if (idx >= 0) {
           this.legacyWallets.splice(idx, 1);
         }
@@ -280,13 +280,13 @@ export class User implements IUser {
   }
 
   /**
-  * Check if the given id belongs to a legacy wallet.
+  * Check if the given id belongs to a HD wallet.
   * The id of a HD wallet should be a path
   * @param id 
   * @returns 
   */
-  private isLegacyWalletID(id: string) {
-    return id.indexOf('/') < 0;
+  private isHDWalletPath(id: string) {
+    return id.indexOf('/') >= 0;
   }
 
   public getPasswordHashingOptions(): Pick<
