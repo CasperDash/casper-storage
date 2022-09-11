@@ -27,7 +27,7 @@ We should never store user&#39;s password but its encrypted one to do extra acti
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/IUser.html" class="tsd-signature-type" data-tsd-kind="Interface">IUser</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L14">user/user.ts:14</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L14">user/user.ts:14</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -47,7 +47,9 @@ We should never store user&#39;s password but its encrypted one to do extra acti
 <h3 class="tsd-index-heading">Methods</h3>
 <div class="tsd-index-list"><a href="User.html#addLegacyWallet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>add<wbr/>Legacy<wbr/>Wallet</span></a>
 <a href="User.html#addWalletAccount" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>add<wbr/>Wallet<wbr/>Account</span></a>
+<a href="User.html#decrypt" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>decrypt</span></a>
 <a href="User.html#deserialize" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>deserialize</span></a>
+<a href="User.html#encrypt" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>encrypt</span></a>
 <a href="User.html#getHDWallet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>getHDWallet</span></a>
 <a href="User.html#getLegacyWallets" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Legacy<wbr/>Wallets</span></a>
 <a href="User.html#getPasswordHashingOptions" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Password<wbr/>Hashing<wbr/>Options</span></a>
@@ -57,7 +59,9 @@ We should never store user&#39;s password but its encrypted one to do extra acti
 <a href="User.html#getWalletInfo" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Wallet<wbr/>Info</span></a>
 <a href="User.html#hasHDWallet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>hasHDWallet</span></a>
 <a href="User.html#hasLegacyWallets" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>has<wbr/>Legacy<wbr/>Wallets</span></a>
+<a href="User.html#isHDWalletPath" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>isHDWallet<wbr/>Path</span></a>
 <a href="User.html#removeWalletAccount" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Wallet<wbr/>Account</span></a>
+<a href="User.html#removeWalletInfo" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>remove<wbr/>Wallet<wbr/>Info</span></a>
 <a href="User.html#serialize" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>serialize</span></a>
 <a href="User.html#setHDWallet" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>setHDWallet</span></a>
 <a href="User.html#setHDWalletAccount" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>setHDWallet<wbr/>Account</span></a>
@@ -87,14 +91,14 @@ We should never store user&#39;s password but its encrypted one to do extra acti
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="User.html" class="tsd-signature-type" data-tsd-kind="Class">User</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L46">user/user.ts:46</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L46">user/user.ts:46</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="legacyWallets" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>legacy<wbr/>Wallets</span><a href="#legacyWallets" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">legacy<wbr/>Wallets<span class="tsd-signature-symbol">:</span> <a href="WalletInfo.html" class="tsd-signature-type" data-tsd-kind="Class">WalletInfo</a><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L38">user/user.ts:38</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L38">user/user.ts:38</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="password" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>password</span><a href="#password" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Password</span></div>
@@ -102,12 +106,12 @@ We should never store user&#39;s password but its encrypted one to do extra acti
 To serialize/deserialize the wallet information</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L36">user/user.ts:36</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L36">user/user.ts:36</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="wallet" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>wallet</span><a href="#wallet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">wallet<span class="tsd-signature-symbol">:</span> <a href="HDWalletInfo.html" class="tsd-signature-type" data-tsd-kind="Class">HDWalletInfo</a></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L37">user/user.ts:37</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L37">user/user.ts:37</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addLegacyWallet" class="tsd-anchor"></a>
@@ -127,7 +131,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#addLegacyWallet">addLegacyWallet</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L101">user/user.ts:101</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L101">user/user.ts:101</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="addWalletAccount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>add<wbr/>Wallet<wbr/>Account</span><a href="#addWalletAccount" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -145,11 +149,27 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IWallet.html" class="tsd-signature-type" data-tsd-kind="Interface">IWallet</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IHDKey.html" class="tsd-signature-type" data-tsd-kind="Interface">IHDKey</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#addWalletAccount">addWalletAccount</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L87">user/user.ts:87</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L87">user/user.ts:87</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="decrypt" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>decrypt</span><a href="#decrypt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="decrypt.decrypt-1">decrypt<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#decrypt.decrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Decrypt the given value by user&#39;s password</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>value: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#decrypt">decrypt</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L256">user/user.ts:256</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="deserialize" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>deserialize</span><a href="#deserialize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="deserialize.deserialize-1">deserialize<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#deserialize.deserialize-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="deserialize.deserialize-1">deserialize<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, encrypted<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#deserialize.deserialize-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Deserializes the serialized and encrypted user information to merge back the current user instance.</p>
 </div>
@@ -158,12 +178,32 @@ To serialize/deserialize the wallet information</p>
 <ul class="tsd-parameter-list">
 <li>
 <h5>value: <span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>string</p>
+<div class="tsd-comment tsd-typography"><p>serialized user information</p>
+</div></li>
+<li>
+<h5>encrypted: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+<div class="tsd-comment tsd-typography"><p>the value is encrypted</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#deserialize">deserialize</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L182">user/user.ts:182</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L210">user/user.ts:210</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="encrypt" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>encrypt</span><a href="#encrypt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="encrypt.encrypt-1">encrypt<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#encrypt.encrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Encrypt the given value by user&#39;s password</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>value: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#encrypt">encrypt</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L252">user/user.ts:252</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getHDWallet" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>getHDWallet</span><a href="#getHDWallet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -174,7 +214,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <a href="HDWalletInfo.html" class="tsd-signature-type" data-tsd-kind="Class">HDWalletInfo</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#getHDWallet">getHDWallet</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L75">user/user.ts:75</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L75">user/user.ts:75</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getLegacyWallets" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Legacy<wbr/>Wallets</span><a href="#getLegacyWallets" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -185,7 +225,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <a href="WalletInfo.html" class="tsd-signature-type" data-tsd-kind="Class">WalletInfo</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#getLegacyWallets">getLegacyWallets</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L113">user/user.ts:113</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L113">user/user.ts:113</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getPasswordHashingOptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Password<wbr/>Hashing<wbr/>Options</span><a href="#getPasswordHashingOptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -194,7 +234,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Pick</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/PasswordOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">PasswordOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;salt&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;iterations&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;keySize&quot;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#getPasswordHashingOptions">getPasswordHashingOptions</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L236">user/user.ts:236</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L290">user/user.ts:290</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="getWallet" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>get<wbr/>Wallet</span><a href="#getWallet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -202,7 +242,7 @@ To serialize/deserialize the wallet information</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/IHDWallet.html" class="tsd-signature-type" data-tsd-kind="Interface">IHDWallet</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IWallet.html" class="tsd-signature-type" data-tsd-kind="Interface">IWallet</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IHDKey.html" class="tsd-signature-type" data-tsd-kind="Interface">IHDKey</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L216">user/user.ts:216</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L260">user/user.ts:260</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getWalletAccount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Wallet<wbr/>Account</span><a href="#getWalletAccount" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -220,7 +260,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IWallet.html" class="tsd-signature-type" data-tsd-kind="Interface">IWallet</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IHDKey.html" class="tsd-signature-type" data-tsd-kind="Interface">IHDKey</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#getWalletAccount">getWalletAccount</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L79">user/user.ts:79</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L79">user/user.ts:79</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getWalletAccountByRefKey" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Wallet<wbr/>Account<wbr/>By<wbr/>Ref<wbr/>Key</span><a href="#getWalletAccountByRefKey" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -238,11 +278,11 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IWallet.html" class="tsd-signature-type" data-tsd-kind="Interface">IWallet</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/IHDKey.html" class="tsd-signature-type" data-tsd-kind="Interface">IHDKey</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#getWalletAccountByRefKey">getWalletAccountByRefKey</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L83">user/user.ts:83</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L83">user/user.ts:83</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getWalletInfo" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Wallet<wbr/>Info</span><a href="#getWalletInfo" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="getWalletInfo.getWalletInfo-1">get<wbr/>Wallet<wbr/>Info<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, legacyWallet<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WalletInfo.html" class="tsd-signature-type" data-tsd-kind="Class">WalletInfo</a><a href="#getWalletInfo.getWalletInfo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="getWalletInfo.getWalletInfo-1">get<wbr/>Wallet<wbr/>Info<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WalletInfo.html" class="tsd-signature-type" data-tsd-kind="Class">WalletInfo</a><a href="#getWalletInfo.getWalletInfo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get wallet information</p>
 </div>
@@ -250,13 +290,13 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>id: <span class="tsd-signature-type">string</span></h5></li>
-<li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> legacyWallet: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h5>id: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>could be id or uid of from wallet info</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="WalletInfo.html" class="tsd-signature-type" data-tsd-kind="Class">WalletInfo</a></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#getWalletInfo">getWalletInfo</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L144">user/user.ts:144</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L146">user/user.ts:146</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="hasHDWallet" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>hasHDWallet</span><a href="#hasHDWallet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -267,7 +307,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#hasHDWallet">hasHDWallet</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L121">user/user.ts:121</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L121">user/user.ts:121</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="hasLegacyWallets" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>has<wbr/>Legacy<wbr/>Wallets</span><a href="#hasLegacyWallets" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -278,7 +318,24 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#hasLegacyWallets">hasLegacyWallets</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L117">user/user.ts:117</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L117">user/user.ts:117</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="isHDWalletPath" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>isHDWallet<wbr/>Path</span><a href="#isHDWalletPath" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+<li class="tsd-signature tsd-anchor-link" id="isHDWalletPath.isHDWalletPath-1">isHDWallet<wbr/>Path<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#isHDWalletPath.isHDWalletPath-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Check if the given id belongs to a HD wallet.
+The id of a HD wallet should be a path</p>
+
+<h3>Returns</h3></div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>id: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L286">user/user.ts:286</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="removeWalletAccount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove<wbr/>Wallet<wbr/>Account</span><a href="#removeWalletAccount" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -294,7 +351,25 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#removeWalletAccount">removeWalletAccount</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L96">user/user.ts:96</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L96">user/user.ts:96</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="removeWalletInfo" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>remove<wbr/>Wallet<wbr/>Info</span><a href="#removeWalletInfo" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="removeWalletInfo.removeWalletInfo-1">remove<wbr/>Wallet<wbr/>Info<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#removeWalletInfo.removeWalletInfo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Remove a wallet from user</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>id: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>could be id or uid of from wallet info</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#removeWalletInfo">removeWalletInfo</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L167">user/user.ts:167</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="serialize" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>serialize</span><a href="#serialize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -312,7 +387,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#serialize">serialize</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L165">user/user.ts:165</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L192">user/user.ts:192</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setHDWallet" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>setHDWallet</span><a href="#setHDWallet" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -334,7 +409,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#setHDWallet">setHDWallet</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L68">user/user.ts:68</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L68">user/user.ts:68</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="setHDWalletAccount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>setHDWallet<wbr/>Account</span><a href="#setHDWalletAccount" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -349,11 +424,11 @@ To serialize/deserialize the wallet information</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> info: <a href="WalletDescriptor.html" class="tsd-signature-type" data-tsd-kind="Class">WalletDescriptor</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L228">user/user.ts:228</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L272">user/user.ts:272</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="setWalletInfo" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set<wbr/>Wallet<wbr/>Info</span><a href="#setWalletInfo" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="setWalletInfo.setWalletInfo-1">set<wbr/>Wallet<wbr/>Info<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, info<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="WalletDescriptor.html" class="tsd-signature-type" data-tsd-kind="Class">WalletDescriptor</a>, legacyWallet<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setWalletInfo.setWalletInfo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="setWalletInfo.setWalletInfo-1">set<wbr/>Wallet<wbr/>Info<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, info<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="WalletDescriptor.html" class="tsd-signature-type" data-tsd-kind="Class">WalletDescriptor</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#setWalletInfo.setWalletInfo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Set wallet information</p>
 </div>
@@ -361,15 +436,16 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>id: <span class="tsd-signature-type">string</span></h5></li>
+<h5>id: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>coule be id or uid from wallet info in case of updating,
+otherwise it must be an id (private key of legacy wallet or path of hd wallet)</p>
+</div></li>
 <li>
-<h5>info: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="WalletDescriptor.html" class="tsd-signature-type" data-tsd-kind="Class">WalletDescriptor</a></h5></li>
-<li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> legacyWallet: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
+<h5>info: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="WalletDescriptor.html" class="tsd-signature-type" data-tsd-kind="Class">WalletDescriptor</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#setWalletInfo">setWalletInfo</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L125">user/user.ts:125</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L125">user/user.ts:125</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="updatePassword" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update<wbr/>Password</span><a href="#updatePassword" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -387,7 +463,7 @@ To serialize/deserialize the wallet information</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IUser.html">IUser</a>.<a href="../interfaces/IUser.html#updatePassword">updatePassword</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L61">user/user.ts:61</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L61">user/user.ts:61</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="deserializeFrom" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>deserialize<wbr/>From</span><a href="#deserializeFrom" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -409,7 +485,7 @@ To serialize/deserialize the wallet information</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="User.html" class="tsd-signature-type" data-tsd-kind="Class">User</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/bc8a74c/src/user/user.ts#L22">user/user.ts:22</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/user/user.ts#L22">user/user.ts:22</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -441,7 +517,9 @@ To serialize/deserialize the wallet information</p>
 <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="User.html#wallet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>wallet</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#addLegacyWallet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Legacy<wbr/>Wallet</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#addWalletAccount" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>add<wbr/>Wallet<wbr/>Account</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#decrypt" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>decrypt</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#deserialize" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>deserialize</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#encrypt" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>encrypt</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#getHDWallet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>getHDWallet</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#getLegacyWallets" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Legacy<wbr/>Wallets</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#getPasswordHashingOptions" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Password<wbr/>Hashing<wbr/>Options</a></li>
@@ -451,7 +529,9 @@ To serialize/deserialize the wallet information</p>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#getWalletInfo" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Wallet<wbr/>Info</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#hasHDWallet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>hasHDWallet</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#hasLegacyWallets" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>has<wbr/>Legacy<wbr/>Wallets</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="User.html#isHDWalletPath" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>isHDWallet<wbr/>Path</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#removeWalletAccount" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Wallet<wbr/>Account</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#removeWalletInfo" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>remove<wbr/>Wallet<wbr/>Info</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#serialize" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>serialize</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="User.html#setHDWallet" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>setHDWallet</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="User.html#setHDWalletAccount" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>setHDWallet<wbr/>Account</a></li>
