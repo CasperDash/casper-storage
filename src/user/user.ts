@@ -178,11 +178,9 @@ export class User implements IUser {
     }
 
     if (this.legacyWallets) {
-      for (let i = 0; i < this.legacyWallets.length; i++) {
-        const idx = this.legacyWallets.findIndex(x => x.id === id || x.uid === id);
-        if (idx >= 0) {
-          this.legacyWallets.splice(idx, 1);
-        }
+      const idx = this.legacyWallets.findIndex(x => x.id === id || x.uid === id);
+      if (idx >= 0) {
+        this.legacyWallets.splice(idx, 1);
       }
     }
   }
