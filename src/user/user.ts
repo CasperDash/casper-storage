@@ -199,7 +199,7 @@ export class User implements IUser {
 
     let result = JSON.stringify(obj);
     if (encrypt) {
-      result = AESUtils.encrypt(this.password.getPassword(), result);
+      result = this.encrypt(result);
     }
     return result;
   }
@@ -213,17 +213,13 @@ export class User implements IUser {
     let text = value;
     try {
       if (encrypted) {
-        text = AESUtils.decrypt(this.password.getPassword(), value);
+        text = this.decrypt(value);
       }
     } catch (err) {
       throw new Error(`Unable to decrypt user information. Error: ${err}`);
     }
 
     try {
-      if (encrypted) {
-        text = AESUtils.decrypt(this.password.getPassword(), value);
-      }
-
       const obj = JSON.parse(text);
       if (obj.wallet) {
         this.wallet = new HDWalletInfo(
