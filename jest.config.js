@@ -20,5 +20,6 @@ module.exports = {
     "!src/**/index.ts",
     "!src/index.ts",
     "!test/**/*"
-  ]
+  ],
+  "slowTestThreshold": 1
 }

@@ -124,16 +124,18 @@ export class User implements IUser {
 
   public setWalletInfo(
     id: string,
-    info: string | WalletDescriptor,
-    legacyWallet?: boolean
+    info: string | WalletDescriptor
   ) {
-    let walletInfo = this.getWalletInfo(id, legacyWallet);
+    let walletInfo = this.getWalletInfo(id);
     if (!walletInfo) {
-      // Not in legacy mode, we should automatically add the wallet account into the list
-      if (!legacyWallet && this.hasHDWallet()) {
+
+      // The wallet does not exist yet, if the given id is a derived path of HD wallet
+      // Automatically create one and insert it into the list
+      if (this.isHDWalletPath(id) && this.hasHDWallet()) {
         this.setHDWalletAccount(id);
-        walletInfo = this.getWalletInfo(id, legacyWallet);
+        walletInfo = this.getWalletInfo(id);
       }
+
       if (!walletInfo) {
         throw new Error(`The requesting wallet is not available ${id}`);
       }
@@ -141,21 +143,46 @@ export class User implements IUser {
     walletInfo.descriptor = WalletDescriptor.from(info);
   }
 
-  public getWalletInfo(id: string, legacyWallet?: boolean): WalletInfo {
+  public getWalletInfo(id: string): WalletInfo {
     let info: WalletInfo = null;
-    if (legacyWallet === true) {
-      if (this.legacyWallets) {
-        info = this.legacyWallets.filter((x) => x.key == id)[0];
+
+    // Start with HD wallet (as we should in this mode instead of legacy)
+    if (this.wallet) {
+      const derives = this.wallet.derivedWallets;
+      if (derives) {
+        info = derives.find(x => x.id === id || x.uid === id);
       }
-    } else {
-      if (this.wallet) {
-        const derives = this.wallet.derivedWallets;
-        if (derives) {
-          info = derives.filter((x) => x.key == id)[0];
+    }
+
+    // No available HD wallet for given id, try with legacy ones
+    if (!info) {
+      if (this.legacyWallets) {
+        info = this.legacyWallets.find(x => x.id === id || x.uid === id);
+      }
+    }
+
+    return info;
+  }
+
+  public removeWalletInfo(id: string): void {
+    // Start with HD wallet (as we should in this mode instead of legacy)
+    if (this.wallet) {
+      const derives = this.wallet.derivedWallets;
+      if (derives) {
+        const idx = derives.findIndex(x => x.id === id || x.uid === id);
+        if (idx >= 0) {
+          derives.splice(idx, 1);
+          return;
         }
       }
     }
-    return info;
+
+    if (this.legacyWallets) {
+      const idx = this.legacyWallets.findIndex(x => x.id === id || x.uid === id);
+      if (idx >= 0) {
+        this.legacyWallets.splice(idx, 1);
+      }
+    }
   }
 
   /**
@@ -170,29 +197,38 @@ export class User implements IUser {
 
     let result = JSON.stringify(obj);
     if (encrypt) {
-      result = AESUtils.encrypt(this.password.getPassword(), result);
+      result = this.encrypt(result);
     }
     return result;
   }
 
   /**
    * Deserializes the serialized and encrypted user information to merge back the current user instance.
-   * @param {string} value - string
+   * @param {string} value - serialized user information
+   * @param {bool} encrypted - the value is encrypted
    */
-  public deserialize(value: string) {
-    const text = AESUtils.decrypt(this.password.getPassword(), value);
+  public deserialize(value: string, encrypted = true): void {
+    let text = value;
+    try {
+      if (encrypted) {
+        text = this.decrypt(value);
+      }
+    } catch (err) {
+      throw new Error(`Unable to decrypt user information. Error: ${err}`);
+    }
+
     try {
       const obj = JSON.parse(text);
       if (obj.wallet) {
         this.wallet = new HDWalletInfo(
-          obj.wallet.key,
+          obj.wallet.id,
           obj.wallet.encryptionType
         );
 
         if (obj.wallet.derives) {
           obj.wallet.derives.forEach((wl: WalletInfo) => {
             this.wallet.setDerivedWallet(
-              wl.key,
+              wl.id,
               wl.encryptionType,
               wl.descriptor
             );
@@ -204,13 +240,21 @@ export class User implements IUser {
         this.legacyWallets = [];
         obj.legacyWallets.forEach((wl: WalletInfo) => {
           this.legacyWallets.push(
-            new WalletInfo(wl.key, wl.encryptionType, wl.descriptor)
+            new WalletInfo(wl.id, wl.encryptionType, wl.descriptor)
           );
         });
       }
-    } catch {
-      throw new Error("Password is invalid");
+    } catch (err) {
+      throw new Error(`Unable to parse user information. Error: ${err}`);
     }
+  }
+
+  public encrypt(value: string): string {
+    return AESUtils.encrypt(this.password.getPassword(), value);
+  }
+
+  public decrypt(value: string): string {
+    return AESUtils.decrypt(this.password.getPassword(), value);
   }
 
   private getWallet(): IHDWallet<IWallet<IHDKey>> {
@@ -231,6 +275,16 @@ export class User implements IUser {
       this.getHDWallet().encryptionType,
       info
     );
+  }
+
+  /**
+  * Check if the given id belongs to a HD wallet.
+  * The id of a HD wallet should be a path
+  * @param id 
+  * @returns 
+  */
+  private isHDWalletPath(id: string) {
+    return id.indexOf('/') >= 0;
   }
 
   public getPasswordHashingOptions(): Pick<
