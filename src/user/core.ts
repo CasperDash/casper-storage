@@ -137,25 +137,25 @@ export interface IUser {
    * Serialize the user information to a store-able string which is secured by user's password
    * @param encrypt
    */
-  serialize(encrypt: boolean): string;
+  serialize(encrypt: boolean): Promise<string>;
 
   /**
    * Deserialize the serialized and encrypted value
    * @param value
    */
-  deserialize(value: string): void;
+  deserialize(value: string): Promise<void>;
 
   /**
    * Encrypt the given value by user's password
    * @param value 
    */
-  encrypt(value: string): string;
+  encrypt(value: string): Promise<string>;
 
   /**
    * Decrypt the given value by user's password
    * @param value 
    */
-  decrypt(value: string): string;
+  decrypt(value: string): Promise<string>;
 
   /* This is a type guard. It is saying that the return type of `getPasswordHashingOptions()` is a
   `Pick` of the `PasswordOptions` interface. */

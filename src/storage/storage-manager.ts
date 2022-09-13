@@ -1,6 +1,5 @@
 import { IStorage } from "./interfaces";
-import { LocalStorage } from "./providers/local-storage";
-import { AsyncStorage } from "./providers/async-storage";
+import { DefaultStorage } from "./providers/default-storage";
 
 /**
  * Provides storage mangement integration
@@ -14,14 +13,9 @@ export class StorageManager {
    */
   public static getInstance(): IStorage {
     if (!StorageManager._storage) {
-      let storage: IStorage = new AsyncStorage();
-      if (storage.isAvailable()) {
-        StorageManager._storage = storage;
-        return storage;
-      }
 
-      storage = new LocalStorage();
-      if(storage.isAvailable()) {
+      const storage = new DefaultStorage();
+      if (storage.isAvailable()) {
         StorageManager._storage = storage;
         return storage;
       }

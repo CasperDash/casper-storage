@@ -3,7 +3,7 @@ import { IStorage } from "../interfaces";
 /**
  * Simple wrapper for localStorage of browser
  */
-export class LocalStorage implements IStorage {
+export class DefaultStorage implements IStorage {
 
   async set(key: string, value: string): Promise<void> {
     window.localStorage.setItem(key, value);

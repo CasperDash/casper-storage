@@ -372,31 +372,31 @@ test("user.legacy-wallet-remove-wallet-by-uid", async () => {
 
 test("user.serialize-both-type-wallets", async () => {
   const user = prepareTestUser();
-  const encryptedUserInfo = user.serialize();
+  const encryptedUserInfo = await user.serialize();
 
   const user2 = new User(PASSWORD, {
     passwordOptions: user.getPasswordHashingOptions(),
   });
-  user2.deserialize(encryptedUserInfo);
+  await user2.deserialize(encryptedUserInfo);
 
   validateDecryptedUserInfo(user, user2);
 });
 
 test("user.serialize-deserialize-wrong-password", async () => {
   const user = prepareTestUser();
-  const encryptedUserInfo = user.serialize();
+  const encryptedUserInfo = await user.serialize();
 
   const user2 = new User(PASSWORD + "Invalid");
-  expect(() => user2.deserialize(encryptedUserInfo)).toThrowError(
-    /^Unable to parse user information/
-  );
+  await expect(user2.deserialize(encryptedUserInfo))
+    .rejects
+    .toThrow( /^Unable to parse user information/);
 });
 
 test("user.deserializeFrom", async () => {
   const user = prepareTestUser();
 
-  const encryptedUserInfo = user.serialize();
-  const user2 = User.deserializeFrom(PASSWORD, encryptedUserInfo, {
+  const encryptedUserInfo = await user.serialize();
+  const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo, {
     passwordOptions: user.getPasswordHashingOptions(),
   });
 
@@ -406,8 +406,8 @@ test("user.deserializeFrom", async () => {
 test("user.encrypt-decrypt", async () => {
   const user = prepareTestUser();
 
-  const encryptedText = user.encrypt("test data");
-  const decryptedText = user.decrypt(encryptedText);
+  const encryptedText = await user.encrypt("test data");
+  const decryptedText = await user.decrypt(encryptedText);
 
   expect(decryptedText).toBe("test data");
 });

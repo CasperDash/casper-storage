@@ -19,13 +19,13 @@ export class User implements IUser {
    * @param options Options to work with user's instance
    * @returns
    */
-  public static deserializeFrom(
+  public static async deserializeFrom(
     password: string,
     userEncryptedInfo: string,
     options?: Partial<UserOptions>
-  ): User {
+  ): Promise<User> {
     const user = new User(password, options);
-    user.deserialize(userEncryptedInfo);
+    await user.deserialize(userEncryptedInfo);
     return user;
   }
 
@@ -189,7 +189,7 @@ export class User implements IUser {
    * Serializes the wallet and encrypts it with the password.
    * @returns The encrypted wallet.
    */
-  public serialize(encrypt = true): string {
+  public async serialize(encrypt = true): Promise<string> {
     const obj = {
       wallet: this.getHDWallet(),
       legacyWallets: this.getLegacyWallets(),
@@ -197,7 +197,7 @@ export class User implements IUser {
 
     let result = JSON.stringify(obj);
     if (encrypt) {
-      result = this.encrypt(result);
+      result = await this.encrypt(result);
     }
     return result;
   }
@@ -207,11 +207,11 @@ export class User implements IUser {
    * @param {string} value - serialized user information
    * @param {bool} encrypted - the value is encrypted
    */
-  public deserialize(value: string, encrypted = true): void {
+  public async deserialize(value: string, encrypted = true): Promise<void> {
     let text = value;
     try {
       if (encrypted) {
-        text = this.decrypt(value);
+        text = await this.decrypt(value);
       }
     } catch (err) {
       throw new Error(`Unable to decrypt user information. Error: ${err}`);
@@ -249,11 +249,11 @@ export class User implements IUser {
     }
   }
 
-  public encrypt(value: string): string {
+  public encrypt(value: string): Promise<string> {
     return AESUtils.encrypt(this.password.getPassword(), value);
   }
 
-  public decrypt(value: string): string {
+  public decrypt(value: string): Promise<string> {
     return AESUtils.decrypt(this.password.getPassword(), value);
   }
 

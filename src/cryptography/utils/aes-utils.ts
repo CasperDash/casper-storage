@@ -1,4 +1,5 @@
 import aes from "aes-js";
+
 import { TypeUtils } from "../../utils";
 import { CryptoUtils } from ".";
 
@@ -15,7 +16,7 @@ export class AESUtils {
    * @param {string} value - The value to encrypt.
    * @returns The encrypted value.
    */
-  static encrypt(key: string, value: string) : string {
+  static encrypt(key: string, value: string): Promise<string> {
     if (!key) {
       throw new Error("Key is required")
     }
@@ -25,6 +26,7 @@ export class AESUtils {
 
     // Ensure to have a strong private key
     const keyBytes = CryptoUtils.scrypt(key);
+
     // Convert the value into a byte array
     const textBytes = aes.utils.utf8.toBytes(value);
 
@@ -35,7 +37,7 @@ export class AESUtils {
      // Convert the encrypted bytes to a hex string
      const text = TypeUtils.convertArrayToHexString(encryptedBytes);
 
-    return text;
+    return Promise.resolve(text);
   }
 
   /**
@@ -44,7 +46,7 @@ export class AESUtils {
    * @param {string} encryptedValue - The encrypted value that you want to decrypt.
    * @returns The decrypted value.
    */
-  static decrypt(key: string, encryptedValue: string) : string {
+  static decrypt(key: string, encryptedValue: string): Promise<string>  {
     if (!key) {
       throw new Error("Key is required")
     }
@@ -54,6 +56,7 @@ export class AESUtils {
 
     // Ensure to have a strong private key
     const keyBytes = CryptoUtils.scrypt(key);
+
     // Convert the encrypted value into a byte array
     const encryptedTextBytes = TypeUtils.convertHexStringToArray(encryptedValue);
 
@@ -64,6 +67,6 @@ export class AESUtils {
     // Convert back the decrypted bytes to the original string
     const text = aes.utils.utf8.fromBytes(textBytes);
 
-    return text;
+    return Promise.resolve(text);
   }
 }
