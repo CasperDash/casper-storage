@@ -1,8 +1,23 @@
 import { NativeModules } from "react-native";
+
 const Aes = NativeModules.Aes;
+const generateKey = (password: string, salt: string, cost: number = 5000, length: number = 256) => Aes.pbkdf2(password, salt, cost, length);
 const aesMode = "aes-256-cbc";
 
-import { CryptoUtils } from ".";
+const encrypt = async (key: string, text: string) => {
+  const keybytes = await generateKey(key, "casper-storage");
+  const iv = await Aes.randomKey(16);
+  const cipher = await Aes.encrypt(text, keybytes, iv, aesMode);
+  const encryptedValue = JSON.stringify({ iv, cipher });
+  return encryptedValue;
+};
+
+const decrypt = async (key: string, encryptedDataText: string) => {
+  const keybytes = await generateKey(key, "casper-storage");
+  const encryptedData = JSON.parse(encryptedDataText);
+  const decryptedText = await Aes.decrypt(encryptedData.cipher, keybytes, encryptedData.iv, aesMode);
+  return decryptedText;
+};
 
 /**
  * AES enryption utils
@@ -24,14 +39,7 @@ export class AESUtils {
     if (!value) {
       throw new Error("Value is required")
     }
-
-    // Ensure to have a strong private key
-    const keyBytes = CryptoUtils.scrypt(key);
-
-    const iv = await Aes.randomKey(16);
-    const cipher = await Aes.encrypt(value, keyBytes, iv, aesMode);
-    const text = JSON.stringify({ iv, cipher });
-    return text;
+    return encrypt(key, value);
   }
 
   /**
@@ -47,13 +55,6 @@ export class AESUtils {
     if (!encryptedValue) {
       throw new Error("Encrypted value is required")
     }
-
-    // Ensure to have a strong private key
-    const keyBytes = CryptoUtils.scrypt(key);
-
-    const encryptedData = JSON.parse(encryptedValue);
-    const text = await Aes.decrypt(encryptedData.cipher, keyBytes, encryptedData.iv, aesMode);
-
-    return text;
+    return decrypt(key, encryptedValue);
   }
 }
