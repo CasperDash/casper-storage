@@ -1,6 +1,7 @@
-import aes from "aes-js";
+import { NativeModules } from "react-native";
+const Aes = NativeModules.Aes;
+const aesMode = "aes-256-cbc";
 
-import { TypeUtils } from "../../utils";
 import { CryptoUtils } from ".";
 
 /**
@@ -16,7 +17,7 @@ export class AESUtils {
    * @param {string} value - The value to encrypt.
    * @returns The encrypted value.
    */
-  static encrypt(key: string, value: string): Promise<string> {
+  static async encrypt(key: string, value: string): Promise<string> {
     if (!key) {
       throw new Error("Key is required")
     }
@@ -27,17 +28,10 @@ export class AESUtils {
     // Ensure to have a strong private key
     const keyBytes = CryptoUtils.scrypt(key);
 
-    // Convert the value into a byte array
-    const textBytes = aes.utils.utf8.toBytes(value);
-
-    // use CTR - Counter mode (recommended method)
-    const aesCtr = new aes.ModeOfOperation.ctr(keyBytes);
-    const encryptedBytes = aesCtr.encrypt(textBytes);
-
-     // Convert the encrypted bytes to a hex string
-     const text = TypeUtils.convertArrayToHexString(encryptedBytes);
-
-    return Promise.resolve(text);
+    const iv = await Aes.randomKey(16);
+    const cipher = await Aes.encrypt(value, keyBytes, iv, aesMode);
+    const text = JSON.stringify({ iv, cipher });
+    return text;
   }
 
   /**
@@ -46,7 +40,7 @@ export class AESUtils {
    * @param {string} encryptedValue - The encrypted value that you want to decrypt.
    * @returns The decrypted value.
    */
-  static decrypt(key: string, encryptedValue: string): Promise<string>  {
+  static async decrypt(key: string, encryptedValue: string): Promise<string>  {
     if (!key) {
       throw new Error("Key is required")
     }
@@ -57,16 +51,9 @@ export class AESUtils {
     // Ensure to have a strong private key
     const keyBytes = CryptoUtils.scrypt(key);
 
-    // Convert the encrypted value into a byte array
-    const encryptedTextBytes = TypeUtils.convertHexStringToArray(encryptedValue);
+    const encryptedData = JSON.parse(encryptedValue);
+    const text = await Aes.decrypt(encryptedData.cipher, keyBytes, encryptedData.iv, aesMode);
 
-    // use CTR - Counter mode (recommended method)
-    const aesCtr = new aes.ModeOfOperation.ctr(keyBytes);
-    const textBytes = aesCtr.decrypt(encryptedTextBytes);
-
-    // Convert back the decrypted bytes to the original string
-    const text = aes.utils.utf8.fromBytes(textBytes);
-
-    return Promise.resolve(text);
+    return text;
   }
 }

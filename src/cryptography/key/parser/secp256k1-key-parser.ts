@@ -1,5 +1,5 @@
 import { BaseKeyParser } from "./base-key-parser";
-import KeyEncoder from "key-encoder";
+import KeyEncoder from "react-native-key-encoder";
 import { TypeUtils } from "../../../utils";
 import { EncryptionType } from "../../../cryptography";
 

@@ -31,16 +31,6 @@ jobs:
         run: |  
           echo "Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
 
-      - name: Generate document
-        env:
-          INPUT_TOKEN: ""
-        run: yarn docs
-      - name: Deploy document
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
-        with:
-          branch: gh-pages
-          folder: docs
-
   notification:
     needs: [deploy]
     runs-on: ubuntu-latest
