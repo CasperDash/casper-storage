@@ -1,5 +1,5 @@
 {
-  "name": "casper-storage-rn",
+  "name": "react-native-casper-storage",
   "version": "0.0.1",
   "description": "Provides standard implementation of wallet workflow, following standards BIPs, SLIPs",
   "author": "Caperdash.io <hello@casperdash.io>",
