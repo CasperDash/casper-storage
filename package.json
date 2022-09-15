@@ -5,7 +5,7 @@
   "author": "Caperdash.io <hello@casperdash.io>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CasperDash/casper-storage.git"
+    "url": "git+https://github.com/CasperDash/casper-storage-react-native.git"
   },
   "license": "Apache-2.0",
   "licenses": [
@@ -20,7 +20,7 @@
     "casper-storage"
   ],
   "bugs": {
-    "url": "https://github.com/CasperDash/casper-storage/issues"
+    "url": "https://github.com/CasperDash/casper-storage-react-native/issues"
   },
   "browser": "./dist/esbuild/browser.js",
   "main": "./dist/tsc/cli.js",
