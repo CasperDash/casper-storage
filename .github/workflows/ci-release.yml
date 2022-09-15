@@ -2,7 +2,6 @@ name: ci-release
 
 on:
   workflow_run:
-    workflows: ["ci-check"]
     branches: [release]
     types:
       - completed
