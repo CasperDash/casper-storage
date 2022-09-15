@@ -1,10 +1,9 @@
 name: ci-release
 
 on:
-  workflow_run:
-    branches: [release]
-    types:
-      - completed
+  push:
+    branches:
+      - release
 
 jobs:
   deploy:
