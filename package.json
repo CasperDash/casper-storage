@@ -51,7 +51,6 @@
     "key-encoder": "^2.0.3"
   },
   "devDependencies": {
-    "@peculiar/webcrypto": "^1.4.0",
     "@types/aes-js": "^3.1.1",
     "@types/jest": "^29.0.0",
     "@types/node": "^18.7.16",
