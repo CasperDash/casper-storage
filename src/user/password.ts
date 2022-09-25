@@ -29,10 +29,11 @@ export class Password {
       }
     }
 
-    // should generate random salt here, it'll get the same salt if put the code in default options
+    // Should generate random salt here, it'll get the same salt if put the code in default options
     this.salt = options.salt || CryptoUtils.randomBytes(16);
     this.iterations = options.iterations;
     this.keySize = options.keySize;
+
     // We should not store the raw password in memory, let's hashing the user-given password
     this.password = TypeUtils.convertArrayToHexString(
       CryptoUtils.pbkdf2Sync(

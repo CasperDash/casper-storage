@@ -31,9 +31,8 @@ test("encoder-utils.encodeBase58-test01", () => {
   expect(base58Data).toBe("FSSAiA8JwAQAGP");
 })
 
-test("encoder-utils.encodeText-nullOrEmpty", () => {
+test("encoder-utils.encodeText-null", () => {
   expect(() => EncoderUtils.encodeText(null)).toThrowError();
-  expect(() => EncoderUtils.encodeText("")).toThrowError();
 })
 
 test("encoder-utils.encodeText-test01", () => {

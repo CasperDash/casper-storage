@@ -8,7 +8,6 @@ module.exports = {
   "transform": {
     "^.+\\.ts$": "ts-jest"
   },
-  "testEnvironment": "jsdom",
   // Aliases from tsconfig.json
   "moduleNameMapper": {
     "^@/(.*)": "<rootDir>/src/$1"

@@ -389,7 +389,7 @@ test("user.serialize-deserialize-wrong-password", async () => {
   const user2 = new User(PASSWORD + "Invalid");
   await expect(user2.deserialize(encryptedUserInfo))
     .rejects
-    .toThrow( /^Unable to parse user information/);
+    .toThrow( /^Unable to decrypt user information/);
 });
 
 test("user.deserializeFrom", async () => {

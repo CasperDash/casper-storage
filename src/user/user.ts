@@ -47,21 +47,25 @@ export class User implements IUser {
     password: string,
     options?: Partial<UserOptions>
   ) {
-    this.updatePassword(
-      password,
-      options && options.passwordOptions
-    );
+    this.password = new Password(password, options && options.passwordOptions);
   }
 
   /**
-   * Update password to serialize user's information
-   * @param password
+   * Update password to serialize user's information.
+   * A new salt will be generated regardless the given options.
+   * @param newPassword
    * @param options
    */
   public updatePassword(
     newPassword: string,
     options?: Partial<PasswordOptions>
   ) {
+
+    // Force to generate a new salt
+    if (options) {
+      options.salt = null;
+    }
+
     this.password = new Password(newPassword, options);
   }
 
@@ -250,11 +254,11 @@ export class User implements IUser {
   }
 
   public encrypt(value: string): Promise<string> {
-    return AESUtils.encrypt(this.password.getPassword(), value);
+    return AESUtils.encrypt(this.password.getPassword(), value, this.password.getSalt(), this.password.getSalt());
   }
 
   public decrypt(value: string): Promise<string> {
-    return AESUtils.decrypt(this.password.getPassword(), value);
+    return AESUtils.decrypt(this.password.getPassword(), value, this.password.getSalt(), this.password.getSalt());
   }
 
   private getWallet(): IHDWallet<IWallet<IHDKey>> {

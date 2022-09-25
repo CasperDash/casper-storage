@@ -6,6 +6,7 @@ import { randomBytes } from "@noble/hashes/utils";
 import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
 import { blake2b } from "@noble/hashes/blake2b";
 import { scrypt } from '@noble/hashes/scrypt';
+import { crypto } from '@noble/hashes/crypto';
 import { Hex, TypeUtils } from "../../utils";
 
 /**
@@ -121,12 +122,27 @@ export class CryptoUtils {
   /**
    * Create a strong private key from any input, where the key is longer and more secure.
    * @param input 
+   * @param salt 
    * @returns 
    */
-  static scrypt(input: string): Uint8Array {
-    if (!input) {
-      throw new Error("Input is required");
-    }
-    return scrypt(input, 'salt', { N: 2 ** 16, r: 8, p: 1, dkLen: 32 });
+  static scrypt(input: string, salt: Uint8Array): Uint8Array {
+    if (!input) throw new Error("Input is required");
+    if (!salt) throw new Error("Salt is required");
+
+    return scrypt(input, salt, { N: 2 ** 16, r: 8, p: 1, dkLen: 32 });
+  }
+
+  /**
+   * Returns the crypto instance which is resolved based on the envrionment
+   * @returns 
+   */
+  static getCrypto(): Crypto {
+    if (crypto.web) {
+      return crypto.web;
+    } else if (crypto.node) {
+      return crypto.node;
+    } else {
+      throw new Error("The environment doesn't have crypto functions");
+    } 
   }
 }

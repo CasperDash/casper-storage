@@ -1,7 +1,5 @@
-import aes from "aes-js";
-
 import { TypeUtils } from "../../utils";
-import { CryptoUtils } from ".";
+import { CryptoUtils, EncoderUtils } from ".";
 
 /**
  * AES enryption utils
@@ -11,62 +9,63 @@ import { CryptoUtils } from ".";
 export class AESUtils {
 
   /**
-   * Encrypt a string using AES in CTR mode
-   * @param {string} key - The key to use for encryption.
+   * Encrypts a value
+   * 
+   * @param {string} password - The password to encrypt valye.
    * @param {string} value - The value to encrypt.
+   * @param {string} keySalt - The salt to secure the password.
+   * @param {string} cipherIV - The IV to secure the encryption.
+   * @param {string} mode - The AES mode to encrypt value (default is AES-GCM).
    * @returns The encrypted value.
    */
-  static encrypt(key: string, value: string): Promise<string> {
-    if (!key) {
-      throw new Error("Key is required")
-    }
-    if (!value) {
-      throw new Error("Value is required")
-    }
+  static async encrypt(password: string, value: string, keySalt: Uint8Array, cipherIV: Uint8Array, mode = "AES-GCM"): Promise<string> {
+    if (!password) throw new Error("Key is required")
+    if (!value) throw new Error("Value is required")
+    if (!keySalt) throw new Error("Salt is required")
+    if (!cipherIV) throw new Error("IV is required")
+    if (!mode) throw new Error("Encrypt mode is required")
+
+    const crypto = CryptoUtils.getCrypto();
 
     // Ensure to have a strong private key
-    const keyBytes = CryptoUtils.scrypt(key);
+    const keyBytes = CryptoUtils.scrypt(password, keySalt);
+    const key = await crypto.subtle.importKey("raw", keyBytes, { "name": mode, length: 256 }, false, ["encrypt", "decrypt"]);
 
-    // Convert the value into a byte array
-    const textBytes = aes.utils.utf8.toBytes(value);
+    // Encoded value
+    const valueBytes = EncoderUtils.encodeText(value);
+    const cipherValue = await crypto.subtle.encrypt({ name: mode, iv: cipherIV }, key, valueBytes);
 
-    // use CTR - Counter mode (recommended method)
-    const aesCtr = new aes.ModeOfOperation.ctr(keyBytes);
-    const encryptedBytes = aesCtr.encrypt(textBytes);
-
-     // Convert the encrypted bytes to a hex string
-     const text = TypeUtils.convertArrayToHexString(encryptedBytes);
-
-    return Promise.resolve(text);
+    // Convert the encrypted bytes to a hex string
+    const hexValue = TypeUtils.convertArrayToHexString(cipherValue);
+    return hexValue;
   }
 
   /**
-   * It decrypts the encrypted value using the key.
-   * @param {string} key - The key used to encrypt the value.
-   * @param {string} encryptedValue - The encrypted value that you want to decrypt.
+   * Decrypts a value
+   * 
+   * @param {string} password - The password to decrypt valye.
+   * @param {string} value - The value to decrypt.
+   * @param {string} keySalt - The salt to secure the password.
+   * @param {string} cipherIV - The IV to secure the encryption.
+   * @param {string} mode - The AES mode to decrypt value (default is AES-GCM).
    * @returns The decrypted value.
    */
-  static decrypt(key: string, encryptedValue: string): Promise<string>  {
-    if (!key) {
-      throw new Error("Key is required")
-    }
-    if (!encryptedValue) {
-      throw new Error("Encrypted value is required")
-    }
+  static async decrypt(password: string, value: string, keySalt: Uint8Array, cipherIV: Uint8Array, mode = "AES-GCM"): Promise<string> {
+    if (!password) throw new Error("Key is required")
+    if (!value) throw new Error("Value is required")
+    if (!keySalt) throw new Error("Salt is required")
+    if (!cipherIV) throw new Error("IV is required")
+    if (!mode) throw new Error("Encrypt mode is required")
 
     // Ensure to have a strong private key
-    const keyBytes = CryptoUtils.scrypt(key);
+    const keyBytes = CryptoUtils.scrypt(password, keySalt);
+    const key = await crypto.subtle.importKey("raw", keyBytes, { "name": mode, length: 256 }, false, ["encrypt", "decrypt"]);
 
     // Convert the encrypted value into a byte array
-    const encryptedTextBytes = TypeUtils.convertHexStringToArray(encryptedValue);
+    const valueBytes = TypeUtils.convertHexStringToArray(value);
+    const decryptedValue = await crypto.subtle.decrypt({ name: mode, iv: cipherIV }, key, valueBytes);
+    const decryptedText = EncoderUtils.decodeText(decryptedValue);
 
-    // use CTR - Counter mode (recommended method)
-    const aesCtr = new aes.ModeOfOperation.ctr(keyBytes);
-    const textBytes = aesCtr.decrypt(encryptedTextBytes);
-
-    // Convert back the decrypted bytes to the original string
-    const text = aes.utils.utf8.fromBytes(textBytes);
-
-    return Promise.resolve(text);
+    return decryptedText;
   }
 }
