@@ -80,12 +80,12 @@ export class User implements IUser {
     return this.hdWallet;
   }
 
-  public async getWalletAccount(index: number): Promise<IWallet<IHDKey>> {
-    return await this.getWallet().getAccount(index);
+  public getWalletAccount(index: number): Promise<IWallet<IHDKey>> {
+    return this.getWallet().getAccount(index);
   }
 
-  public async getWalletAccountByRefKey(idOrPath: string): Promise<IWallet<IHDKey>> {
-    return await this.getWallet().getWalletFromPath(idOrPath);
+  public getWalletAccountByRefKey(idOrPath: string): Promise<IWallet<IHDKey>> {
+    return this.getWallet().getWalletFromPath(idOrPath);
   }
 
   public async addWalletAccount(
