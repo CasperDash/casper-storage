@@ -135,7 +135,7 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
-  expect(user.getHDWallet().id).toBe(testKeySlip10Vector1);
+  expect(user.getHDWallet().keyPhrase).toBe(testKeySlip10Vector1);
 
   let acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
@@ -154,7 +154,7 @@ test("user.hd-wallet-master-key-get-account-0-by-index", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
-  expect(user.getHDWallet().id).toBe(testKeySlip10Vector1);
+  expect(user.getHDWallet().keyPhrase).toBe(testKeySlip10Vector1);
   await user.addWalletAccount(0);
   await user.addWalletAccount(1);
 
@@ -180,7 +180,7 @@ test("user.hd-wallet-master-key-get-accounts-ref-key", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
-  expect(user.getHDWallet().id).toBe(testKeySlip10Vector1);
+  expect(user.getHDWallet().keyPhrase).toBe(testKeySlip10Vector1);
   await user.addWalletAccount(0);
   await user.addWalletAccount(1);
 
@@ -310,6 +310,19 @@ test("user.legacy-wallet-set-wallet-1-add-info", async () => {
   expect(acc.descriptor.name).toBe("My legacy wallet 1");
 });
 
+test("user.legacy-wallet-set-wallet-1-no-duplication", async () => {
+  const user = new User(PASSWORD);
+
+  const wallet = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
+  user.addLegacyWallet(wallet, new WalletDescriptor("My legacy wallet 1"));
+  expect(user.getLegacyWallets().length).toBe(1);
+
+  user.addLegacyWallet(wallet, new WalletDescriptor("My legacy wallet 2"))
+  expect(user.getLegacyWallets().length).toBe(1);
+
+  expect(user.getWalletInfo(PRIVATE_KEY_TEST_01).descriptor.name).toBe("My legacy wallet 2");
+});
+
 test("user.legacy-wallet-get-wallet-by-id", async () => {
   const user = new User(PASSWORD);
 
@@ -432,9 +445,11 @@ function prepareTestUser() {
 }
 
 function validateDecryptedUserInfo(user: User, user2: User) {
-  expect(user2.getHDWallet()).not.toBeNull();
-  expect(user2.getHDWallet().id).toBe(user.getHDWallet().id);
-  expect(user2.getHDWallet().encryptionType).toBe(
+  const user2HDWallet = user2.getHDWallet();
+
+  expect(user2HDWallet).not.toBeNull();
+  expect(user2HDWallet.keyPhrase).toBe(user.getHDWallet().keyPhrase);
+  expect(user2HDWallet.encryptionType).toBe(
     user.getHDWallet().encryptionType
   );
 

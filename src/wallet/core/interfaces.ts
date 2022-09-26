@@ -21,12 +21,12 @@ export interface IWallet<TKey> {
 
   /**
    * The key (private) of wallet
-   * either the private key of legacy wallet or a detailed key holder of a HD wallet
+   * either the private key of legacy wallet or a key holder of a HD wallet
    */
   getKey(): TKey;
 
   /**
-   * Returns the refrence key of wallet
+   * Returns the reference key of wallet
    * either a private key for legacy wallet or derived path of sub-wallet of HD wallet
    */
   getReferenceKey(): string;
