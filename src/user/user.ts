@@ -4,7 +4,7 @@ import { EncryptionType, AESUtils } from "../cryptography";
 import { IUser, PasswordOptions, UserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex } from "../utils";
-import { Password } from "./password";
+import { Password } from "../cryptography/password";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.

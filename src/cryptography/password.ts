@@ -1,6 +1,6 @@
-import { CryptoUtils, EncoderUtils } from "../cryptography";
+import { CryptoUtils, EncoderUtils } from ".";
 import { TypeUtils, ValidatorUtils } from "../utils";
-import { PasswordOptions } from "./core";
+import { PasswordOptions } from "../user/core";
 
 const defaultOptions = {
   passwordValidator: ValidatorUtils.verifyStrongPassword,

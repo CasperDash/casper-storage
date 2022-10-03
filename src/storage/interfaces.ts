@@ -1,3 +1,5 @@
+import { Password } from "../cryptography/password";
+
 /**
  * Define a storage manager
  */
@@ -35,8 +37,23 @@ export interface IStorage {
   clear(): Promise<void>;
 
   /**
+   * Get all existing keys from storage.
+   */
+   getKeys(): Promise<string[]>;
+
+  /**
    * Check whether the storage is available to use
    */
   isAvailable(): boolean;
 
+  /**
+   * Update new password and re-sync all existing items in storage
+   * @param password 
+   */
+  updatePassword(password: Password): Promise<void>;
+
+}
+
+export interface IStorageConstructable {
+  new(password: Password): IStorage;
 }
