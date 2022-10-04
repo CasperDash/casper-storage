@@ -7,6 +7,7 @@ const data: Map<string, string> = new Map<string, string>();
 class MockStorage implements IStorage {
 
   constructor(_: Password) {
+    // This is intentional
   }
 
   set(key: string, value: string): Promise<void> {
