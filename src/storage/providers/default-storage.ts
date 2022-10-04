@@ -1,6 +1,9 @@
 import { AESUtils } from "../../cryptography";
 import { Password } from "../../cryptography/password";
+import { TypeUtils } from "../../utils";
 import { IStorage } from "../interfaces";
+
+const ENCRYPTED_PREFIX = "cps_encrypted_";
 
 /**
  * Simple wrapper for localStorage of browser
@@ -19,13 +22,13 @@ export class DefaultStorage implements IStorage {
 
   public async set(key: string, value: string, password?: Password): Promise<void> {
     const encryptedValue = await this.encrypt(value, password);
-    return this.getStorage().setItem(key, encryptedValue);
+    return this.getStorage().setItem(key, ENCRYPTED_PREFIX + encryptedValue);
   }
 
   public async get(key: string, password?: Password): Promise<string> {
     const value = this.getStorage().getItem(key);
-    if (value) {
-      return this.decrypt(value, password);
+    if (TypeUtils.isString(value) && value.startsWith(ENCRYPTED_PREFIX)) {
+      return this.decrypt(value.substring(ENCRYPTED_PREFIX.length), password);
     } else {
       return value;
     }
@@ -61,7 +64,12 @@ export class DefaultStorage implements IStorage {
   }
 
   public getKeys(): Promise<string[]> {
-    const keys = Object.keys(this.getStorage());
+    const keys = [];
+    for (const [key, value] of Object.entries(this.getStorage())) {
+      if (TypeUtils.isString(value) && value.startsWith(ENCRYPTED_PREFIX)) {
+        keys.push(key);
+      }
+    }
     return Promise.resolve(keys);
   }
 

@@ -63,37 +63,36 @@ test("user.create-ok", () => {
   ]);
 });
 
-test("user.updatePassword-invalid-password", () => {
+test("user.updatePassword-invalid-password", async () => {
   const user = new User(PASSWORD);
-  expect(() => user.updatePassword(null)).toThrowError("Password is required");
+  await expect(user.updatePassword(null)).rejects.toThrowError("Password is required");
 });
 
-test("user.updatePassword-invalid-password-empty", () => {
+test("user.updatePassword-invalid-password-empty", async () => {
   const user = new User(PASSWORD);
-  expect(() => user.updatePassword("")).toThrowError("Password is required");
+  await expect(user.updatePassword("")).rejects.toThrowError("Password is required");
 });
 
-test("user.updatePassword-weak-password", () => {
+test("user.updatePassword-weak-password", async () => {
   const user = new User(PASSWORD);
-  expect(() => user.updatePassword("abcd")).toThrowError(
+  await expect(user.updatePassword("abcd")).rejects.toThrowError(
     "Password length must be 10 or longer and it must contain at least a lowercase, an uppercase, a numeric and a special character"
   );
 });
 
-test("user.updatePassword-password-custom-validator-weak", () => {
+test("user.updatePassword-password-custom-validator-weak", async () => {
   const user = new User(PASSWORD);
-  expect(() =>
-    user.updatePassword("abcd", {
+  await expect(user.updatePassword("abcd", {
       passwordValidator: (_) => {
         return new ValidationResult(false, "Custom msg");
       },
     })
-  ).toThrowError("Custom msg");
+  ).rejects.toThrowError("Custom msg");
 });
 
-test("user.updatePassword-password-custom-validator-ok", () => {
+test("user.updatePassword-password-custom-validator-ok", async () => {
   const user = new User(PASSWORD);
-  user.updatePassword("abcd", {
+  await user.updatePassword("abcd", {
     passwordValidator: (_) => {
       return new ValidationResult(true);
     },
@@ -102,11 +101,24 @@ test("user.updatePassword-password-custom-validator-ok", () => {
   expect(user.hasLegacyWallets()).toBeFalsy();
 });
 
-test("user.updatePassword-success", () => {
+test("user.updatePassword-success", async () => {
   const user = new User(PASSWORD);
-  user.updatePassword("Test1234%^");
+  await user.updatePassword("Test1234%^");
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
+});
+
+test("user.updatePassword-success_update-storage", async () => {
+  const user = new User(PASSWORD);
+
+  await user.getStorage().set("key1", "value1");
+
+  await user.updatePassword("Test1234%^");
+
+  expect(user.hasHDWallet()).toBeFalsy();
+  expect(user.hasLegacyWallets()).toBeFalsy();
+
+  expect(await user.getStorage().get("key1")).toBe("value1");
 });
 
 test("user.hd-wallet-master-seed-get-account-0", async () => {
@@ -423,6 +435,24 @@ test("user.encrypt-decrypt", async () => {
   const decryptedText = await user.decrypt(encryptedText);
 
   expect(decryptedText).toBe("test data");
+});
+
+test("user.getStorage-available", async () => {
+  const user = prepareTestUser();
+
+  const storage = user.getStorage();
+  expect(storage).not.toBeNull();
+});
+
+test("user.getStorage-get-set-item", async () => {
+  const user = prepareTestUser();
+
+  const storage = user.getStorage();
+
+  await storage.set("key1", "value1");
+
+  const value = await storage.get("key1");
+  expect(value).toBe("value1");
 });
 
 function prepareTestUser() {

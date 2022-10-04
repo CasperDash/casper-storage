@@ -47,11 +47,9 @@ test("default-storage-get-and-set-multiple-keys", async () => {
   const storage = new DefaultStorage2(password);
   await storage.set("key", "something");
   await storage.set("key1", "something1");
-  await storage.set("key2", "something2");
 
   expect(await storage.get("key")).toBe("something");
   expect(await storage.get("key1")).toBe("something1");
-  expect(await storage.get("key2")).toBe("something2");
 })
 
 test("default-storage-get-and-set-remove", async () => {

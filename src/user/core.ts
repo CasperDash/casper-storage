@@ -1,5 +1,6 @@
 import { IHDKey } from "../bips/bip32";
 import { EncryptionType } from "../cryptography";
+import { IStorage } from "../storage";
 import { ValidationResult } from "../utils";
 import { IWallet } from "../wallet";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
@@ -49,7 +50,7 @@ export interface IUser {
   updatePassword(
     newPassword: string,
     options: Partial<PasswordOptions>
-  ): void;
+  ): Promise<void>;
 
   /**
    * Set the HD wallet information
@@ -157,10 +158,17 @@ export interface IUser {
    */
   decrypt(value: string): Promise<string>;
 
-  /* This is a type guard. It is saying that the return type of `getPasswordHashingOptions()` is a
-  `Pick` of the `PasswordOptions` interface. */
+  /*
+  * This is a type guard. It is saying that the return type of `getPasswordHashingOptions()` is a
+  * `Pick` of the `PasswordOptions` interface.
+  */
   getPasswordHashingOptions(): Pick<
     PasswordOptions,
     "salt" | "iterations" | "keySize"
   >;
+
+  /**
+   * Returns the instance of a secured storage
+   */
+  getStorage(): IStorage;
 }

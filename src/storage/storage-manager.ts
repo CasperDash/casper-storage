@@ -13,7 +13,7 @@ export class StorageManager {
    * Get an instance of storage manager
    * @returns 
    */
-  public static getInstance(password: Password): IStorage {
+  public static getInstance(password: Password, throwErrorIfNotAvailable = true): IStorage {
     let storage: IStorage;
     if (StorageManager._storageConstructor) {
       storage = new StorageManager._storageConstructor(password);
@@ -25,7 +25,9 @@ export class StorageManager {
       return storage;
     }
 
-    throw new Error(`No storage is available, please implement one with IStorage and register with StorageManager.register`);
+    if (throwErrorIfNotAvailable) {
+      throw new Error(`No storage is available, please implement one with IStorage and register with StorageManager.register`);
+    }
   }
 
   /**

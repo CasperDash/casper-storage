@@ -5,6 +5,7 @@ import { IUser, PasswordOptions, UserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex } from "../utils";
 import { Password } from "../cryptography/password";
+import { IStorage, StorageManager } from "../storage";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -42,7 +43,6 @@ export class User implements IUser {
    * @param password a secure password to encrypt/decrypt user's data
    * @param options Options to work with user's instance
    */
-
   constructor(
     password: string,
     options?: Partial<UserOptions>
@@ -53,11 +53,11 @@ export class User implements IUser {
   /**
    * Update password to serialize user's information.
    * A new salt will be generated regardless the given options.
-   * @param newPassword
+   * @param password
    * @param options
    */
-  public updatePassword(
-    newPassword: string,
+  public async updatePassword(
+    password: string,
     options?: Partial<PasswordOptions>
   ) {
 
@@ -66,7 +66,15 @@ export class User implements IUser {
       options.salt = null;
     }
 
-    this.password = new Password(newPassword, options);
+    const newPassword = new Password(password, options);
+
+    // Resync existing keys
+    const storage = this.getStorage(false);
+    if (storage) {
+      await storage.updatePassword(newPassword)
+    }
+
+    this.password = newPassword;
   }
 
   public setHDWallet(keyPhrase: string, encryptionType: EncryptionType) {
@@ -258,6 +266,21 @@ export class User implements IUser {
     return AESUtils.decrypt(this.password.getPassword(), value, this.password.getSalt(), this.password.getSalt());
   }
 
+  public getPasswordHashingOptions(): Pick<
+    PasswordOptions,
+    "salt" | "iterations" | "keySize"
+  > {
+    return {
+      salt: this.password.getSalt(),
+      iterations: this.password.getIterations(),
+      keySize: this.password.getKeySize(),
+    };
+  }
+
+  public getStorage(throwErrorIfNotAvailable = true): IStorage {
+    return StorageManager.getInstance(this.password, throwErrorIfNotAvailable);
+  }
+
   private getWallet(): IHDWallet<IWallet<IHDKey>> {
     if (!this.hdWallet) {
       return null;
@@ -288,14 +311,4 @@ export class User implements IUser {
     return id.indexOf('/') >= 0;
   }
 
-  public getPasswordHashingOptions(): Pick<
-    PasswordOptions,
-    "salt" | "iterations" | "keySize"
-  > {
-    return {
-      salt: this.password.getSalt(),
-      iterations: this.password.getIterations(),
-      keySize: this.password.getKeySize(),
-    };
-  }
 }
