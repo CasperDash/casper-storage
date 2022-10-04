@@ -4,7 +4,7 @@ import { EncryptionType } from "../../../cryptography";
 import * as asn1Js from "asn1.js";
 
 const ECPrivateKeyASN = asn1Js.define("ECPrivateKey", function () {
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const self = this as any
   self.seq().obj(
       self.key("version").int(),

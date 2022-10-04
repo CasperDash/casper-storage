@@ -50,7 +50,7 @@ export class DefaultStorage implements IStorage {
     // Resync all existing keys
     const keys = await this.getKeys();
     if (keys && keys.length) {
-      for (var i = 0; i < keys.length; i++) {
+      for (let i = 0; i < keys.length; i++) {
         const key = keys[i];
         // Get the existing item with previous password
         const value = await this.get(key);
