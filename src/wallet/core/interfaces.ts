@@ -76,6 +76,11 @@ export interface IWallet<TKey> {
    */
   getPublicAddress(): Promise<string>;
 
+  /**
+   * Returns the private key of wallet in PEM format
+   */
+  getPrivateKeyInPEM(): string;
+
 }
 
 /**
