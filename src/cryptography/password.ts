@@ -4,7 +4,7 @@ import { PasswordOptions } from "../user/core";
 
 const defaultOptions = {
   passwordValidator: ValidatorUtils.verifyStrongPassword,
-  iterations: 100,
+  iterations: 120000,
   keySize: 512 / 32,
 };
 
