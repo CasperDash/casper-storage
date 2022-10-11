@@ -1,5 +1,5 @@
 import { EncryptionType, CryptoUtils } from "../../cryptography";
-import { Hex } from "../../utils";
+import { Hex, TypeUtils } from "../../utils";
 import { IHDKeyManager, Versions } from "./core";
 import { IHDKey } from "./hdkey/core";
 
@@ -7,6 +7,11 @@ import { IHDKey } from "./hdkey/core";
  * Default versions
  */
 const BITCOIN_VERSIONS = { private: 0x0488ADE4, public: 0x0488B21E };
+
+/**
+ * Minimum length of master seed
+ */
+const MIN_SEED_LENGTH = 128;
 
 /**
  * Base HDKey manager, to initialize the root key from the master seed.
@@ -30,6 +35,15 @@ export abstract class HDKeyManagerBase implements IHDKeyManager {
     return this._encryptionType;
   }
 
+  public verifySeed(seed: Uint8Array) {
+    if (!seed || !seed.length) {
+      throw new Error("Master seed is required");
+    }
+    if (seed.length < MIN_SEED_LENGTH) {
+      throw new Error(`Master seed is not strong enough. Expected length is greater than or equal to ${MIN_SEED_LENGTH} but received ${seed.length}`);
+    }
+  }
+
   /**
    * Create a new HDKey object from a seed
    * @param {Hex} seed - The seed to use to generate the master key.
@@ -37,9 +51,7 @@ export abstract class HDKeyManagerBase implements IHDKeyManager {
    * @returns The HDKey object.
    */
   public fromMasterSeed(seed: Hex, versions?: Versions) {
-    if (!seed || !seed.length) {
-      throw new Error("Master seed is required");
-    }
+    this.verifySeed(TypeUtils.parseHexToArray(seed));
 
     const { key, chainCode } = CryptoUtils.digestSHA512(seed, this.GetMasterSecret());
     return this.createNewHDKey(key, chainCode, versions || BITCOIN_VERSIONS);

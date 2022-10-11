@@ -26,6 +26,11 @@ export class HDKeyED25519 extends HDKey {
       throw new Error("Cannot derive a hardened child without private key")
     }
 
+    const isHardened = index >= this.getHardenedOffset();
+    if (!isHardened) {
+      throw new Error("Hardened index is required to derive a hardened child");
+    }
+
     // data = 0x00 || ser256(kpar) || ser32(index)
     const data = TypeUtils.concatBytes(TypeUtils.getBytesOfZero(), privateKey, TypeUtils.convertU32ToBytes(index));
 

@@ -26,14 +26,13 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
     if (encryptionType == null || (encryptionType !== EncryptionType.Ed25519 && encryptionType !== EncryptionType.Secp256k1)) {
       throw new Error("The encryption type must be provided (e.g: EncryptionType.Ed25519 or EncryptionType.Secp256k1)"); 
     }
-    if (!masterSeed) {
-      throw new Error("The master seed must be provided");
-    }
+
+    this.masterSeed = TypeUtils.parseHexToArray(masterSeed);
+    this.getHDKeyManager().verifySeed(this.masterSeed);
 
     this.walletConstructor = walletConstructor;
     this.coinPath          = coinPath;
     this.encryptionType    = encryptionType;
-    this.masterSeed        = TypeUtils.parseHexToArray(masterSeed);
   }
 
   public getEncryptionType(): EncryptionType {

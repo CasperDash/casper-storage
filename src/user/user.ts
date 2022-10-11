@@ -205,36 +205,31 @@ export class User implements IUser {
    * Serializes the wallet and encrypts it with the password.
    * @returns The encrypted wallet.
    */
-  public async serialize(encrypt = true): Promise<string> {
+  public async serialize(): Promise<string> {
     const obj = {
       hdWallet: this.getHDWallet(),
       legacyWallets: this.getLegacyWallets(),
     };
 
-    let result = JSON.stringify(obj);
-    if (encrypt) {
-      result = await this.encrypt(result);
-    }
+    const resultAsJSON = JSON.stringify(obj);
+    const result = await this.encrypt(resultAsJSON);
     return result;
   }
 
   /**
    * Deserializes the serialized and encrypted user information to merge back the current user instance.
    * @param {string} value - serialized user information
-   * @param {bool} encrypted - the value is encrypted
    */
-  public async deserialize(value: string, encrypted = true): Promise<void> {
-    let text = value;
+  public async deserialize(value: string): Promise<void> {
+    let decryptedValue = value;
     try {
-      if (encrypted) {
-        text = await this.decrypt(value);
-      }
+      decryptedValue = await this.decrypt(value);
     } catch (err) {
       throw new Error(`Unable to decrypt user information. Error: ${err}`);
     }
 
     try {
-      const obj = JSON.parse(text);
+      const obj = JSON.parse(decryptedValue);
       if (obj.hdWallet) {
         this.setHDWallet(obj.hdWallet.keyPhrase, obj.hdWallet.encryptionType);
 

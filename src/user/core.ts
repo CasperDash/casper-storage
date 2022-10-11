@@ -136,9 +136,8 @@ export interface IUser {
 
   /**
    * Serialize the user information to a store-able string which is secured by user's password
-   * @param encrypt
    */
-  serialize(encrypt: boolean): Promise<string>;
+  serialize(): Promise<string>;
 
   /**
    * Deserialize the serialized and encrypted value
