@@ -11,7 +11,8 @@ const BITCOIN_VERSIONS = { private: 0x0488ADE4, public: 0x0488B21E };
 /**
  * Minimum length of master seed
  */
-const MIN_SEED_LENGTH = 128;
+const MIN_SEED_LENGTH_BITS = 128;
+const MIN_SEED_LENGTH_BYTES = MIN_SEED_LENGTH_BITS / 8;
 
 /**
  * Base HDKey manager, to initialize the root key from the master seed.
@@ -39,8 +40,8 @@ export abstract class HDKeyManagerBase implements IHDKeyManager {
     if (!seed || !seed.length) {
       throw new Error("Master seed is required");
     }
-    if (seed.length < MIN_SEED_LENGTH) {
-      throw new Error(`Master seed is not strong enough. Expected length is greater than or equal to ${MIN_SEED_LENGTH} but received ${seed.length}`);
+    if (seed.length < MIN_SEED_LENGTH_BYTES) {
+      throw new Error(`Master seed is not strong enough. Expected length is greater than or equal to ${MIN_SEED_LENGTH_BYTES} but received ${seed.length}`);
     }
   }
 
