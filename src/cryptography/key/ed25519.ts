@@ -30,6 +30,11 @@ class KeyWrapper implements IAsymmetricKey {
     throw new Error("This method is not supported")
   }
 
+  public isValidPrivateKey(): boolean {
+    // For ed25519, the last step always succeeds since every 256-bit number (even 0) is a valid private key.
+    return true;
+  }
+
   public getKeyInPEM(key: Uint8Array, isPrivate: boolean): string {
     if (isPrivate) {
       const encoded = base64.encode(TypeUtils.concatBytes(PRIVATE_DER_PREFIX, key));

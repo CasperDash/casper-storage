@@ -28,6 +28,12 @@ export interface IAsymmetricKey {
   publicKeyTweakAdd(publicKey: Hex, tweak: Hex, compressed?: boolean): Promise<Uint8Array>;
 
   /**
+   * Validates if the given private key is valid to use
+   * @param privateKey 
+   */
+  isValidPrivateKey(privateKey: Hex): boolean;
+
+  /**
    * Returns the given key (either private or public) in PEM format
    * @param key 
    * @param isPrivate 

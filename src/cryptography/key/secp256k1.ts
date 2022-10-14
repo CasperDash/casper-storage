@@ -36,6 +36,14 @@ class KeyWrapper implements IAsymmetricKey {
     });
   }
 
+  public isValidPrivateKey(privateKey: Hex): boolean {
+    const privateKeyNumber = TypeUtils.bytesToNumber(TypeUtils.parseHexToArray(privateKey));
+    if (privateKeyNumber == 0n || privateKeyNumber >= secp.CURVE.n) {
+      return false;
+    }
+    return true;
+  }
+
   public getKeyInPEM(key: Uint8Array, isPrivate: boolean): string {
     if (isPrivate) {
       return keyEncoder.encodePrivate(base16.encode(key), "raw", "pem");

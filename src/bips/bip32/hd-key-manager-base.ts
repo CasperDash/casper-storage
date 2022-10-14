@@ -1,4 +1,4 @@
-import { EncryptionType, CryptoUtils } from "../../cryptography";
+import { EncryptionType, CryptoUtils, AsymmetricKeyFactory } from "../../cryptography";
 import { Hex, TypeUtils } from "../../utils";
 import { IHDKeyManager, Versions } from "./core";
 import { IHDKey } from "./hdkey/core";
@@ -59,15 +59,32 @@ export abstract class HDKeyManagerBase implements IHDKeyManager {
   }
 
   /**
-   * Get the master key for the seed
-   */
-  protected abstract GetMasterSecret(): Uint8Array;
-
-  /**
    * Construct a new HD key with valid information
    * @param privateKey 
    * @param chainCode 
    * @param versions 
    */
-  protected abstract createNewHDKey(privateKey: Uint8Array, chainCode: Uint8Array, versions: Versions) : IHDKey;
+  protected createNewHDKey(privateKey: Uint8Array, chainCode: Uint8Array, versions: Versions) : IHDKey {
+    if (!this.getKeyFactory().isValidPrivateKey(privateKey)) {
+      throw new Error("The master secret is bad, which produces invalid private key");
+    }
+    return this.createNewHDKey_Unsafe(privateKey, chainCode, versions);
+  }
+
+  /**
+   * Returns the asymetric key wrapper
+   */
+  protected getKeyFactory() {
+    return AsymmetricKeyFactory.getInstance(this.encryptionType);
+  }
+
+  /**
+   * Returns the master key for the seed
+   */
+  protected abstract GetMasterSecret(): Uint8Array;
+
+  /**
+   * Simply construct a new HDKey from give inputs without any validation.
+   */
+  protected abstract createNewHDKey_Unsafe(privateKey: Uint8Array, chainCode: Uint8Array, versions: Versions) : IHDKey;
 }
