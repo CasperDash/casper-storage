@@ -31,7 +31,7 @@
     "test": "yarn test:web",
     "test:web": "jest --env=./test/test-web-env.js",
     "test:node": "jest --env=node",
-    "testci": "jest --env=./test/test-env.js --coverage",
+    "testci": "jest --env=./test/test-web-env.js --coverage",
     "clean": "rimraf dist build package coverage docs",
     "docs": "typedoc --entryPoints src/index.ts",
     "build": "tsc -p tsconfig.build.json --downlevelIteration",
