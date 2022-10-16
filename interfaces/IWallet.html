@@ -26,7 +26,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">IWallet</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L20">wallet/core/interfaces.ts:20</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L20">wallet/core/interfaces.ts:20</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -38,6 +38,7 @@
 <a href="IWallet.html#getKey" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Key</span></a>
 <a href="IWallet.html#getPrivateKey" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Private<wbr/>Key</span></a>
 <a href="IWallet.html#getPrivateKeyByteArray" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Private<wbr/>Key<wbr/>Byte<wbr/>Array</span></a>
+<a href="IWallet.html#getPrivateKeyInPEM" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Private<wbr/>Key<wbr/>InPEM</span></a>
 <a href="IWallet.html#getPublicAddress" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Public<wbr/>Address</span></a>
 <a href="IWallet.html#getPublicAddressByteArray" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Public<wbr/>Address<wbr/>Byte<wbr/>Array</span></a>
 <a href="IWallet.html#getPublicKey" class="tsd-index-link tsd-kind-method tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Public<wbr/>Key</span></a>
@@ -57,18 +58,18 @@
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../enums/EncryptionType.html" class="tsd-signature-type" data-tsd-kind="Enumeration">EncryptionType</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L37">wallet/core/interfaces.ts:37</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L37">wallet/core/interfaces.ts:37</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getKey" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Key</span><a href="#getKey" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
 <li class="tsd-signature tsd-anchor-link" id="getKey.getKey-1">get<wbr/>Key<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">TKey</span><a href="#getKey.getKey-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The key (private) of wallet
-either the private key of legacy wallet or a detailed key holder of a HD wallet</p>
+either the private key of legacy wallet or a key holder of a HD wallet</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">TKey</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L26">wallet/core/interfaces.ts:26</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L26">wallet/core/interfaces.ts:26</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPrivateKey" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Private<wbr/>Key</span><a href="#getPrivateKey" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -78,7 +79,7 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L62">wallet/core/interfaces.ts:62</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L62">wallet/core/interfaces.ts:62</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPrivateKeyByteArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Private<wbr/>Key<wbr/>Byte<wbr/>Array</span><a href="#getPrivateKeyByteArray" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -88,7 +89,17 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L42">wallet/core/interfaces.ts:42</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L42">wallet/core/interfaces.ts:42</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPrivateKeyInPEM" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Private<wbr/>Key<wbr/>InPEM</span><a href="#getPrivateKeyInPEM" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+<li class="tsd-signature tsd-anchor-link" id="getPrivateKeyInPEM.getPrivateKeyInPEM-1">get<wbr/>Private<wbr/>Key<wbr/>InPEM<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#getPrivateKeyInPEM.getPrivateKeyInPEM-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the private key of wallet in PEM format</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L82">wallet/core/interfaces.ts:82</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPublicAddress" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Public<wbr/>Address</span><a href="#getPublicAddress" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -98,7 +109,7 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L77">wallet/core/interfaces.ts:77</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L77">wallet/core/interfaces.ts:77</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPublicAddressByteArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Public<wbr/>Address<wbr/>Byte<wbr/>Array</span><a href="#getPublicAddressByteArray" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -108,7 +119,7 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L57">wallet/core/interfaces.ts:57</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L57">wallet/core/interfaces.ts:57</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPublicKey" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Public<wbr/>Key</span><a href="#getPublicKey" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -118,7 +129,7 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L72">wallet/core/interfaces.ts:72</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L72">wallet/core/interfaces.ts:72</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getPublicKeyByteArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Public<wbr/>Key<wbr/>Byte<wbr/>Array</span><a href="#getPublicKeyByteArray" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -128,7 +139,7 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L52">wallet/core/interfaces.ts:52</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L52">wallet/core/interfaces.ts:52</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getRawPublicKey" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Raw<wbr/>Public<wbr/>Key</span><a href="#getRawPublicKey" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -138,7 +149,7 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L67">wallet/core/interfaces.ts:67</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L67">wallet/core/interfaces.ts:67</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getRawPublicKeyByteArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Raw<wbr/>Public<wbr/>Key<wbr/>Byte<wbr/>Array</span><a href="#getRawPublicKeyByteArray" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -148,18 +159,18 @@ either the private key of legacy wallet or a detailed key holder of a HD wallet<
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L47">wallet/core/interfaces.ts:47</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L47">wallet/core/interfaces.ts:47</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface"><a id="getReferenceKey" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Reference<wbr/>Key</span><a href="#getReferenceKey" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
 <li class="tsd-signature tsd-anchor-link" id="getReferenceKey.getReferenceKey-1">get<wbr/>Reference<wbr/>Key<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#getReferenceKey.getReferenceKey-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Returns the refrence key of wallet
+<div class="tsd-comment tsd-typography"><p>Returns the reference key of wallet
 either a private key for legacy wallet or derived path of sub-wallet of HD wallet</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/wallet/core/interfaces.ts#L32">wallet/core/interfaces.ts:32</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/wallet/core/interfaces.ts#L32">wallet/core/interfaces.ts:32</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -189,6 +200,7 @@ either a private key for legacy wallet or derived path of sub-wallet of HD walle
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IWallet.html#getKey" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Key</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IWallet.html#getPrivateKey" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Private<wbr/>Key</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IWallet.html#getPrivateKeyByteArray" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Private<wbr/>Key<wbr/>Byte<wbr/>Array</a></li>
+<li class="tsd-kind-method tsd-parent-kind-interface"><a href="IWallet.html#getPrivateKeyInPEM" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Private<wbr/>Key<wbr/>InPEM</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IWallet.html#getPublicAddress" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Public<wbr/>Address</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IWallet.html#getPublicAddressByteArray" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Public<wbr/>Address<wbr/>Byte<wbr/>Array</a></li>
 <li class="tsd-kind-method tsd-parent-kind-interface"><a href="IWallet.html#getPublicKey" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Public<wbr/>Key</a></li>

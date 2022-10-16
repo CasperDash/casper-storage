@@ -23,7 +23,7 @@ and also be able to decrypt the encrypted value back to the original text with t
 <ul class="tsd-hierarchy">
 <li><span class="target">AESUtils</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/aes-utils.ts#L10">cryptography/utils/aes-utils.ts:10</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/aes-utils.ts#L18">cryptography/utils/aes-utils.ts:18</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -51,9 +51,9 @@ and also be able to decrypt the encrypted value back to the original text with t
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="decrypt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>decrypt</span><a href="#decrypt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="decrypt.decrypt-1">decrypt<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, encryptedValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#decrypt.decrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="decrypt.decrypt-1">decrypt<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><a href="../types/Hex.html" class="tsd-signature-type" data-tsd-kind="Type alias">Hex</a>, iv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, mode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><a href="#decrypt.decrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>It decrypts the encrypted value using the key.</p>
+<div class="tsd-comment tsd-typography"><p>Decrypts a value</p>
 
 <h3>Returns</h3><p>The decrypted value.</p>
 </div>
@@ -61,39 +61,55 @@ and also be able to decrypt the encrypted value back to the original text with t
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>key: <span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>The key used to encrypt the value.</p>
+<h5>password: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The password to decrypt value.</p>
 </div></li>
 <li>
-<h5>encryptedValue: <span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>The encrypted value that you want to decrypt.</p>
+<h5>value: <a href="../types/Hex.html" class="tsd-signature-type" data-tsd-kind="Type alias">Hex</a></h5>
+<div class="tsd-comment tsd-typography"><p>The value to decrypt.</p>
+</div></li>
+<li>
+<h5>iv: <span class="tsd-signature-type">Uint8Array</span></h5>
+<div class="tsd-comment tsd-typography"><p>The additional data for encryption.</p>
+</div></li>
+<li>
+<h5>mode: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;AES-GCM&quot;</span></h5>
+<div class="tsd-comment tsd-typography"><p>The AES mode to decrypt value (default is AES-GCM).</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/aes-utils.ts#L47">cryptography/utils/aes-utils.ts:47</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/aes-utils.ts#L58">cryptography/utils/aes-utils.ts:58</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="encrypt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>encrypt</span><a href="#encrypt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="encrypt.encrypt-1">encrypt<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#encrypt.encrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="encrypt.encrypt-1">encrypt<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, iv<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Uint8Array</span>, mode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="EncryptionResult.html" class="tsd-signature-type" data-tsd-kind="Class">EncryptionResult</a><span class="tsd-signature-symbol">&gt;</span><a href="#encrypt.encrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Encrypt a string using AES in CTR mode</p>
+<div class="tsd-comment tsd-typography"><p>Encrypts a value</p>
 
-<h3>Returns</h3><p>The encrypted value.</p>
+<h3>Returns</h3><p>The encrypted value with a random generated salt</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>key: <span class="tsd-signature-type">string</span></h5>
-<div class="tsd-comment tsd-typography"><p>The key to use for encryption.</p>
+<h5>password: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The password to encrypt value.</p>
 </div></li>
 <li>
 <h5>value: <span class="tsd-signature-type">string</span></h5>
 <div class="tsd-comment tsd-typography"><p>The value to encrypt.</p>
+</div></li>
+<li>
+<h5>iv: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> = null</span></h5>
+<div class="tsd-comment tsd-typography"><p>The IV for encryption, if it is null we will generate a random one and returns as a part of result.</p>
+</div></li>
+<li>
+<h5>mode: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;AES-GCM&quot;</span></h5>
+<div class="tsd-comment tsd-typography"><p>The AES mode to encrypt value (default is AES-GCM).</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="EncryptionResult.html" class="tsd-signature-type" data-tsd-kind="Class">EncryptionResult</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/aes-utils.ts#L18">cryptography/utils/aes-utils.ts:18</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/aes-utils.ts#L29">cryptography/utils/aes-utils.ts:29</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

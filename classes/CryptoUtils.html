@@ -21,7 +21,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">CryptoUtils</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L14">cryptography/utils/crypto-utils.ts:14</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L19">cryptography/utils/crypto-utils.ts:19</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -35,9 +35,10 @@
 <h3 class="tsd-index-heading">Methods</h3>
 <div class="tsd-index-list"><a href="CryptoUtils.html#blake2bHash" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>blake2b<wbr/>Hash</span></a>
 <a href="CryptoUtils.html#digestSHA512" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>digestSHA512</span></a>
+<a href="CryptoUtils.html#ensurePbkdf2Input" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-private"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>ensure<wbr/>Pbkdf2<wbr/>Input</span></a>
+<a href="CryptoUtils.html#getCrypto" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>get<wbr/>Crypto</span></a>
 <a href="CryptoUtils.html#hash160" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>hash160</span></a>
 <a href="CryptoUtils.html#hash256" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>hash256</span></a>
-<a href="CryptoUtils.html#pbkdf2" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>pbkdf2</span></a>
 <a href="CryptoUtils.html#pbkdf2Sync" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>pbkdf2<wbr/>Sync</span></a>
 <a href="CryptoUtils.html#randomBytes" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>random<wbr/>Bytes</span></a>
 <a href="CryptoUtils.html#scrypt" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>scrypt</span></a>
@@ -74,7 +75,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L115">cryptography/utils/crypto-utils.ts:115</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L108">cryptography/utils/crypto-utils.ts:108</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="digestSHA512" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>digestSHA512</span><a href="#digestSHA512" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -102,7 +103,35 @@
 <li class="tsd-parameter">
 <h5>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></h5></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L22">cryptography/utils/crypto-utils.ts:22</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L27">cryptography/utils/crypto-utils.ts:27</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="ensurePbkdf2Input" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagPrivate">Private</code> <span>ensure<wbr/>Pbkdf2<wbr/>Input</span><a href="#ensurePbkdf2Input" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+<li class="tsd-signature tsd-anchor-link" id="ensurePbkdf2Input.ensurePbkdf2Input-1">ensure<wbr/>Pbkdf2<wbr/>Input<span class="tsd-signature-symbol">(</span>salt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, iterations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, keySize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#ensurePbkdf2Input.ensurePbkdf2Input-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>salt: <span class="tsd-signature-type">Uint8Array</span></h5></li>
+<li>
+<h5>iterations: <span class="tsd-signature-type">number</span></h5></li>
+<li>
+<h5>keySize: <span class="tsd-signature-type">number</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L141">cryptography/utils/crypto-utils.ts:141</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="getCrypto" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>get<wbr/>Crypto</span><a href="#getCrypto" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+<li class="tsd-signature tsd-anchor-link" id="getCrypto.getCrypto-1">get<wbr/>Crypto<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Crypto</span><a href="#getCrypto.getCrypto-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the crypto instance which is resolved based on the envrionment</p>
+
+<h3>Returns</h3></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Crypto</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L131">cryptography/utils/crypto-utils.ts:131</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="hash160" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>hash160</span><a href="#hash160" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -121,7 +150,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L64">cryptography/utils/crypto-utils.ts:64</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L69">cryptography/utils/crypto-utils.ts:69</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="hash256" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>hash256</span><a href="#hash256" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -140,39 +169,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L48">cryptography/utils/crypto-utils.ts:48</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="pbkdf2" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>pbkdf2</span><a href="#pbkdf2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="pbkdf2.pbkdf2-1">pbkdf2<span class="tsd-signature-symbol">(</span>password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, salt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, iterations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, keySize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span><a href="#pbkdf2.pbkdf2-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>It uses the SHA-512 hash function to generate a key from the password and salt.</p>
-
-<h3>Returns</h3><p>The PBKDF2 function returns a Promise that resolves to a Uint8Array containing the
-derived key.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5>password: <span class="tsd-signature-type">Uint8Array</span></h5>
-<div class="tsd-comment tsd-typography"><p>The password to use for the key derivation.</p>
-</div></li>
-<li>
-<h5>salt: <span class="tsd-signature-type">Uint8Array</span></h5>
-<div class="tsd-comment tsd-typography"><p>A salt to use for the key derivation function.</p>
-</div></li>
-<li>
-<h5>iterations: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>The number of iterations to perform.</p>
-</div></li>
-<li>
-<h5>keySize: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>The size of the derived key in bytes.</p>
-</div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L96">cryptography/utils/crypto-utils.ts:96</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L53">cryptography/utils/crypto-utils.ts:53</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="pbkdf2Sync" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>pbkdf2<wbr/>Sync</span><a href="#pbkdf2Sync" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -191,19 +188,19 @@ derived key.</p>
 </div></li>
 <li>
 <h5>salt: <span class="tsd-signature-type">Uint8Array</span></h5>
-<div class="tsd-comment tsd-typography"><p>A salt to use for the key derivation function.</p>
+<div class="tsd-comment tsd-typography"><p>A salt to use for the key derivation function (salt&#39;s length must be from 16).</p>
 </div></li>
 <li>
 <h5>iterations: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>The number of iterations to perform.</p>
+<div class="tsd-comment tsd-typography"><p>The number of iterations to perform (must be from 120k).</p>
 </div></li>
 <li>
 <h5>keySize: <span class="tsd-signature-type">number</span></h5>
-<div class="tsd-comment tsd-typography"><p>The size of the derived key in bytes.</p>
+<div class="tsd-comment tsd-typography"><p>The size of the derived key in bytes (must be from 16).</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L83">cryptography/utils/crypto-utils.ts:83</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L88">cryptography/utils/crypto-utils.ts:88</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="randomBytes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>random<wbr/>Bytes</span><a href="#randomBytes" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -222,11 +219,11 @@ derived key.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L105">cryptography/utils/crypto-utils.ts:105</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L98">cryptography/utils/crypto-utils.ts:98</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="scrypt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>scrypt</span><a href="#scrypt" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="scrypt.scrypt-1">scrypt<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><a href="#scrypt.scrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="scrypt.scrypt-1">scrypt<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, salt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><a href="#scrypt.scrypt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Create a strong private key from any input, where the key is longer and more secure.</p>
 
@@ -235,10 +232,12 @@ derived key.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>input: <span class="tsd-signature-type">string</span></h5></li></ul></div>
+<h5>input: <span class="tsd-signature-type">string</span></h5></li>
+<li>
+<h5>salt: <span class="tsd-signature-type">Uint8Array</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/92b63c1/src/cryptography/utils/crypto-utils.ts#L126">cryptography/utils/crypto-utils.ts:126</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/CasperDash/casper-storage/blob/b6b5120/src/cryptography/utils/crypto-utils.ts#L120">cryptography/utils/crypto-utils.ts:120</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -267,9 +266,10 @@ derived key.</p>
 <li class="tsd-kind-constructor tsd-parent-kind-class"><a href="CryptoUtils.html#constructor" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-512-path"></use><use href="#icon-512-text"></use></svg>constructor</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#blake2bHash" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>blake2b<wbr/>Hash</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#digestSHA512" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>digestSHA512</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="CryptoUtils.html#ensurePbkdf2Input" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>ensure<wbr/>Pbkdf2<wbr/>Input</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#getCrypto" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>get<wbr/>Crypto</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#hash160" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>hash160</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#hash256" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>hash256</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#pbkdf2" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>pbkdf2</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#pbkdf2Sync" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>pbkdf2<wbr/>Sync</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#randomBytes" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>random<wbr/>Bytes</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="CryptoUtils.html#scrypt" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>scrypt</a></li></ul></li></ul></nav></div></div>
