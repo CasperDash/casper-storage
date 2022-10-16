@@ -1,12 +1,12 @@
-import { Password } from "../../../src/cryptography/password";
+import { PasswordOptions } from "../../../src/cryptography/password-options";
 import { DefaultStorage } from "../../../src/storage/providers/default-storage";
 
-const password  = new Password("Abcd.1234@");
-const password2 = new Password("Abcd.1234@22");
+const password  = new PasswordOptions("Abcd.1234@");
+const password2 = new PasswordOptions("Abcd.1234@22");
 
 class DefaultStorage2 extends DefaultStorage {
-  constructor(password: Password) {
-    super(password);
+  constructor(pwdOptions: PasswordOptions) {
+    super(pwdOptions);
   }
 
   public getKeys(): Promise<string[]> {

@@ -1,11 +1,10 @@
 import { IHDKey } from "../bips/bip32";
 import { CasperHDWallet, IHDWallet, IWallet } from "../wallet";
 import { EncryptionType, AESUtils } from "../cryptography";
-import { IUser, PasswordOptions, UserOptions } from "./core";
+import { IUser, IUserOptions, EncryptionValue } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex } from "../utils";
-import { Password } from "../cryptography/password";
-import { IStorage, StorageManager } from "../storage";
+import { defaultValidator, IPasswordOptions, IPasswordValidator, PasswordOptions as PasswordOptions } from "../cryptography/password-options";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -13,6 +12,7 @@ import { IStorage, StorageManager } from "../storage";
  * We should never store user's password but its encrypted one to do extra actions.
  */
 export class User implements IUser {
+
   /**
    * Deserialize user information to an instance of user
    * @param password
@@ -23,7 +23,7 @@ export class User implements IUser {
   public static async deserializeFrom(
     password: string,
     userEncryptedInfo: string,
-    options?: Partial<UserOptions>
+    options?: Partial<IUserOptions>
   ): Promise<User> {
     const user = new User(password, options);
     await user.deserialize(userEncryptedInfo);
@@ -34,7 +34,9 @@ export class User implements IUser {
    * Secret password (encrypted from user's password).
    * To serialize/deserialize the wallet information
    */
-  private password: Password;
+  private pwdOptions: PasswordOptions;
+  private passwordValidator: IPasswordValidator;
+
   private hdWallet: HDWalletInfo;
   private legacyWallets: WalletInfo[];
 
@@ -45,36 +47,30 @@ export class User implements IUser {
    */
   constructor(
     password: string,
-    options?: Partial<UserOptions>
+    options?: Partial<IUserOptions>
   ) {
-    this.password = new Password(password, options && options.passwordOptions);
+    options = options || {};
+
+    this.passwordValidator = options.passwordValidator || defaultValidator;
+    this.validatePassword(password);
+
+    this.pwdOptions = new PasswordOptions(password, options.passwordOptions);
   }
 
   /**
    * Update password to serialize user's information.
    * A new salt will be generated regardless the given options.
    * @param password
-   * @param options
    */
-  public async updatePassword(
-    password: string,
-    options?: Partial<PasswordOptions>
-  ) {
+  public async updatePassword(password: string) {
+    this.validatePassword(password);
 
     // Force to generate a new salt
-    if (options) {
-      options.salt = null;
-    }
+    const newPassword = new PasswordOptions(password, {
+      ...this.pwdOptions, salt: null
+    });
 
-    const newPassword = new Password(password, options);
-
-    // Resync existing keys
-    const storage = this.getStorage(false);
-    if (storage) {
-      await storage.updatePassword(newPassword)
-    }
-
-    this.password = newPassword;
+    this.pwdOptions = newPassword;
   }
 
   public setHDWallet(keyPhrase: string, encryptionType: EncryptionType) {
@@ -205,7 +201,7 @@ export class User implements IUser {
    * Serializes the wallet and encrypts it with the password.
    * @returns The encrypted wallet.
    */
-  public async serialize(): Promise<string> {
+  public async serialize(): Promise<EncryptionValue> {
     const obj = {
       hdWallet: this.getHDWallet(),
       legacyWallets: this.getLegacyWallets(),
@@ -253,27 +249,18 @@ export class User implements IUser {
     }
   }
 
-  public encrypt(value: string): Promise<string> {
-    return AESUtils.encrypt(this.password.getPassword(), value, this.password.getSalt(), this.password.getSalt());
+  public async encrypt(value: string): Promise<EncryptionValue> {
+    const encryption = await AESUtils.encrypt(this.pwdOptions.password, value);
+    this.pwdOptions = new PasswordOptions(this.pwdOptions.password, { ...this.pwdOptions, salt: encryption.additionalData });
+    return new EncryptionValue(encryption.encryptedValue, this.pwdOptions);
   }
 
   public decrypt(value: string): Promise<string> {
-    return AESUtils.decrypt(this.password.getPassword(), value, this.password.getSalt(), this.password.getSalt());
+    return AESUtils.decrypt(this.pwdOptions.password, value, this.pwdOptions.salt);
   }
 
-  public getPasswordHashingOptions(): Pick<
-    PasswordOptions,
-    "salt" | "iterations" | "keySize"
-  > {
-    return {
-      salt: this.password.getSalt(),
-      iterations: this.password.getIterations(),
-      keySize: this.password.getKeySize(),
-    };
-  }
-
-  public getStorage(throwErrorIfNotAvailable = true): IStorage {
-    return StorageManager.getInstance(this.password, throwErrorIfNotAvailable);
+  public getPasswordOptions(): IPasswordOptions {
+    return this.pwdOptions.getOptions();
   }
 
   private getWallet(): IHDWallet<IWallet<IHDKey>> {
@@ -304,6 +291,32 @@ export class User implements IUser {
   */
   private isHDWalletPath(id: string) {
     return id.indexOf('/') >= 0;
+  }
+
+  /**
+   * Confirms the given password matches requirements
+   * @param password
+   */
+  private validatePassword(password: string) {
+    const validator = this.passwordValidator;
+
+    if (validator.validatorFunc) {
+      const result = validator.validatorFunc(password);
+      
+      if (!result) {
+        throw new Error("The password validator failed to run");
+      }
+      
+      if (!result.status) {
+        throw new Error(result.message);
+      }
+    }
+
+    if (validator.validatorRegex) {
+      if (!new RegExp(validator.validatorRegex).test(password)) {
+        throw new Error("Password is not strong enough");
+      }
+    }
   }
 
 }

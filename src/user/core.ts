@@ -1,39 +1,24 @@
 import { IHDKey } from "../bips/bip32";
 import { EncryptionType } from "../cryptography";
-import { IStorage } from "../storage";
-import { ValidationResult } from "../utils";
+import { IPasswordOptions, IPasswordValidator } from "../cryptography/password-options";
 import { IWallet } from "../wallet";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 
 /**
- * Options to validate password
+ * Options to configure users
  */
-export interface PasswordOptions {
-  /**
-   * A function to validate the password
-   */
-  passwordValidator: (pwd: string) => ValidationResult;
-
-  /**
-   * A regex string to validate the password
-   */
-  passwordValidatorRegex: string;
-
-  /* Salt is a random value that is used to make the hash more secure. */
-  salt: Uint8Array;
-
-  /* The number of iterations to use in the PBKDF2 function. */
-  iterations: number;
-
-  /* The size of the key in bits. */
-  keySize: number;
+export interface IUserOptions {
+  passwordOptions: Partial<IPasswordOptions>;
+  passwordValidator: Partial<IPasswordValidator>;
 }
 
 /**
- * Options to configure users
+ * Represents for the encryption value,
+ * with the encrypted value as a string and the updated password options with a new salt.
  */
-export interface UserOptions {
-  passwordOptions: Partial<PasswordOptions>;
+export class EncryptionValue {
+  public constructor(public value: string, public passwordOptions: IPasswordOptions) {
+  }
 }
 
 /**
@@ -42,15 +27,13 @@ export interface UserOptions {
  * We should never store user's password but its encrypted one to do extra actions.
  */
 export interface IUser {
+
   /**
    * Update password to serialize user's information
-   * @param password
+   * @param newPassword
    * @param options
    */
-  updatePassword(
-    newPassword: string,
-    options: Partial<PasswordOptions>
-  ): Promise<void>;
+  updatePassword(newPassword: string): Promise<void>;
 
   /**
    * Set the HD wallet information
@@ -135,9 +118,11 @@ export interface IUser {
   removeWalletInfo(id: string): void;
 
   /**
-   * Serialize the user information to a store-able string which is secured by user's password
+   * Serialize the user information to a store-able string which is secured by user's password.
+   * Everytime we call this method, a new salt will be generated and update directly to the current user instance.
+   * The caller must also store it in order to re-use later.
    */
-  serialize(): Promise<string>;
+  serialize(): Promise<EncryptionValue>;
 
   /**
    * Deserialize the serialized and encrypted value
@@ -146,10 +131,12 @@ export interface IUser {
   deserialize(value: string): Promise<void>;
 
   /**
-   * Encrypt the given value by user's password
+   * Encrypt the given value by user's password.
+   * Everytime we call this method, a new salt will be generated and update directly to the current user instance.
+   * The caller must also store it in order to re-use later.
    * @param value 
    */
-  encrypt(value: string): Promise<string>;
+  encrypt(value: string): Promise<EncryptionValue>;
 
   /**
    * Decrypt the given value by user's password
@@ -158,16 +145,7 @@ export interface IUser {
   decrypt(value: string): Promise<string>;
 
   /*
-  * This is a type guard. It is saying that the return type of `getPasswordHashingOptions()` is a
-  * `Pick` of the `PasswordOptions` interface.
+  * Get the current options for password and encryption
   */
-  getPasswordHashingOptions(): Pick<
-    PasswordOptions,
-    "salt" | "iterations" | "keySize"
-  >;
-
-  /**
-   * Returns the instance of a secured storage
-   */
-  getStorage(): IStorage;
+  getPasswordOptions(): IPasswordOptions;
 }

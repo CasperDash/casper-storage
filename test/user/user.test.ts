@@ -27,25 +27,22 @@ test("user.create-weak-password", () => {
 });
 
 test("user.create-password-custom-validator-weak", () => {
-  expect(
-    () =>
-      new User("abcd", {
-        passwordOptions: {
-          passwordValidator: (_) => {
-            return new ValidationResult(false, "Custom msg");
-          },
-        },
-      })
-  ).toThrowError("Custom msg");
+  expect(() => new User("weak", {
+    passwordValidator: {
+      validatorFunc: (_) => {
+        return new ValidationResult(false, "Custom msg");
+      }
+    }
+  })).toThrowError("Custom msg");
 });
 
 test("user.create-password-custom-validator-ok", () => {
   const user = new User("abcd", {
-    passwordOptions: {
-      passwordValidator: (_) => {
+    passwordValidator: {
+      validatorFunc: (_) => {
         return new ValidationResult(true);
-      },
-    },
+      }
+    }
   });
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
@@ -56,7 +53,7 @@ test("user.create-ok", () => {
 
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
-  expect(Object.keys(user.getPasswordHashingOptions())).toEqual([
+  expect(Object.keys(user.getPasswordOptions())).toEqual([
     "salt",
     "iterations",
     "keySize",
@@ -81,22 +78,28 @@ test("user.updatePassword-weak-password", async () => {
 });
 
 test("user.updatePassword-password-custom-validator-weak", async () => {
-  const user = new User(PASSWORD);
-  await expect(user.updatePassword("abcd", {
-      passwordValidator: (_) => {
-        return new ValidationResult(false, "Custom msg");
-      },
-    })
-  ).rejects.toThrowError("Custom msg");
+  const user = new User(PASSWORD, {
+    passwordValidator: {
+      validatorFunc: (pwd) => {
+        if (pwd === "weak") {
+          return new ValidationResult(false, "Custom msg");
+        }
+        return new ValidationResult(true);
+      }
+    }
+  });
+  await expect(user.updatePassword("weak")).rejects.toThrowError("Custom msg");
 });
 
 test("user.updatePassword-password-custom-validator-ok", async () => {
-  const user = new User(PASSWORD);
-  await user.updatePassword("abcd", {
-    passwordValidator: (_) => {
-      return new ValidationResult(true);
-    },
+  const user = new User(PASSWORD, {
+    passwordValidator: {
+      validatorFunc: (_) => {
+        return new ValidationResult(true);
+      }
+    }
   });
+  await user.updatePassword("abcd");
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
 });
@@ -111,14 +114,10 @@ test("user.updatePassword-success", async () => {
 test("user.updatePassword-success_update-storage", async () => {
   const user = new User(PASSWORD);
 
-  await user.getStorage().set("key1", "value1");
-
   await user.updatePassword("Test1234%^");
 
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
-
-  expect(await user.getStorage().get("key1")).toBe("value1");
 });
 
 test("user.hd-wallet-master-seed-get-account-0", async () => {
@@ -395,65 +394,19 @@ test("user.legacy-wallet-remove-wallet-by-uid", async () => {
   expect(wlInfo).toBeUndefined();
 });
 
-test("user.serialize-both-type-wallets", async () => {
-  const user = prepareTestUser();
-  const encryptedUserInfo = await user.serialize();
-
-  const user2 = new User(PASSWORD, {
-    passwordOptions: user.getPasswordHashingOptions(),
-  });
-  await user2.deserialize(encryptedUserInfo);
-
-  validateDecryptedUserInfo(user, user2);
-});
-
-test("user.serialize-deserialize-wrong-password", async () => {
-  const user = prepareTestUser();
-  const encryptedUserInfo = await user.serialize();
-
-  const user2 = new User(PASSWORD + "Invalid");
-  await expect(user2.deserialize(encryptedUserInfo))
-    .rejects
-    .toThrow( /^Unable to decrypt user information/);
-});
-
 test("user.deserializeFrom", async () => {
   const user = prepareTestUser();
 
   const encryptedUserInfo = await user.serialize();
-  const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo, {
-    passwordOptions: user.getPasswordHashingOptions(),
+
+  const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo.value, {
+    passwordOptions: user.getPasswordOptions()
   });
 
   validateDecryptedUserInfo(user, user2);
 });
 
-test("user.encrypt-decrypt", async () => {
-  const user = prepareTestUser();
 
-  const encryptedText = await user.encrypt("test data");
-  const decryptedText = await user.decrypt(encryptedText);
-
-  expect(decryptedText).toBe("test data");
-});
-
-test("user.getStorage-available", async () => {
-  const user = prepareTestUser();
-
-  const storage = user.getStorage();
-  expect(storage).not.toBeNull();
-});
-
-test("user.getStorage-get-set-item", async () => {
-  const user = prepareTestUser();
-
-  const storage = user.getStorage();
-
-  await storage.set("key1", "value1");
-
-  const value = await storage.get("key1");
-  expect(value).toBe("value1");
-});
 
 function prepareTestUser() {
   const user = new User(PASSWORD);
