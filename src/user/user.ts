@@ -217,7 +217,7 @@ export class User implements IUser {
    * @param {string} value - serialized user information
    */
   public async deserialize(value: string): Promise<void> {
-    let decryptedValue = value;
+    let decryptedValue: string;
     try {
       decryptedValue = await this.decrypt(value);
     } catch (err) {
