@@ -1,7 +1,7 @@
 import { base64 } from "@scure/base"
 import { sha256 } from "@noble/hashes/sha256";
-import { utf8ToBytes } from "@noble/hashes/utils";
 import { base58check } from "@scure/base";
+import { TypeUtils } from "../../utils";
 
 const base58c = base58check(sha256);
 
@@ -46,16 +46,22 @@ export class EncoderUtils {
   }
 
   /**
-   * Encode an UTF8 text to byte-array
+   * Encode a text to byte-array
    * @param input 
    * @returns 
    */
   public static encodeText(input: string): Uint8Array {
-    if (!input) {
-      throw new Error("Input text is required to encode");
+    if (!TypeUtils.isString(input)) {
+      throw new TypeError(`Expected string, got ${typeof input}`);
     }
-
-    return utf8ToBytes(input);
+    return new TextEncoder().encode(input);
+  }
+  
+  /**
+   * Decode a byte-array to text
+  */
+  public static decodeText(input: BufferSource): string {
+    return new TextDecoder().decode(input);
   }
 
 }

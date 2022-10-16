@@ -2,45 +2,42 @@ import { AESUtils } from "../../../src/cryptography/utils/aes-utils";
 
 const TEST_PWD_01 = "password_to-test";
 
-test("aes-utils.encrypt-invalid-key", () => {
-  expect(() => AESUtils.encrypt(null, null)).toThrowError("Key is required");
+test("aes-utils.encrypt-invalid-key", async () => {
+  await expect(AESUtils.encrypt(null, null)).rejects.toThrowError("Key is required");
 })
 
-test("aes-utils.encrypt-invalid-value-null", () => {
-  expect(() => AESUtils.encrypt(TEST_PWD_01, null)).toThrowError("Value is required");
+test("aes-utils.encrypt-invalid-value-null", async () => {
+  await expect(AESUtils.encrypt(TEST_PWD_01, null)).rejects.toThrowError("Value is required");
 })
 
-test("aes-utils.encrypt-invalid-value-empty", () => {
-  expect(() => AESUtils.encrypt(TEST_PWD_01, "")).toThrowError("Value is required");
+test("aes-utils.decrypt-invalid-key", async () => {
+  await expect(AESUtils.decrypt(null, null, null)).rejects.toThrowError("Key is required");
 })
 
-test("aes-utils.decrypt-invalid-key", () => {
-  expect(() => AESUtils.decrypt(null, null)).toThrowError("Key is required");
+test("aes-utils.decrypt-invalid-value-null", async () => {
+  await expect(AESUtils.decrypt(TEST_PWD_01, null, null)).rejects.toThrowError("Value is required");
 })
 
-test("aes-utils.decrypt-invalid-value-null", () => {
-  expect(() => AESUtils.decrypt(TEST_PWD_01, null)).toThrowError("Encrypted value is required");
+test("aes-utils.decrypt-invalid-salt", async () => {
+  await expect(AESUtils.decrypt(TEST_PWD_01, "Test", null)).rejects.toThrowError("IV is required");
 })
 
-test("aes-utils.decrypt-invalid-value-empty", () => {
-  expect(() => AESUtils.decrypt(TEST_PWD_01, "")).toThrowError("Encrypted value is required");
-})
 
 test("aes-utils.encrypt-decrypt-simple_value", async () => {
   const encryptedText = await AESUtils.encrypt(TEST_PWD_01, "Simple test value");
-  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText);
+  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText.encryptedValue, encryptedText.additionalData);
   expect(decryptedValue).toBe("Simple test value");
 })
 
 test("aes-utils.encrypt-decrypt-char", async () => {
   const encryptedText = await AESUtils.encrypt(TEST_PWD_01, "a");
-  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText);
+  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText.encryptedValue, encryptedText.additionalData);
   expect(decryptedValue).toBe("a");
 })
 
 test("aes-utils.encrypt-decrypt-long_value",async () => {
   const encryptedText = await AESUtils.encrypt(TEST_PWD_01, "aaaaaaaaaaaaabbbbbbbbbbbbccccccccccccccddddddddddddddeeeeeeeeeeeeefffffffffffffff");
-  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText);
+  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText.encryptedValue, encryptedText.additionalData);
   expect(decryptedValue).toBe("aaaaaaaaaaaaabbbbbbbbbbbbccccccccccccccddddddddddddddeeeeeeeeeeeeefffffffffffffff");
 })
 
@@ -49,6 +46,6 @@ test("aes-utils.encrypt-decrypt-super_long_value", async () => {
   Ut ultricies neque vel nunc egestas pellentesque ac at eros. Duis tincidunt nisl vel nunc maximus, id placerat nunc gravida. In hac habitasse platea dictumst. Duis posuere nunc in turpis convallis, quis lacinia est condimentum. Vestibulum suscipit interdum tincidunt. Fusce nec lacus dolor. Nulla vel dictum magna. Phasellus finibus eu arcu molestie scelerisque. Nulla feugiat vestibulum enim, et sollicitudin justo congue faucibus. Integer dictum tellus vel orci venenatis, sit amet feugiat massa porttitor. Vivamus aliquet hendrerit lacinia. Curabitur sed urna vel lacus cursus aliquam. Donec gravida vulputate dignissim. Donec ac tellus viverra, pulvinar lorem eu, imperdiet orci. Nunc accumsan purus a lacus molestie, eget semper metus eleifend. Mauris ac risus augue.
   Morbi et mi molestie, rutrum magna sit amet, vestibulum velit. Praesent eu suscipit nisl. Vestibulum faucibus ullamcorper odio in pellentesque. Mauris congue condimentum ipsum, sed volutpat est luctus vel. Suspendisse lobortis, tortor sed mattis vulputate, diam lorem accumsan risus, vitae accumsan felis arcu consectetur purus. Suspendisse pretium bibendum tortor, lacinia dapibus ligula. Proin sed elit a felis rhoncus egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec vitae accumsan metus, vitae vehicula risus.`;
   const encryptedText = await AESUtils.encrypt(TEST_PWD_01, text);
-  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText);
+  const decryptedValue = await AESUtils.decrypt(TEST_PWD_01, encryptedText.encryptedValue, encryptedText.additionalData);
   expect(decryptedValue).toBe(text);
 })

@@ -1,6 +1,15 @@
 import { Ed25519 } from "../../../src/cryptography/key/ed25519"
 import { TypeUtils } from "../../../src/utils";
 
+const PRIVATE_KEY_TEST_01 = "3076574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
+const PUBLIC_KEY_TEST_01  = "041da081d7ec39e20755a088c1c90987a496dd1062cda70771657f1103c77670";
+const PRIVATE_KEY_PEM_TEST_01 = `-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIDB2V0tM9GCF/5yIeiH2vKLm7BYvegpytGccLXcNoBSm
+-----END PRIVATE KEY-----`;
+const PUBLIC_KEY_PEM_TEST_01 = `-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEABB2ggdfsOeIHVaCIwckJh6SW3RBizacHcWV/EQPHdnA=
+-----END PUBLIC KEY-----`;
+
 test("ed25519.generatePrivateKey-ok", async () => {
   const privateKey = await Ed25519.generatePrivateKey();
   expect(privateKey).not.toBeFalsy();
@@ -26,4 +35,12 @@ test("ed25519.createPublicKey-t2", async () => {
 
 test("ed25519.publicKeyTweakAdd.not-supported", async () => {
   await expect(Ed25519.publicKeyTweakAdd()).rejects.toThrowError("This method is not supported");
+})
+
+test("ed25519.getKeyInPEM.private", async () => {
+  expect(Ed25519.getKeyInPEM(TypeUtils.parseHexToArray(PRIVATE_KEY_TEST_01), true)).toBe(PRIVATE_KEY_PEM_TEST_01);
+})
+
+test("ed25519.getKeyInPEM.public", async () => {
+  expect(Ed25519.getKeyInPEM(TypeUtils.parseHexToArray(PUBLIC_KEY_TEST_01), false)).toBe(PUBLIC_KEY_PEM_TEST_01);
 })

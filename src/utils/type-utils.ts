@@ -24,9 +24,9 @@ export class TypeUtils {
    * @param input hex array
    * @returns 
    */
-  static convertArrayToHexString(input: Uint8Array) {
+  static convertArrayToHexString(input: Uint8Array | ArrayBuffer) {
     if (!input) return null;
-    return [...input].map((x: number): string => x.toString(16).padStart(2, '0')).join('');
+    return [...new Uint8Array(input)].map((x: number): string => x.toString(16).padStart(2, '0')).join('');
   }
 
   /**

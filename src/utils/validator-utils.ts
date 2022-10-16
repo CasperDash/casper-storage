@@ -5,13 +5,7 @@ const strongPwdRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%
  * Represents the result of a validation, with a status (true or false) and a message.
  */
 export class ValidationResult {
-  status: boolean;
-  message: string;
-
-  constructor(status: boolean, message: string = null) {
-    this.status = status;
-    this.message = message;
-
+  constructor(public status: boolean, public message: string = null) {
     if (!this.status && !this.message) {
       throw new Error("Invalid result should have a detail message");
     }

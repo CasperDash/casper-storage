@@ -1,7 +1,8 @@
-import { BaseKeyParser } from "./base-key-parser";
 import KeyEncoder from "key-encoder";
-import { TypeUtils } from "../../../utils";
+
+import { BaseKeyParser } from "./base-key-parser";
 import { EncryptionType } from "../../../cryptography";
+import { TypeUtils } from "../../../utils";
 
 const keyEncoder = new KeyEncoder('secp256k1');
 
@@ -19,8 +20,9 @@ export class Secp256k1KeyParser extends BaseKeyParser {
   }
 
   private parseKey(data: Uint8Array): Uint8Array {
-    const key = keyEncoder.encodePrivate(TypeUtils.convertArrayToHexString(data), 'der', 'raw'); // Convert digital certificate format to raw format
+    // Convert digital certificate format to raw format
+    const key = keyEncoder.encodePrivate(TypeUtils.convertArrayToHexString(data), 'der', 'raw');
     return TypeUtils.convertHexStringToArray(key);
   }
-
 }
+
