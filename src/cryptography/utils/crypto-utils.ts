@@ -2,7 +2,7 @@ import { hmac } from "@noble/hashes/hmac";
 import { sha256 } from "@noble/hashes/sha256";
 import { sha512 } from '@noble/hashes/sha512';
 import { ripemd160 } from '@noble/hashes/ripemd160';
-import { randomBytes } from "@noble/hashes/utils";
+import { randomBytes } from 'react-native-randombytes';
 import { pbkdf2 } from "@noble/hashes/pbkdf2";
 import { blake2b } from "@noble/hashes/blake2b";
 import { scrypt } from '@noble/hashes/scrypt';
