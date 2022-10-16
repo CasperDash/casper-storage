@@ -1,7 +1,11 @@
 import * as secp from "@noble/secp256k1";
+import { base16 } from "@scure/base";
+import KeyEncoder from "key-encoder";
 
 import { TypeUtils, Hex } from "../../utils";
 import { IAsymmetricKey } from "./interfaces";
+
+const keyEncoder = new KeyEncoder("secp256k1");
 
 /**
  * Minimal wrapper to secp256k1
@@ -30,6 +34,22 @@ class KeyWrapper implements IAsymmetricKey {
 
       return resolve(publicPoint.add(tweakPoint).toRawBytes(compressed));
     });
+  }
+
+  public isValidPrivateKey(privateKey: Hex): boolean {
+    const privateKeyNumber = TypeUtils.bytesToNumber(TypeUtils.parseHexToArray(privateKey));
+    if (privateKeyNumber == BigInt(0) || privateKeyNumber >= secp.CURVE.n) {
+      return false;
+    }
+    return true;
+  }
+
+  public getKeyInPEM(key: Uint8Array, isPrivate: boolean): string {
+    if (isPrivate) {
+      return keyEncoder.encodePrivate(base16.encode(key), "raw", "pem");
+    } else {
+      return keyEncoder.encodePublic(base16.encode(key), "raw", "pem");
+    }
   }
 
 }

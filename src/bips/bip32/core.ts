@@ -65,6 +65,13 @@ export interface IHDKeyManager {
   get encryptionType(): EncryptionType;
 
   /**
+   * Verify the given seed if it is valid to use.
+   * Error will be raised if the seed is not valid.
+   * @param seed 
+   */
+  verifySeed(seed: Uint8Array): void;
+
+  /**
    * Create a new HDKey object from a seed
    * @param {Hex} seed - The master seed to use to generate the master key.
    * @param {Versions} [versions] - The version of the HDKey.

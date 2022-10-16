@@ -2,11 +2,16 @@ import { hmac } from "@noble/hashes/hmac";
 import { sha256 } from "@noble/hashes/sha256";
 import { sha512 } from '@noble/hashes/sha512';
 import { ripemd160 } from '@noble/hashes/ripemd160';
-import { randomBytes } from 'react-native-randombytes';
-import { pbkdf2, pbkdf2Async } from "@noble/hashes/pbkdf2";
+import { randomBytes } from "@noble/hashes/utils";
+import { pbkdf2 } from "@noble/hashes/pbkdf2";
 import { blake2b } from "@noble/hashes/blake2b";
 import { scrypt } from '@noble/hashes/scrypt';
+import { crypto } from '@noble/hashes/crypto';
 import { Hex, TypeUtils } from "../../utils";
+
+const MIN_ITERATIONS_SHA512 = 120000;
+const MIN_SALT_LENGTH_BYTES = 16;
+const MIN_KEY_SIZE = 16;
 
 /**
  * Provide utilities to due with cryptography
@@ -75,26 +80,14 @@ export class CryptoUtils {
   /**
    * It hashes the password using the PBKDF2 algorithm.
    * @param {Uint8Array} password - The password to use for the key derivation.
-   * @param {Uint8Array} salt - A salt to use for the key derivation function.
-   * @param {number} iterations - The number of iterations to perform.
-   * @param {number} keySize - The size of the derived key in bytes.
+   * @param {Uint8Array} salt - A salt to use for the key derivation function (salt's length must be from 16).
+   * @param {number} iterations - The number of iterations to perform (must be from 120k).
+   * @param {number} keySize - The size of the derived key in bytes (must be from 16).
    * @returns The PBKDF2 function returns a Uint8Array.
    */
   static pbkdf2Sync(password: Uint8Array, salt: Uint8Array, iterations: number, keySize: number): Uint8Array {
+    this.ensurePbkdf2Input(salt, iterations, keySize);
     return pbkdf2(sha512, password, salt, { c: iterations, dkLen: keySize });
-  }
-
-  /**
-   * It uses the SHA-512 hash function to generate a key from the password and salt.
-   * @param {Uint8Array} password - The password to use for the key derivation.
-   * @param {Uint8Array} salt - A salt to use for the key derivation function.
-   * @param {number} iterations - The number of iterations to perform.
-   * @param {number} keySize - The size of the derived key in bytes.
-   * @returns The PBKDF2 function returns a Promise that resolves to a Uint8Array containing the
-   * derived key.
-   */
-  static pbkdf2(password: Uint8Array, salt: Uint8Array, iterations: number, keySize: number): Promise<Uint8Array> {
-    return pbkdf2Async(sha512, password, salt, { c: iterations, dkLen: keySize });
   }
 
   /**
@@ -121,12 +114,39 @@ export class CryptoUtils {
   /**
    * Create a strong private key from any input, where the key is longer and more secure.
    * @param input 
+   * @param salt 
    * @returns 
    */
-  static scrypt(input: string): Uint8Array {
-    if (!input) {
-      throw new Error("Input is required");
+  static scrypt(input: string, salt: Uint8Array): Uint8Array {
+    if (!input) throw new Error("Input is required");
+    if (!salt) throw new Error("Salt is required");
+
+    return scrypt(input, salt, { N: 2 ** 16, r: 8, p: 1, dkLen: 32 });
+  }
+
+  /**
+   * Returns the crypto instance which is resolved based on the envrionment
+   * @returns 
+   */
+  static getCrypto(): Crypto {
+    if (crypto.web) {
+      return crypto.web;
+    } else if (crypto.node) {
+      return crypto.node;
+    } else {
+      throw new Error("The environment doesn't have crypto functions");
+    } 
+  }
+
+  private static ensurePbkdf2Input(salt: Uint8Array, iterations: number, keySize: number) {
+    if (!salt || salt.length < MIN_SALT_LENGTH_BYTES) {
+      throw new Error(`Salt must be provided with minimum of ${MIN_SALT_LENGTH_BYTES} bytes`);
     }
-    return scrypt(input, 'salt', { N: 2 ** 16, r: 8, p: 1, dkLen: 32 });
+    if (!iterations || iterations < MIN_ITERATIONS_SHA512) {
+      throw new Error(`Iterations for PBKDF2-HMAC-SHA5121 should be from ${MIN_ITERATIONS_SHA512}`);
+    }
+    if (!keySize || keySize < MIN_KEY_SIZE) {
+      throw new Error(`Key size must be from ${MIN_KEY_SIZE}`);
+    }
   }
 }

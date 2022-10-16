@@ -21,7 +21,7 @@ export class HDKeyManagerSecp256k1 extends HDKeyManagerBase {
     return MASTER_SECRET;
   }
 
-  protected createNewHDKey(privateKey: Uint8Array, chainCode: Uint8Array, versions: Versions) : IHDKey {
+  protected createNewHDKey_Unsafe(privateKey: Uint8Array, chainCode: Uint8Array, versions: Versions) : IHDKey {
     return new HDKeySecp256k1(new HDKeyConfig(this.encryptionType, versions, this.GetMasterSecret()), privateKey, chainCode, null);
   }
 
