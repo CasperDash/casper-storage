@@ -9,5 +9,5 @@ test("getInstance.default", () => {
 test("getInstance.default-generate-default", () => {
   let keyMgr = KeyFactory.getInstance();
   let key = keyMgr.generate();
-  expect(key.split(" ").length).toBe(12);
+  expect(key.split(" ").length).toBe(24);
 });

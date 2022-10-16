@@ -1,6 +1,18 @@
 import { Secp256k1 } from "../../../src/cryptography/key/secp256k1"
 import { TypeUtils } from "../../../src/utils";
 
+const PRIVATE_KEY_TEST_01 = "06dc1d7d051969d411e966c6c02d3d025b586f6c1a9c5688efa168b5919708f4";
+const PUBLIC_KEY_TEST_01  = "027b8db8cf675252c61e3de6932b3ac790ba39f1e99275aa2d3f05496767fe37cf";
+const PRIVATE_KEY_PEM_TEST_01 = `-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIAbcHX0FGWnUEelmxsAtPQJbWG9sGpxWiO+haLWRlwj0oAcGBSuBBAAK
+oUQDQgAEe424z2dSUsYePeaTKzrHkLo58emSdaotPwVJZ2f+N8+5Cw8eLpukxpvA
+qPD0f41wM+8QJxGj41A1QGLpsckvmA==
+-----END EC PRIVATE KEY-----`;
+const PUBLIC_KEY_PEM_TEST_01 = `-----BEGIN PUBLIC KEY-----
+MDYwEAYHKoZIzj0CAQYFK4EEAAoDIgACe424z2dSUsYePeaTKzrHkLo58emSdaot
+PwVJZ2f+N88=
+-----END PUBLIC KEY-----`;
+
 test("secp256k1.generatePrivateKey-ok", async () => {
   const privateKey = await Secp256k1.generatePrivateKey();
   expect(privateKey).not.toBeFalsy();
@@ -41,4 +53,12 @@ test("secp256k1.publicKeyTweakAdd-t3", async () => {
 
 test("secp256k1.publicKeyTweakAdd-failed", async () => {
   await expect(Secp256k1.publicKeyTweakAdd("0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798", "0379be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798")).rejects.toThrowError();
+})
+
+test("secp256k1.getKeyInPEM.private", async () => {
+  expect(Secp256k1.getKeyInPEM(TypeUtils.parseHexToArray(PRIVATE_KEY_TEST_01), true)).toBe(PRIVATE_KEY_PEM_TEST_01);
+})
+
+test("secp256k1.getKeyInPEM.public", async () => {
+  expect(Secp256k1.getKeyInPEM(TypeUtils.parseHexToArray(PUBLIC_KEY_TEST_01), false)).toBe(PUBLIC_KEY_PEM_TEST_01);
 })

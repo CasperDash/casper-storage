@@ -21,12 +21,12 @@ export interface IWallet<TKey> {
 
   /**
    * The key (private) of wallet
-   * either the private key of legacy wallet or a detailed key holder of a HD wallet
+   * either the private key of legacy wallet or a key holder of a HD wallet
    */
   getKey(): TKey;
 
   /**
-   * Returns the refrence key of wallet
+   * Returns the reference key of wallet
    * either a private key for legacy wallet or derived path of sub-wallet of HD wallet
    */
   getReferenceKey(): string;
@@ -75,6 +75,11 @@ export interface IWallet<TKey> {
    * Returns the public address of wallet, depends on each chain we use different methods to produce it from the public key (e.g hashing)
    */
   getPublicAddress(): Promise<string>;
+
+  /**
+   * Returns the private key of wallet in PEM format
+   */
+  getPrivateKeyInPEM(): string;
 
 }
 

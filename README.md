@@ -413,13 +413,26 @@ const decryptedText = user.decrypt(encryptedText);
 
 ``` javascript
 import { StorageManager } from "casper-storage";
-const storage = StorageManager.getInstance();
+
+// Create a secured password
+const password = new Password("Abcd1234.");
+
+// Retrieve a secured storage with your password
+const storage = StorageManager.getInstance(password);
+
+// In the other hand, user also exposes getting storage method
+const storage = user.getStorage();
 
 // Set item into storage
 await storage.set("key", "value");
 
 // Get items from storage
 const value = await storage.get("key");
+
+// Update password, it will automatically re-sync existing keys
+await storage.updatePassword(newPassword);
+// or while updating password for user, existing keys will also be re-synced automatically
+await user.updatePassword(newPassword);
 
 // Other utils
 const exists = await storage.has("key");

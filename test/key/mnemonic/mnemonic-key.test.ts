@@ -6,15 +6,14 @@ const TEST_KEY_01 = "absent car gun loud shoot hold pill latin deliver suffer of
 const TEST_SEED_01 = "5d52a9c91f3850b2b88de339cd4f179d360693ee6230fd8472c40ddd9db0c2835fa706a25f3107555e707e22bce31ffbb61518d2923ffc4bdbce14fa775dcb88";
 const NOT_STANDARD_KEY = "something random key from somewhere not know but it contains 12 words";
 
-test("generate.ok-default-12-words", () => {
+test("generate.ok-default-24-words", () => {
   const key = mnKey.generate();
-  expect(key.split(" ").length).toBe(12);
+  expect(key.split(" ").length).toBe(24);
 });
 
-test("generate.ok-12-words", () => {
-  const key = mnKey.generate(12);
-
-  expect(key.split(" ").length).toBe(12);
+test("generate.ok-24-words", () => {
+  const key = mnKey.generate(24);
+  expect(key.split(" ").length).toBe(24);
 });
 
 test("generate.ok-15-words", () => {
@@ -67,7 +66,7 @@ test("validate.false-short", () => {
   expect(mnKey.validate(key)).toBe(false);
 });
 
-test("validate.false-12-words", () => {
+test("validate.false-24-words", () => {
   expect(mnKey.validate(NOT_STANDARD_KEY)).toBe(false);
 });
 

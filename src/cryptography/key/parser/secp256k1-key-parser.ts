@@ -1,7 +1,7 @@
 import { BaseKeyParser } from "./base-key-parser";
+import { EncryptionType } from "../../../cryptography";
 import KeyEncoder from "react-native-key-encoder";
 import { TypeUtils } from "../../../utils";
-import { EncryptionType } from "../../../cryptography";
 
 const keyEncoder = new KeyEncoder('secp256k1');
 
@@ -19,8 +19,9 @@ export class Secp256k1KeyParser extends BaseKeyParser {
   }
 
   private parseKey(data: Uint8Array): Uint8Array {
-    const key = keyEncoder.encodePrivate(TypeUtils.convertArrayToHexString(data), 'der', 'raw'); // Convert digital certificate format to raw format
+    // Convert digital certificate format to raw format
+    const key = keyEncoder.encodePrivate(TypeUtils.convertArrayToHexString(data), 'der', 'raw');
     return TypeUtils.convertHexStringToArray(key);
   }
-
 }
+

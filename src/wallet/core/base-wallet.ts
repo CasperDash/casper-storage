@@ -100,6 +100,10 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
     return TypeUtils.convertArrayToHexString(CryptoUtils.blake2bHash(data));
   }
 
+  public getPrivateKeyInPEM(): string {
+    return this.getAsymmetricKey().getKeyInPEM(this.getPrivateKeyByteArray(), true);
+  }
+
   protected getAsymmetricKey() {
     return AsymmetricKeyFactory.getInstance(this.getEncryptionType());
   }

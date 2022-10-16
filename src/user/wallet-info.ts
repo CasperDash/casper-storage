@@ -177,7 +177,7 @@ export class WalletInfo {
    * Returns true if this is a legacy wallet
    */
   public get isLegacy(): boolean {
-    return this.id.indexOf('/') < 0;
+    return !this.isHDWallet;
   }
 
   /**
@@ -204,30 +204,28 @@ export class WalletInfo {
  * With the master key and specific encryption type
  */
 export class HDWalletInfo {
-  private _id: string;
+  private _keyPhrase: string;
   private _encryptionType: EncryptionType;
   private _derivedWallets: WalletInfo[];
 
-  private _keySeed: string;
-
   /**
    * Create a new HD wallet information with master key and encryption type
-   * @param id 
+   * @param keyPhrase 
    * @param encryptionType 
    */
-  constructor(id: string, encryptionType: EncryptionType) {
-    if (!id) throw new Error("ID (master key) is required");
+  constructor(keyPhrase: string, encryptionType: EncryptionType) {
+    if (!keyPhrase) throw new Error("Key phrase (master key) is required");
     if (!encryptionType) throw new Error("Type is required");
 
-    this._id = id;
+    this._keyPhrase = keyPhrase;
     this._encryptionType = encryptionType;
   }
 
   /**
-   * Get id of HD wallet
+   * Get master key phrase of HD wallet
    */
-  public get id() {
-    return this._id;
+  public get keyPhrase() {
+    return this._keyPhrase;
   }
 
   /**
@@ -248,10 +246,7 @@ export class HDWalletInfo {
    * Get the key-seed (from the keyphrase)
    */
   public get keySeed(): string {
-    if (!this._keySeed) {
-      this._keySeed = KeyFactory.getInstance().toSeed(this._id);
-    }
-    return this._keySeed;
+    return KeyFactory.getInstance().toSeed(this._keyPhrase);
   }
 
   /**
@@ -295,7 +290,7 @@ export class HDWalletInfo {
    */
   public toJSON() {
     return {
-      id: this.id,
+      keyPhrase: this.keyPhrase,
       encryptionType: this.encryptionType,
       derives: this.derivedWallets
     }
