@@ -22,13 +22,13 @@ export const defaultValidator: IPasswordValidator = {
  */
  export interface IPasswordOptions {
   /* Salt is a random value that is used to make the hash more secure. */
-  salt: Uint8Array;
+  get salt(): Uint8Array;
 
   /* The number of iterations to use in the PBKDF2 function. */
-  iterations: number;
+  get iterations(): number;
 
   /* The size of the key in bits. */
-  keySize: number;
+  get keySize(): number;
 }
 
 export interface IPasswordValidator {
