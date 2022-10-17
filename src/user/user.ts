@@ -252,7 +252,7 @@ export class User implements IUser {
   public async encrypt(value: string): Promise<EncryptionValue> {
     const encryption = await AESUtils.encrypt(this.pwdOptions.password, value);
     this.pwdOptions = new PasswordOptions(this.pwdOptions.password, { ...this.pwdOptions, salt: encryption.additionalData });
-    return new EncryptionValue(encryption.encryptedValue, this.pwdOptions);
+    return new EncryptionValue(encryption.encryptedValue, this.getPasswordOptions());
   }
 
   public decrypt(value: string): Promise<string> {
