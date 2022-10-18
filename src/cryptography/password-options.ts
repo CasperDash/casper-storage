@@ -20,7 +20,7 @@ export const defaultValidator: IPasswordValidator = {
 /**
  * Options to validate password
  */
- export interface IPasswordOptions {
+export interface IPasswordOptions {
   /* Salt is a random value that is used to make the hash more secure. */
   get salt(): Uint8Array;
 
@@ -64,6 +64,13 @@ export class PasswordOptions implements IPasswordOptions {
     // Store the password in memory within user's session
     // We should not store the raw password in memory, let's hashing the user-given password
     this._password = TypeUtils.parseHexToString(CryptoUtils.hash256(EncoderUtils.encodeText(password)));
+  }
+
+  /**
+  * Update new salt
+  */
+  public updateSalt(salt: Uint8Array) {
+    this._salt = salt;
   }
 
   /* This is a getter function that returns the password. */
