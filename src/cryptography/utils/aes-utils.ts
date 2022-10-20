@@ -55,9 +55,7 @@ export class AESUtils {
     const salt = CryptoUtils.randomBytes(16);
     const iv = CryptoUtils.randomBytes(16);
 
-    const keyBytes = CryptoUtils.scrypt(password, salt);
-
-    const key = await crypto.subtle.importKey("raw", keyBytes, { "name": mode, length: 256 }, false, ["encrypt", "decrypt"]);
+    const key = await AESUtils.importKey(password, salt, mode);
 
     // Encoded value
     const valueBytes = EncoderUtils.encodeText(value);
@@ -88,8 +86,7 @@ export class AESUtils {
     salt = TypeUtils.parseHexToArray(salt);
     iv = TypeUtils.parseHexToArray(iv);
 
-    const keyBytes = CryptoUtils.scrypt(password, salt);
-    const key = await crypto.subtle.importKey("raw", keyBytes, { "name": mode, length: 256 }, false, ["encrypt", "decrypt"]);
+    const key = await AESUtils.importKey(password, salt, mode);
 
     // Convert the encrypted value into a byte array
     const valueBytes = TypeUtils.parseHexToArray(value);
@@ -97,5 +94,14 @@ export class AESUtils {
     const decryptedText = EncoderUtils.decodeText(decryptedValue);
 
     return decryptedText;
+  }
+
+  private static async importKey(password: string, salt: Uint8Array, mode: string) {
+    const keyBytes = CryptoUtils.scrypt(password, salt);
+
+    const crypto = CryptoUtils.getCrypto();
+    const key = await crypto.subtle.importKey("raw", keyBytes, { "name": mode, length: 256 }, false, ["encrypt", "decrypt"]);
+
+    return key;
   }
 }
