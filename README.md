@@ -272,15 +272,15 @@ we can override the validator by giving user options
 ``` javascript
 // With a regex
 const user = new User("user-password", {
-    passwordOptions: {
-      passwordValidatorRegex: "passwordRegexValidation",
+    passwordValidator: {
+      validatorRegex: "passwordRegexValidation",
     },
 });
 
 // or with a custom function
 const user = new User("user-password", {
-    passwordOptions: {
-      passwordValidator: function (password) {
+    passwordValidator: {
+      validatorFunc: function (password) {
         if (!password || password.length <= 10) {
           return new ValidationResult(
             false,
@@ -299,8 +299,8 @@ user.updatePassword("new-user-password");
 // By default, new-user-password will be also verified to ensure it is strong enough
 // we can override the validator by giving options
  user.updatePassword("new-user-password", {
-    passwordOptions: {
-      passwordValidatorRegex: "passwordRegexValidation",
+    passwordValidator: {
+      validatorRegex: "passwordRegexValidation",
     },
 });
 ```
