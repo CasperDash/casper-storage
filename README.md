@@ -93,17 +93,6 @@ const user = new User(password);
 user.setHDWallet(keyphrase, encryptionType);
 ```
 
-- `CasperWallet` also needs to backup the hashing options in order to retrieve back later the user's information
-```javascript
-import { Storage } from "casper-storage";
-
-// Take the hashing options from user's instance
-const hashingOptions = user.getPasswordHashingOptions();
-
-// Backup it into the storage
-await Storage.getInstance().set("casperwallet_userhashingoptions", JSON.stringify(hashingOptions));
-```
-
 - `CasperWallet` creates the first wallet account 
 ```javascript
 const wallet = await user.addWalletAccount(0, new WalletDescriptor("Account 1"));
@@ -132,10 +121,9 @@ await Storage.getInstance().set("casperwallet_userinformation", userInfo);
 ```javascript
 import { Storage, User } from "casper-storage";
 
-const hashingOptions = JSON.parse(await Storage.getInstance().get("casperwallet_userhashingoptions"));
 const userInfo = await Storage.getInstance().get("casperwallet_userinformation");
 
-const user = new User(password, hashingOptions);
+const user = new User(password);
 user.deserialize(userInfo);
 ```
 
@@ -261,12 +249,6 @@ import { User } from "casper-storage"
 const user = new User("user-password")
 ```
 
-- **Important** The lib's using pbkdf2 for hashing the password, the consumer need to get the hashing options and store it in reliable storage. The wallet won't be accessible without hashing option
-
-``` javascript
-const hashingOptions = user.getPasswordHashingOptions()
-```
-
 - By default, user-password will be verified to ensure it is strong enough (at least 10 characters, including lowercase, uppercase, numeric and a special character)
 we can override the validator by giving user options
 ``` javascript
@@ -298,7 +280,7 @@ user.updatePassword("new-user-password");
 
 // By default, new-user-password will be also verified to ensure it is strong enough
 // we can override the validator by giving options
- user.updatePassword("new-user-password", {
+user.updatePassword("new-user-password", {
     passwordValidator: {
       validatorRegex: "passwordRegexValidation",
     },
@@ -394,15 +376,11 @@ const user = new User("user-password");
 const userInfo = user.serialize();
 
 // Deserialize the user information from a secure encrypted string
-const user2 = new User("user-password", encryptedUserInfo, {
-    passwordOptions: user.getPasswordHashingOptions(),
-});
+const user2 = new User("user-password", encryptedUserInfo);
 
 user2.deserialize("user-encrypted-information");
 // or
-const user2 = User.deserializeFrom("user-password", "user-encrypted-information", {
-    passwordOptions: user.getPasswordHashingOptions(),
-});
+const user2 = User.deserializeFrom("user-password", "user-encrypted-information");
 
 // In additional, User also exposes 2 methods to encrypt/decrypt data with user's password
 const encryptedText = user.encrypt("Raw string value");

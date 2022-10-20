@@ -1,6 +1,6 @@
 import { IHDKey } from "../bips/bip32";
 import { EncryptionType } from "../cryptography";
-import { IPasswordOptions, IPasswordValidator } from "../cryptography/password-options";
+import { IPasswordValidator } from "../cryptography/password-options";
 import { IWallet } from "../wallet";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 
@@ -8,7 +8,6 @@ import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
  * Options to configure users
  */
 export interface IUserOptions {
-  passwordOptions: Partial<IPasswordOptions>;
   passwordValidator: Partial<IPasswordValidator>;
 }
 
@@ -135,8 +134,4 @@ export interface IUser {
    */
   decrypt(value: string): Promise<string>;
 
-  /*
-  * Get the current options for password and encryption
-  */
-  getPasswordOptions(): IPasswordOptions;
 }

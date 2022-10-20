@@ -4,7 +4,7 @@ import { EncryptionType, AESUtils, EncryptionResult } from "../cryptography";
 import { IUser, IUserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex } from "../utils";
-import { defaultValidator, IPasswordOptions, IPasswordValidator, PasswordOptions as PasswordOptions } from "../cryptography/password-options";
+import { defaultValidator, IPasswordValidator, PasswordOptions } from "../cryptography/password-options";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -54,7 +54,7 @@ export class User implements IUser {
     this.passwordValidator = options.passwordValidator || defaultValidator;
     this.validatePassword(password);
 
-    this.pwdOptions = new PasswordOptions(password, options.passwordOptions);
+    this.pwdOptions = new PasswordOptions(password);
   }
 
   /**
@@ -64,7 +64,7 @@ export class User implements IUser {
    */
   public async updatePassword(password: string) {
     this.validatePassword(password);
-    this.pwdOptions = new PasswordOptions(password, this.pwdOptions);
+    this.pwdOptions = new PasswordOptions(password);
   }
 
   public setHDWallet(keyPhrase: string, encryptionType: EncryptionType) {
@@ -251,10 +251,6 @@ export class User implements IUser {
   public decrypt(value: string): Promise<string> {
     const encryptedValue = EncryptionResult.parseFrom(value);
     return AESUtils.decrypt(this.pwdOptions.password, encryptedValue.value, encryptedValue.salt, encryptedValue.iv);
-  }
-
-  public getPasswordOptions(): IPasswordOptions {
-    return this.pwdOptions.getOptions();
   }
 
   private getWallet(): IHDWallet<IWallet<IHDKey>> {

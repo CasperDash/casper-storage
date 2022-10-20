@@ -53,10 +53,6 @@ test("user.create-ok", () => {
 
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
-  expect(Object.keys(user.getPasswordOptions())).toEqual([
-    "iterations",
-    "keySize"
-  ]);
 });
 
 test("user.updatePassword-invalid-password", async () => {
@@ -402,8 +398,6 @@ test("user.deserializeFrom", async () => {
 
   validateDecryptedUserInfo(user, user2);
 });
-
-
 
 function prepareTestUser() {
   const user = new User(PASSWORD);
