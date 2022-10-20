@@ -283,7 +283,7 @@ user.updatePassword("new-user-password");
 user.updatePassword("new-user-password", {
     passwordValidator: {
       validatorRegex: "passwordRegexValidation",
-    },
+    }
 });
 ```
 
