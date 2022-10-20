@@ -1,5 +1,3 @@
-import { PasswordOptions } from "../cryptography/password-options";
-
 /**
  * Define a storage manager
  */
@@ -48,12 +46,12 @@ export interface IStorage {
 
   /**
    * Update new password and re-sync all existing items in storage
-   * @param pwdOptions 
+   * @param password 
    */
-  updatePassword(pwdOptions: PasswordOptions): Promise<void>;
+  updatePassword(password: string): Promise<void>;
 
 }
 
 export interface IStorageConstructable {
-  new(pwdOptions: PasswordOptions): IStorage;
+  new(password: string): IStorage;
 }

@@ -1,4 +1,3 @@
-import { PasswordOptions } from "../cryptography/password-options";
 import { IStorage, IStorageConstructable } from "./interfaces";
 import { DefaultStorage } from "./providers/default-storage";
 
@@ -13,12 +12,12 @@ export class StorageManager {
    * Get an instance of storage manager
    * @returns 
    */
-  public static getInstance(pwdOptions: PasswordOptions, throwErrorIfNotAvailable = true): IStorage {
+  public static getInstance(password: string, throwErrorIfNotAvailable = true): IStorage {
     let storage: IStorage;
     if (StorageManager._storageConstructor) {
-      storage = new StorageManager._storageConstructor(pwdOptions);
+      storage = new StorageManager._storageConstructor(password);
     } else {
-      storage = new DefaultStorage(pwdOptions);
+      storage = new DefaultStorage(password);
     }
 
     if (storage && storage.isAvailable()) {
