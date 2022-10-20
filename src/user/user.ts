@@ -1,7 +1,7 @@
 import { IHDKey } from "../bips/bip32";
 import { CasperHDWallet, IHDWallet, IWallet } from "../wallet";
-import { EncryptionType, AESUtils } from "../cryptography";
-import { IUser, IUserOptions, EncryptionValue } from "./core";
+import { EncryptionType, AESUtils, EncryptionResult } from "../cryptography";
+import { IUser, IUserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex } from "../utils";
 import { defaultValidator, IPasswordOptions, IPasswordValidator, PasswordOptions as PasswordOptions } from "../cryptography/password-options";
@@ -64,13 +64,7 @@ export class User implements IUser {
    */
   public async updatePassword(password: string) {
     this.validatePassword(password);
-
-    // Force to generate a new salt
-    const newPassword = new PasswordOptions(password, {
-      ...this.pwdOptions, salt: null
-    });
-
-    this.pwdOptions = newPassword;
+    this.pwdOptions = new PasswordOptions(password, this.pwdOptions);
   }
 
   public setHDWallet(keyPhrase: string, encryptionType: EncryptionType) {
@@ -201,7 +195,7 @@ export class User implements IUser {
    * Serializes the wallet and encrypts it with the password.
    * @returns The encrypted wallet.
    */
-  public async serialize(): Promise<EncryptionValue> {
+  public async serialize(): Promise<string> {
     const obj = {
       hdWallet: this.getHDWallet(),
       legacyWallets: this.getLegacyWallets(),
@@ -249,14 +243,14 @@ export class User implements IUser {
     }
   }
 
-  public async encrypt(value: string): Promise<EncryptionValue> {
+  public async encrypt(value: string): Promise<string> {
     const encryption = await AESUtils.encrypt(this.pwdOptions.password, value);
-    this.pwdOptions.updateSalt(encryption.additionalData);
-    return new EncryptionValue(encryption.encryptedValue, this.getPasswordOptions());
+    return encryption.toString();
   }
 
   public decrypt(value: string): Promise<string> {
-    return AESUtils.decrypt(this.pwdOptions.password, value, this.pwdOptions.salt);
+    const encryptedValue = EncryptionResult.parseFrom(value);
+    return AESUtils.decrypt(this.pwdOptions.password, encryptedValue.value, encryptedValue.salt, encryptedValue.iv);
   }
 
   public getPasswordOptions(): IPasswordOptions {

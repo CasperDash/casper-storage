@@ -54,9 +54,8 @@ test("user.create-ok", () => {
   expect(user.hasHDWallet()).toBeFalsy();
   expect(user.hasLegacyWallets()).toBeFalsy();
   expect(Object.keys(user.getPasswordOptions())).toEqual([
-    "salt",
     "iterations",
-    "keySize",
+    "keySize"
   ]);
 });
 
@@ -399,9 +398,7 @@ test("user.deserializeFrom", async () => {
 
   const encryptedUserInfo = await user.serialize();
 
-  const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo.value, {
-    passwordOptions: user.getPasswordOptions()
-  });
+  const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo);
 
   validateDecryptedUserInfo(user, user2);
 });

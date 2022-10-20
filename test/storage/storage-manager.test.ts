@@ -1,12 +1,11 @@
-import { PasswordOptions } from "../../src/cryptography/password-options";
 import { IStorage, StorageManager } from "../../src/storage";
 
-const password = new PasswordOptions("Abcd.1234@");
+const password = "Abcd.1234@";
 const data: Map<string, string> = new Map<string, string>();
 
 class MockStorage implements IStorage {
 
-  constructor(_: PasswordOptions) {
+  constructor(_: string) {
     // This is intentional
   }
 

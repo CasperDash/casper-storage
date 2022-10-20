@@ -21,9 +21,6 @@ export const defaultValidator: IPasswordValidator = {
  * Options to validate password
  */
 export interface IPasswordOptions {
-  /* Salt is a random value that is used to make the hash more secure. */
-  get salt(): Uint8Array;
-
   /* The number of iterations to use in the PBKDF2 function. */
   get iterations(): number;
 
@@ -49,15 +46,12 @@ export interface IPasswordValidator {
 export class PasswordOptions implements IPasswordOptions {
 
   private _password: string;
-  private _salt: Uint8Array;
   private _iterations: number;
   private _keySize: number;
 
   constructor(password: string, passwordOptions?: Partial<IPasswordOptions>) {
     const options = { ...defaultOptions, ...passwordOptions };
 
-    // Should generate random salt here, it'll get the same salt if put the code in default options
-    this._salt = options.salt || CryptoUtils.randomBytes(16);
     this._keySize = options.keySize;
     this._iterations = options.iterations;
 
@@ -66,21 +60,9 @@ export class PasswordOptions implements IPasswordOptions {
     this._password = TypeUtils.parseHexToString(CryptoUtils.hash256(EncoderUtils.encodeText(password)));
   }
 
-  /**
-  * Update new salt
-  */
-  public updateSalt(salt: Uint8Array) {
-    this._salt = salt;
-  }
-
   /* This is a getter function that returns the password. */
   public get password(): string {
     return this._password;
-  }
-
-  /* This is a getter function that returns the salt. */
-  public get salt(): Uint8Array {
-    return this._salt;
   }
 
   /* This is a getter function that returns the iterations. */
@@ -98,7 +80,6 @@ export class PasswordOptions implements IPasswordOptions {
    */
   public getOptions(): IPasswordOptions {
     return {
-      salt: this.salt,
       iterations: this.iterations,
       keySize: this.keySize
     };

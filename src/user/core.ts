@@ -13,15 +13,6 @@ export interface IUserOptions {
 }
 
 /**
- * Represents for the encryption value,
- * with the encrypted value as a string and the updated password options with a new salt.
- */
-export class EncryptionValue {
-  public constructor(public value: string, public passwordOptions: IPasswordOptions) {
-  }
-}
-
-/**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
  * A user serialized value is secured by a secured password which is given by user.
  * We should never store user's password but its encrypted one to do extra actions.
@@ -122,7 +113,7 @@ export interface IUser {
    * Everytime we call this method, a new salt will be generated and update directly to the current user instance.
    * The caller must also store it in order to re-use later.
    */
-  serialize(): Promise<EncryptionValue>;
+  serialize(): Promise<string>;
 
   /**
    * Deserialize the serialized and encrypted value
@@ -136,7 +127,7 @@ export interface IUser {
    * The caller must also store it in order to re-use later.
    * @param value 
    */
-  encrypt(value: string): Promise<EncryptionValue>;
+  encrypt(value: string): Promise<string>;
 
   /**
    * Decrypt the given value by user's password
