@@ -1,5 +1,5 @@
 import { Hex, TypeUtils } from "../../utils";
-import { CryptoUtils, EncoderUtils } from ".";
+import { CryptoUtils } from ".";
 
 import { NativeModules } from "react-native";
 
@@ -64,7 +64,7 @@ export class AESUtils {
    * @param {string} mode - The AES mode to encrypt value (default is AES-GCM).
    * @returns The encrypted value with a random generated salt
    */
-  static async encrypt(password: string, value: string, mode = "AES-GCM"): Promise<EncryptionResult> {
+  static async encrypt(password: string, value: string, mode = aesMode): Promise<EncryptionResult> {
     if (!password) throw new Error("Key is required")
     if (!value) throw new Error("Value is required")
     if (!mode) throw new Error("Encrypt mode is required")
@@ -72,12 +72,10 @@ export class AESUtils {
     const salt = CryptoUtils.randomBytes(16);
     const iv = CryptoUtils.randomBytes(16);
 
-    const key = await AESUtils.scryptKey(password, salt);
+    const key = AESUtils.scryptKey(password, salt);
 
     // Encoded value
     const cipherValue = await encrypt(key, value, TypeUtils.parseHexToString(iv));
-
-    // Convert the encrypted bytes to a hex string
     return new EncryptionResult(cipherValue, salt, iv);
   }
 
@@ -90,7 +88,7 @@ export class AESUtils {
    * @param {string} mode - The AES mode to decrypt value (default is AES-GCM).
    * @returns The decrypted value.
    */
-  static async decrypt(password: string, value: string, salt: Hex, iv: Hex, mode = "AES-GCM"): Promise<string> {
+  static async decrypt(password: string, value: string, salt: Hex, iv: Hex, mode = aesMode): Promise<string> {
     if (!password) throw new Error("Key is required")
     if (!value) throw new Error("Value is required")
     if (!salt) throw new Error("Salt is required")
@@ -101,13 +99,13 @@ export class AESUtils {
     salt = TypeUtils.parseHexToArray(salt);
     iv = TypeUtils.parseHexToArray(iv);
 
-    const key = await AESUtils.scryptKey(password, salt);
+    const key = AESUtils.scryptKey(password, salt);
 
     const decryptedText = await decrypt(key, value, TypeUtils.parseHexToString(iv));
     return decryptedText;
   }
 
-  private static async scryptKey(password: string, salt: Uint8Array) {
+  private static scryptKey(password: string, salt: Uint8Array) {
     const keyBytes = CryptoUtils.scrypt(password, salt);
     return TypeUtils.convertArrayToHexString(keyBytes);
   }
