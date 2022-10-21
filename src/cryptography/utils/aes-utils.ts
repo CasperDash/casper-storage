@@ -8,14 +8,14 @@ const aesMode = "aes-256-gcm";
 
 const generateKey = (password: string, salt: string, cost: number = 5000, length: number = 256) => Aes.pbkdf2(password, salt, cost, length);
 
-const encrypt = async (password: string, text: string, iv: string): Promise<string> => {
-  const keyBytes = await generateKey(password, iv);
+const encrypt = async (password: string, text: string, salt: string, iv: string): Promise<string> => {
+  const keyBytes = await generateKey(password, salt);
   const cipher = await Aes.encrypt(text, keyBytes, iv, aesMode);
   return cipher;
 };
 
-const decrypt = async (password: string, cipher: string, iv: string): Promise<string> => {
-  const keyBytes = await generateKey(password, iv);
+const decrypt = async (password: string, cipher: string, salt: string, iv: string): Promise<string> => {
+  const keyBytes = await generateKey(password, salt);
   const text = await Aes.decrypt(cipher, keyBytes, iv, aesMode);
   return text;
 };
@@ -72,10 +72,8 @@ export class AESUtils {
     const salt = CryptoUtils.randomBytes(16);
     const iv = CryptoUtils.randomBytes(16);
 
-    const key = AESUtils.scryptKey(password, salt);
-
     // Encoded value
-    const cipherValue = await encrypt(key, value, TypeUtils.parseHexToString(iv));
+    const cipherValue = await encrypt(password, value, TypeUtils.parseHexToString(salt), TypeUtils.parseHexToString(iv));
     return new EncryptionResult(cipherValue, salt, iv);
   }
 
@@ -95,18 +93,7 @@ export class AESUtils {
     if (!iv) throw new Error("IV is required")
     if (!mode) throw new Error("Encrypt mode is required");
 
-    // Parse to array
-    salt = TypeUtils.parseHexToArray(salt);
-    iv = TypeUtils.parseHexToArray(iv);
-
-    const key = AESUtils.scryptKey(password, salt);
-
-    const decryptedText = await decrypt(key, value, TypeUtils.parseHexToString(iv));
+    const decryptedText = await decrypt(password, value, TypeUtils.parseHexToString(salt), TypeUtils.parseHexToString(iv));
     return decryptedText;
-  }
-
-  private static scryptKey(password: string, salt: Uint8Array) {
-    const keyBytes = CryptoUtils.scrypt(password, salt);
-    return TypeUtils.convertArrayToHexString(keyBytes);
   }
 }
