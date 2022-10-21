@@ -1,5 +1,4 @@
-import { AESUtils } from "../../cryptography";
-import { PasswordOptions } from "../../cryptography/password-options";
+import { AESUtils, EncryptionResult } from "../../cryptography";
 import { TypeUtils } from "../../utils";
 import { IStorage } from "../interfaces";
 
@@ -10,25 +9,21 @@ const ENCRYPTED_PREFIX = "cps_encrypted_";
  */
 export class DefaultStorage implements IStorage {
 
-  private _pwdOptions: PasswordOptions;
-
-  constructor(pwdOptions: PasswordOptions) {
-    this._pwdOptions = pwdOptions;
-
-    if (!this._pwdOptions) {
+  constructor(private _password: string) {
+    if (!this._password) {
       throw new Error("Password is required");
     }
   }
 
-  public async set(key: string, value: string, pwdOptions?: PasswordOptions): Promise<void> {
-    const encryptedValue = await this.encrypt(value, pwdOptions);
-    return this.getStorage().setItem(key, ENCRYPTED_PREFIX + encryptedValue.encryptedValue);
+  public async set(key: string, value: string, password?: string): Promise<void> {
+    const encryptedValue = await this.encrypt(value, password);
+    return this.getStorage().setItem(key, ENCRYPTED_PREFIX + encryptedValue.toString());
   }
 
-  public async get(key: string, pwdOptions?: PasswordOptions): Promise<string> {
+  public async get(key: string, password?: string): Promise<string> {
     const value = this.getStorage().getItem(key);
     if (TypeUtils.isString(value) && value.startsWith(ENCRYPTED_PREFIX)) {
-      return this.decrypt(value.substring(ENCRYPTED_PREFIX.length), pwdOptions);
+      return this.decrypt(value.substring(ENCRYPTED_PREFIX.length), password);
     } else {
       return value;
     }
@@ -46,20 +41,26 @@ export class DefaultStorage implements IStorage {
     return this.getStorage().clear();
   }
 
-  public async updatePassword(newPassword: PasswordOptions): Promise<void> {
+  public async updatePassword(newPassword: string): Promise<void> {
     // Resync all existing keys
     const keys = await this.getKeys();
+
     if (keys && keys.length) {
+      // Get the existing item with previous password
+      const tempValues = {};
       for (const key of keys) {
-        // Get the existing item with previous password
         const value = await this.get(key);
-        // And set back with the new password
-        await this.set(key, value, newPassword);
+        tempValues[key] = value;
+      }
+
+      // And set back with the new password
+      for (const key in tempValues) {
+        await this.set(key, tempValues[key], newPassword);
       }
     }
 
     // Update the new password to encrypt/decrypt values
-    this._pwdOptions = newPassword;
+    this._password = newPassword;
   }
 
   public getKeys(): Promise<string[]> {
@@ -85,15 +86,16 @@ export class DefaultStorage implements IStorage {
     return localStorage;
   }
 
-  private async encrypt(value: string, pwdOptions?: PasswordOptions) {
-    pwdOptions = pwdOptions || this._pwdOptions;
-    const encryptionValue = await AESUtils.encrypt(pwdOptions.password, value, pwdOptions.salt);
+  private async encrypt(value: string, password?: string) {
+    password = password || this._password;
+    const encryptionValue = await AESUtils.encrypt(password, value);
     return encryptionValue;
   }
 
-  private decrypt(value: string, pwdOptions?: PasswordOptions) {
-    pwdOptions = pwdOptions || this._pwdOptions;
-    return AESUtils.decrypt(pwdOptions.password, value, pwdOptions.salt);
+  private decrypt(value: string, password?: string) {
+    password = password || this._password;
+    const encryptedValue = EncryptionResult.parseFrom(value);
+    return AESUtils.decrypt(password, encryptedValue.value, encryptedValue.salt, encryptedValue.iv);
   }
 
 }
