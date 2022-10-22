@@ -6,6 +6,8 @@ import { BaseWallet } from "../core/base-wallet";
  */
 export class Wallet extends BaseWallet<IHDKey> {
 
+  private _publicKey: Uint8Array;
+
   public getReferenceKey(): string {
     return this.getKey().getPath();
   }
@@ -14,8 +16,11 @@ export class Wallet extends BaseWallet<IHDKey> {
     return this.getKey().getPrivateKey();
   }
 
-  public getRawPublicKeyByteArray(): Promise<Uint8Array> {
-    return this.getKey().getPublicKey();
+  public async getRawPublicKeyByteArray(): Promise<Uint8Array> {
+    if (!this._publicKey) {
+      this._publicKey = await this.getKey().getPublicKey();
+    }
+    return this._publicKey;
   }
 
 }

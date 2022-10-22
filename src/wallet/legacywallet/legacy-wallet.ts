@@ -6,6 +6,8 @@ import { BaseWallet } from "../core/base-wallet";
  */
 export class LegacyWallet extends BaseWallet<Hex> {
 
+  private _publicKey: Uint8Array;
+
   public getReferenceKey(): string {
     return this.getPrivateKey();
   }
@@ -15,8 +17,10 @@ export class LegacyWallet extends BaseWallet<Hex> {
   }
 
   public async getRawPublicKeyByteArray(): Promise<Uint8Array> {
-    const pubKey = await this.getAsymmetricKey().createPublicKey(this.getPrivateKey(), true);
-    return pubKey;
+    if (!this._publicKey) {
+      this._publicKey = await this.getAsymmetricKey().createPublicKey(this.getPrivateKey(), true);
+    }
+    return this._publicKey;
   }
 
 }
