@@ -40,7 +40,7 @@ export class User implements IUser {
   private _hdWalletInfo: HDWalletInfo;
   private _legacyWallets: WalletInfo[];
 
-  private _hdWallet: IHDWallet<Wallet>;
+  private _underlyingHDWallet: IHDWallet<Wallet>;
 
   /**
    * Initialize a new user instnace
@@ -74,7 +74,7 @@ export class User implements IUser {
     if (!encryptionType) throw new Error("Type is required");
 
     this._hdWalletInfo = new HDWalletInfo(keyPhrase, encryptionType);
-    this._hdWallet = null;
+    this._underlyingHDWallet = null;
   }
 
   public getHDWallet(): HDWalletInfo {
@@ -261,14 +261,14 @@ export class User implements IUser {
       return null;
     }
 
-    if (!this._hdWallet) {
-      this._hdWallet = new CasperHDWallet(
+    if (!this._underlyingHDWallet) {
+      this._underlyingHDWallet = new CasperHDWallet(
         this._hdWalletInfo.keySeed,
         this._hdWalletInfo.encryptionType
       ); // ! Hardcoded to Casper for now
     }
 
-    return this._hdWallet;
+    return this._underlyingHDWallet;
   }
 
   private setHDWalletAccount(id: string, info?: WalletDescriptor) {
