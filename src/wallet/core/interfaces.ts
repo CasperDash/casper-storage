@@ -96,6 +96,11 @@ export interface IWalletConstructor<TWallet extends IWallet<IHDKey>> {
 export interface IHDWallet<TWallet> {
 
   /**
+   * Returns the master key from master seed
+   */
+  getMasterKey(): IHDKey;
+
+  /**
    * Get the master wallet on base derivation path (purpose/coinType)
    */
   getMasterWallet(): Promise<TWallet>;
