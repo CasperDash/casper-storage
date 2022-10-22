@@ -106,6 +106,7 @@ export class WalletInfo {
   private _id: string;
   private _encryptionType: EncryptionType;
   private _descriptor: WalletDescriptor;
+  private _uid: string;
 
   /**
    * Create a new wallet information with key and encryption type
@@ -133,8 +134,11 @@ export class WalletInfo {
    * Get uid (hashed of id) of wallet
    */
   public get uid(): string {
-    const id = EncoderUtils.encodeText(this.id);
-    return TypeUtils.convertArrayToHexString(CryptoUtils.hash256(id));
+    if (!this._uid) {
+      const id = EncoderUtils.encodeText(this.id);
+      this._uid = TypeUtils.convertArrayToHexString(CryptoUtils.hash256(id));  
+    }
+    return this._uid;
   }
 
   /**
