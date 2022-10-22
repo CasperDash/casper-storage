@@ -16,6 +16,8 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
   protected encryptionType: EncryptionType;
   protected coinPath: CoinPath;
 
+  private _masterKey: IHDKey;
+
   constructor(walletConstructor: IWalletConstructor<TWallet>, coinPath: CoinPath, encryptionType: EncryptionType, masterSeed: Hex) {
     if (!walletConstructor) {
       throw new Error("The wallet constructor must be provided");
@@ -43,6 +45,13 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
     return this.coinPath;
   }
 
+  public getMasterKey() {
+    if (!this._masterKey) {
+      this._masterKey = this.getHDKeyManager().fromMasterSeed(this.masterSeed);
+    }
+    return this._masterKey;
+  }
+
   public getMasterWallet(): Promise<TWallet> {
     return this.getWalletFromPath("m");
   }
@@ -60,7 +69,7 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
   }
 
   public async getWalletFromPath(path: string): Promise<TWallet> {
-    const hdKey = await this.getHDKeyManager().fromMasterSeed(this.masterSeed).derive(path);
+    const hdKey = await this.getMasterKey().derive(path);
     return Promise.resolve(new this.walletConstructor(hdKey, this.encryptionType));
   }
 

@@ -78,8 +78,8 @@ export abstract class BaseWallet<TKey> implements IWallet<TKey> {
    * Returns the raw public key of wallet
    */
   public async getRawPublicKey(): Promise<string> {
-    const pubKey = await this.getRawPublicKeyByteArray();
-    return TypeUtils.convertArrayToHexString(pubKey);
+    const publicKey = await this.getRawPublicKeyByteArray();
+    return TypeUtils.convertArrayToHexString(publicKey);
   }
 
   /**
