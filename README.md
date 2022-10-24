@@ -1,21 +1,34 @@
 # Casper storage [![CI](https://github.com/CasperDash/casper-storage/actions/workflows/ci-master.yml/badge.svg?branch=master)](https://github.com/CasperDash/casper-storage/actions/workflows/ci-master.yml) [![codecov](https://codecov.io/gh/CasperDash/casper-storage/branch/master/graph/badge.svg?token=9B1WI1WXGE)](https://codecov.io/gh/CasperDash/casper-storage) ![visitors](https://visitor-badge.glitch.me/badge?page_id=casperdash.casper-storage)
-> Following crypto standard libraries, BIPs, SLIPs, etc this library provides a generic solution which lets developers have a standard way to manage wallets
 
-## Documents
+> Following crypto standard libraries, BIPs, SLIPs, etc this library provides a generic solution which lets developers have a standard way to manage wallets
 
 [Technical document](https://casperdash.github.io/casper-storage/)
 
+[Audited](#audit) by an independent security firm
+
 ## Setup
 
+### NPM
+
+```batch
+npm install casper-storage
+
+// or
+
+yarn add casper-storage
+```
+
 ### Browser
-`<script src="https://cdn.jsdelivr.net/npm/casper-storage"></script>`
+
+```
+<script src="https://cdn.jsdelivr.net/npm/casper-storage"></script>
+```
+
 ```html
 <script>
-  const wallet = new CasperStorage.CasperHDWallet("user-master-key", CasperStorage.EncryptionType.Ed25519);
+  const wallet = new CasperStorage.CasperHDWallet("master-key", CasperStorage.EncryptionType.Ed25519);
 </script>
 ```
-### NPM
-`npm install casper-storage` or `yarn add casper-storage`
 
 ### React-native
 > Due to missing features of JavascriptCore, we need to polyfill and override some features (e.g randombytes, encoding, etc)
@@ -39,6 +52,7 @@
     - [Serialize/Deseialize user's information](#user-info)
   - [Storage](#storage)
   - [Misc](#misc)
+    - [Export to PEM format](#misc-export-pem)
     - [Parse PEM files](#misc-parse-pem)
 - [Development](#development)
 - [Progress](#progress)
@@ -62,6 +76,7 @@ const keyphrase = KeyFactory.getInstance().generate();
 
 - `CasperWallet` asks her to choose an `encryption mode` (either secp256k1 or ed25519) 
 > `CasperWallet` recommends her to choose `ed25519` over secp256k1 due to security and performance, unless Alice explicitly wants to use secp256k1 because of Bitcoin, Ethereum compatible 
+
 ```javascript
 import { EncryptionType } from "casper-storage"
 
@@ -69,6 +84,7 @@ const encryptionType = EncryptionType.Ed25519;
 ```
 
 - `CasperWallet` asks her for a **secure** `password`, Alice gives `Abcd1234` and `CasperWallet` tries to intialize a `User` instance
+
 ```javascript
 import { User } from "caper-storage";
 
@@ -84,6 +100,7 @@ const user = new User(password);
 - `CasperWallet` asks her to give another one which is stronger and more **secure**
 
 - Alice gives `AliP2sw0rd.1` and `CasperWallet` re-tries
+
 ```javascript
 const password = "AliP2sw0rd.1";
 
@@ -93,12 +110,14 @@ const user = new User(password);
 user.setHDWallet(keyphrase, encryptionType);
 ```
 
-- `CasperWallet` creates the first wallet account 
+- `CasperWallet` creates the first wallet account
+
 ```javascript
 const wallet = await user.addWalletAccount(0, new WalletDescriptor("Account 1"));
 ```
 
 - `CasperWallet` serializes user's information and store it into storage
+
 ```javascript
 import { Storage } from "casper-storage";
 
@@ -107,6 +126,7 @@ await Storage.getInstance().set("casperwallet_userinformation", userInfo);
 ```
 
 - Alice renames her first account to "Salary account"
+
 ```javascript
 const wallet = await user.getWalletAccount(0);
 user.setWalletInfo(wallet.getReferenceKey(), "Salary account");
@@ -118,6 +138,7 @@ await Storage.getInstance().set("casperwallet_userinformation", userInfo);
 - Alice locks her wallet
 
 - Alice comes back, `CasperStorage` asks for the password. Assuming that she gives the right password, `CasperStorage` retrieves back the user's information
+
 ```javascript
 import { Storage, User } from "casper-storage";
 
@@ -256,7 +277,7 @@ we can override the validator by giving user options
 const user = new User("user-password", {
     passwordValidator: {
       validatorRegex: "passwordRegexValidation",
-    },
+    }
 });
 
 // or with a custom function
@@ -420,6 +441,12 @@ await storage.clear();
 
 ### Misc <a name="misc"></a>
 
+Get private keys in PEM formats <a name="misc-export-pem"></a>
+
+``` javascript
+const pem = wallet.getPrivateKeyInPEM();
+```
+
 Parse exported PEM files from Casper signer <a name="misc-parse-pem"></a>
 
 ``` javascript
@@ -440,6 +467,13 @@ const key = keyValue.key;
 // and its encryption type (EncryptionType.Ed25519 or EncryptionType.Secp256k1)
 const encryptionType = keyValue.encryptionType;
 ```
+
+## Security <a name="audit"></a>
+
+Casper-storage is production-ready
+
+- The library has been audited by [Cure53](https://cure53.de/), an independent security film
+- Pentest report and fix confirmation: [PDF](https://github.com/CasperDash/casper-storage/blob/master/document/audit/CAS-01-report.pdf)
 
 ## Development <a name="development"></a>
 
@@ -479,3 +513,6 @@ const encryptionType = keyValue.encryptionType;
   - [x] Serialize/Deserialize (encrypted) user's information
 - [x] Storage management
   - [x] Cross-platform storage which supports web, react-native (iOS, Android)
+
+## License
+Apache License 2.0
