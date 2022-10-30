@@ -1,0 +1,21 @@
+{
+    "name": "casper-storage",
+    
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+	"workspaceFolder": "/workspace",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "firsttris.vscode-jest-runner",
+                "eamodio.gitlens",
+                "ms-vscode.vscode-typescript-tslint-plugin",
+                "rtbenfield.vscode-jest-test-adapter"
+            ]
+        }
+    },
+    "postCreateCommand": "yarn install",
+    "shutdownAction": "stopCompose",
+    "remoteUser": "node"
+}
