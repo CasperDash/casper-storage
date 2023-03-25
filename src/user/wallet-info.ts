@@ -197,6 +197,7 @@ export class WalletInfo {
   public toJSON() {
     return {
       id: this.id,
+      uid: this.uid,
       encryptionType: this.encryptionType,
       descriptor: this.descriptor
     }
@@ -208,28 +209,26 @@ export class WalletInfo {
  * With the master key and specific encryption type
  */
 export class HDWalletInfo {
-  private _keyPhrase: string;
+  private _keySeed: string;
   private _encryptionType: EncryptionType;
   private _derivedWallets: WalletInfo[];
 
   /**
    * Create a new HD wallet information with master key and encryption type
-   * @param keyPhrase 
+   * @param key 
    * @param encryptionType 
    */
-  constructor(keyPhrase: string, encryptionType: EncryptionType) {
-    if (!keyPhrase) throw new Error("Key phrase (master key) is required");
+  constructor(key: string, encryptionType: EncryptionType) {
+    if (!key) throw new Error("Key phrase (master key) is required");
     if (!encryptionType) throw new Error("Type is required");
 
-    this._keyPhrase = keyPhrase;
-    this._encryptionType = encryptionType;
-  }
+    if (key.indexOf(" ") > 0) {
+      this._keySeed = KeyFactory.getInstance().toSeed(key);
+    } else {
+      this._keySeed = key;
+    }
 
-  /**
-   * Get master key phrase of HD wallet
-   */
-  public get keyPhrase() {
-    return this._keyPhrase;
+    this._encryptionType = encryptionType;
   }
 
   /**
@@ -250,7 +249,7 @@ export class HDWalletInfo {
    * Get the key-seed (from the keyphrase)
    */
   public get keySeed(): string {
-    return KeyFactory.getInstance().toSeed(this._keyPhrase);
+    return this._keySeed;
   }
 
   /**
@@ -294,7 +293,7 @@ export class HDWalletInfo {
    */
   public toJSON() {
     return {
-      keyPhrase: this.keyPhrase,
+      keySeed: this.keySeed,
       encryptionType: this.encryptionType,
       derives: this.derivedWallets
     }

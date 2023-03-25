@@ -1,4 +1,5 @@
-import * as secp from "@noble/secp256k1";
+import { secp256k1 as secp } from "@noble/curves/secp256k1";
+
 import { base16 } from "@scure/base";
 import KeyEncoder from "key-encoder";
 
@@ -29,8 +30,8 @@ class KeyWrapper implements IAsymmetricKey {
       publicKey = TypeUtils.parseHexToArray(publicKey);
       tweak = TypeUtils.parseHexToArray(tweak);
 
-      const publicPoint = secp.Point.fromHex(publicKey);
-      const tweakPoint = secp.Point.fromHex(tweak);
+      const publicPoint = secp.ProjectivePoint.fromHex(publicKey);
+      const tweakPoint = secp.ProjectivePoint.fromHex(tweak);
 
       return resolve(publicPoint.add(tweakPoint).toRawBytes(compressed));
     });
