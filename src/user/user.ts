@@ -69,11 +69,11 @@ export class User implements IUser {
     this._pwdOptions = new PasswordOptions(password);
   }
 
-  public setHDWallet(keyPhrase: string, encryptionType: EncryptionType) {
-    if (!keyPhrase) throw new Error("Key is required");
+  public setHDWallet(key: string, encryptionType: EncryptionType) {
+    if (!key) throw new Error("Key is required");
     if (!encryptionType) throw new Error("Type is required");
 
-    this._hdWalletInfo = new HDWalletInfo(keyPhrase, encryptionType);
+    this._hdWalletInfo = new HDWalletInfo(key, encryptionType);
     this._underlyingHDWallet = null;
   }
 
@@ -224,7 +224,7 @@ export class User implements IUser {
     try {
       const obj = JSON.parse(decryptedValue);
       if (obj.hdWallet) {
-        this.setHDWallet(obj.hdWallet.keyPhrase, obj.hdWallet.encryptionType);
+        this.setHDWallet(obj.hdWallet.keySeed, obj.hdWallet.encryptionType);
 
         if (obj.hdWallet.derives) {
           obj.hdWallet.derives.forEach((wl: WalletInfo) => {

@@ -27,7 +27,7 @@ export interface IUser {
 
   /**
    * Set the HD wallet information
-   * @param key the master keyphrase (12-24 words)
+   * @param key the master key, either keyPhrase (12-24 words) or seed of keyPhrase
    * @param type the encryption type
    */
   setHDWallet(key: string, type: EncryptionType): void;
