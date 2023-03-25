@@ -129,10 +129,8 @@ export class CryptoUtils {
    * @returns 
    */
   static getCrypto(): Crypto {
-    if (crypto.web) {
-      return crypto.web;
-    } else if (crypto.node) {
-      return crypto.node;
+    if (crypto) {
+      return crypto;
     } else {
       throw new Error("The environment doesn't have crypto functions");
     } 

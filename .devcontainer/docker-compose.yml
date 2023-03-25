@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app-dev-container
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    hostname: casper-storage-dev.local
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace
+      - /opt/workspace/node_modules/
+    command: sleep infinity
