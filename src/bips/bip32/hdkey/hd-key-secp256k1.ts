@@ -2,7 +2,8 @@ import { HDKey } from "./hd-key";
 import { CryptoUtils } from "../../../cryptography";
 import { bytes as assertBytes } from '@noble/hashes/_assert';
 
-import * as secp from '@noble/secp256k1';
+import { secp256k1 as secp, schnorr } from "@noble/curves/secp256k1";
+
 import { TypeUtils } from "../../../utils";
 
 export class HDKeySecp256k1 extends HDKey {
@@ -51,7 +52,7 @@ export class HDKeySecp256k1 extends HDKey {
         const privateKeyBn = TypeUtils.bytesToNumber(privateKey);
         const childTweakBn = TypeUtils.bytesToNumber(derivedPrivateKey);
 
-        const added = secp.utils.mod(privateKeyBn + childTweakBn, secp.CURVE.n);
+        const added = schnorr.utils.mod(privateKeyBn + childTweakBn, secp.CURVE.n);
         if (!secp.utils.isValidPrivateKey(added)) {
           throw new Error('The tweak was out of range or the resulted private key is invalid');
         }

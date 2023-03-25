@@ -1,3 +1,4 @@
+import { KeyFactory } from "../../src";
 import { EncryptionType } from "../../src/cryptography";
 import { User } from "../../src/user";
 import { WalletDescriptor } from "../../src/user/wallet-info";
@@ -141,7 +142,7 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
-  expect(user.getHDWallet().keyPhrase).toBe(testKeySlip10Vector1);
+  expect(user.getHDWallet().keySeed).toBe(KeyFactory.getInstance().toSeed(testKeySlip10Vector1));
 
   let acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
@@ -160,7 +161,7 @@ test("user.hd-wallet-master-key-get-account-0-by-index", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
-  expect(user.getHDWallet().keyPhrase).toBe(testKeySlip10Vector1);
+  expect(user.getHDWallet().keySeed).toBe(KeyFactory.getInstance().toSeed(testKeySlip10Vector1));
   await user.addWalletAccount(0);
   await user.addWalletAccount(1);
 
@@ -186,7 +187,7 @@ test("user.hd-wallet-master-key-get-accounts-ref-key", async () => {
   const user = new User(PASSWORD);
   user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
-  expect(user.getHDWallet().keyPhrase).toBe(testKeySlip10Vector1);
+  expect(user.getHDWallet().keySeed).toBe(KeyFactory.getInstance().toSeed(testKeySlip10Vector1));
   await user.addWalletAccount(0);
   await user.addWalletAccount(1);
 
@@ -399,6 +400,26 @@ test("user.deserializeFrom", async () => {
   validateDecryptedUserInfo(user, user2);
 });
 
+test("user.deserializeFrom_LegacyKeyPhrase", async () => {
+  const user = prepareTestUser();
+
+  const obj = {
+    hdWallet: user.getHDWallet(),
+    legacyWallets: user.getLegacyWallets(),
+  };
+
+  const infoJSON = JSON.stringify(obj);
+  const info = JSON.parse(infoJSON);
+
+  delete info.hdWallet.keySeed;
+  info.hdWallet.keyPhrase = testKeySlip10Vector1;
+
+  const encryptedUserInfo = await user.encrypt(JSON.stringify(info));
+  const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo);
+
+  validateDecryptedUserInfo(user, user2);
+});
+
 function prepareTestUser() {
   const user = new User(PASSWORD);
 
@@ -422,7 +443,7 @@ function validateDecryptedUserInfo(user: User, user2: User) {
   const user2HDWallet = user2.getHDWallet();
 
   expect(user2HDWallet).not.toBeNull();
-  expect(user2HDWallet.keyPhrase).toBe(user.getHDWallet().keyPhrase);
+  expect(user2HDWallet.keySeed).toBe(user.getHDWallet().keySeed);
   expect(user2HDWallet.encryptionType).toBe(
     user.getHDWallet().encryptionType
   );

@@ -1,7 +1,7 @@
 import { TypeUtils, Hex } from "../../utils";
 import { IAsymmetricKey } from "./interfaces";
 
-import * as ed from "@noble/ed25519";
+import { ed25519 as ed } from "@noble/curves/ed25519";
 import { base64 } from "@scure/base";
 
 const ED25519_PEM_SECRET_KEY_TAG = 'PRIVATE KEY';
@@ -23,7 +23,7 @@ class KeyWrapper implements IAsymmetricKey {
     // Ensure we have valid byte-array
     privateKey = TypeUtils.parseHexToArray(privateKey);
 
-    return ed.getPublicKey(TypeUtils.parseHexToArray(privateKey));
+    return Promise.resolve(ed.getPublicKey(TypeUtils.parseHexToArray(privateKey)));
   }
 
   public async publicKeyTweakAdd(): Promise<Uint8Array> {
