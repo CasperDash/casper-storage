@@ -400,6 +400,26 @@ test("user.deserializeFrom", async () => {
   validateDecryptedUserInfo(user, user2);
 });
 
+test("user.deserializeFrom_LegacyKeyPhrase", async () => {
+  const user = prepareTestUser();
+
+  const obj = {
+    hdWallet: user.getHDWallet(),
+    legacyWallets: user.getLegacyWallets(),
+  };
+
+  const infoJSON = JSON.stringify(obj);
+  const info = JSON.parse(infoJSON);
+
+  delete info.hdWallet.keySeed;
+  info.hdWallet.keyPhrase = testKeySlip10Vector1;
+
+  const encryptedUserInfo = await user.encrypt(JSON.stringify(info));
+  const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo);
+
+  validateDecryptedUserInfo(user, user2);
+});
+
 function prepareTestUser() {
   const user = new User(PASSWORD);
 

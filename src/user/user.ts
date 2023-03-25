@@ -224,7 +224,7 @@ export class User implements IUser {
     try {
       const obj = JSON.parse(decryptedValue);
       if (obj.hdWallet) {
-        this.setHDWallet(obj.hdWallet.keySeed, obj.hdWallet.encryptionType);
+        this.setHDWallet(obj.hdWallet.keySeed || obj.hdWallet.keyPhrase, obj.hdWallet.encryptionType);
 
         if (obj.hdWallet.derives) {
           obj.hdWallet.derives.forEach((wl: WalletInfo) => {
