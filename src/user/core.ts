@@ -30,7 +30,12 @@ export interface IUser {
    * @param key the master key, either keyPhrase (12-24 words) or seed of keyPhrase
    * @param type the encryption type
    */
-  setHDWallet(key: string, type: EncryptionType): void;
+  setHDWallet(key: string, type: EncryptionType): Promise<void>;
+
+  /**
+   * Get the key-phrase of HD wallet
+   */
+   getHDWalletKeyPhrase(): Promise<string>;
 
   /**
    * Get the HD wallet
