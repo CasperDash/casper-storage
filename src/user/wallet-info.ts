@@ -209,6 +209,7 @@ export class WalletInfo {
  * With the master key and specific encryption type
  */
 export class HDWalletInfo {
+  private _encryptedKeyPhrase: string;
   private _keySeed: string;
   private _encryptionType: EncryptionType;
   private _derivedWallets: WalletInfo[];
@@ -229,6 +230,20 @@ export class HDWalletInfo {
     }
 
     this._encryptionType = encryptionType;
+  }
+
+  /**
+   * Get encrypted key-phrase
+   */
+   public get encryptedKeyPhrase() {
+    return this._encryptedKeyPhrase;
+  }
+
+  /**
+   * Set encrypted key-phrase
+   */
+   public set encryptedKeyPhrase(value: string) {
+    this._encryptedKeyPhrase = value;
   }
 
   /**
@@ -293,6 +308,7 @@ export class HDWalletInfo {
    */
   public toJSON() {
     return {
+      encryptedKeyPhrase: this.encryptedKeyPhrase,
       keySeed: this.keySeed,
       encryptionType: this.encryptionType,
       derives: this.derivedWallets
