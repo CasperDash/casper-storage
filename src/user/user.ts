@@ -65,20 +65,29 @@ export class User implements IUser {
    * @param password
    */
   public async updatePassword(password: string) {
+    const keyPhrase = this._hdWalletInfo ? await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase) : null;
+
     this.validatePassword(password);
     this._pwdOptions = new PasswordOptions(password);
+
+    if (keyPhrase) this._hdWalletInfo.encryptedKeyPhrase = await this.encrypt(keyPhrase);
   }
 
-  public setHDWallet(key: string, encryptionType: EncryptionType) {
-    if (!key) throw new Error("Key is required");
+  public async setHDWallet(keyPhrase: string, encryptionType: EncryptionType) {
+    if (!keyPhrase) throw new Error("Key is required");
     if (!encryptionType) throw new Error("Type is required");
 
-    this._hdWalletInfo = new HDWalletInfo(key, encryptionType);
+    this._hdWalletInfo = new HDWalletInfo(keyPhrase, encryptionType);
+    this._hdWalletInfo.encryptedKeyPhrase = await this.encrypt(keyPhrase);
     this._underlyingHDWallet = null;
   }
 
   public getHDWallet(): HDWalletInfo {
     return this._hdWalletInfo;
+  }
+
+  public async getHDWalletKeyPhrase(): Promise<string> {
+    return await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase);
   }
 
   public getWalletAccount(index: number): Promise<IWallet<IHDKey>> {
@@ -224,7 +233,14 @@ export class User implements IUser {
     try {
       const obj = JSON.parse(decryptedValue);
       if (obj.hdWallet) {
-        this.setHDWallet(obj.hdWallet.keySeed || obj.hdWallet.keyPhrase, obj.hdWallet.encryptionType);
+        let keyPhrase = obj.hdWallet.keyPhrase;
+        if (!keyPhrase && obj.hdWallet.encryptedKeyPhrase) {
+          keyPhrase = await this.decrypt(obj.hdWallet.encryptedKeyPhrase);
+        }
+        if (!keyPhrase) {
+          throw new Error(`Unable to find a vaid key-phrase to process HD wallet`);
+        }
+        await this.setHDWallet(keyPhrase, obj.hdWallet.encryptionType);
 
         if (obj.hdWallet.derives) {
           obj.hdWallet.derives.forEach((wl: WalletInfo) => {
@@ -242,7 +258,7 @@ export class User implements IUser {
         });
       }
     } catch (err) {
-      throw new Error(`Unable to parse user information. Error: ${err}`);
+      throw new Error(`Unable to parse user information. Error: ${err}. Value: ${decryptedValue}`);
     }
   }
 
