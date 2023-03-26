@@ -65,7 +65,7 @@ export class User implements IUser {
    * @param password
    */
   public async updatePassword(password: string) {
-    let keyPhrase = this._hdWalletInfo ? await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase) : null;
+    const keyPhrase = this._hdWalletInfo ? await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase) : null;
 
     this.validatePassword(password);
     this._pwdOptions = new PasswordOptions(password);
