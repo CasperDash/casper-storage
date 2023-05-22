@@ -101,22 +101,15 @@ export interface IHDWallet<TWallet> {
   getMasterKey(): IHDKey;
 
   /**
-   * Get the master wallet on base derivation path (purpose/coinType)
+   * Get the master wallet on base derivation path (m)
    */
   getMasterWallet(): Promise<TWallet>;
 
   /**
-   * Get a wallet at a specific account index based on base derivation path (purpose/coinType/accountIndex)
-   * @param accountIndex 
+   * Get a wallet at a specific account index based on base derivation path
+   * @param idx 
    */
-  getAccount(accountIndex: number): Promise<TWallet>;
-
-  /**
-   * Get a wallet at a specific account index based on base derivation path (purpose/coinType/accountIndex/change/walletIndex)
-   * Where the default accountIndex will be 0, and change will be 0 (external)
-   * @param walletIndex 
-   */
-  getWallet(accountIndex: number, internal: boolean, walletIndex: number): Promise<TWallet>;
+  getAccount(idx: number): Promise<TWallet>;
 
   /**
    * Get a wallet with a specific path

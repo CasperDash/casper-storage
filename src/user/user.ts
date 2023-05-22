@@ -1,5 +1,5 @@
 import { IHDKey } from "../bips/bip32";
-import { CasperHDWallet, IHDWallet, IWallet, Wallet } from "../wallet";
+import { CasperHDWallet, DEFAULT_COINT_PATH, IHDWallet, IWallet, Wallet } from "../wallet";
 import { EncryptionType, AESUtils, EncryptionResult } from "../cryptography";
 import { IUser, IUserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
@@ -42,6 +42,8 @@ export class User implements IUser {
 
   private _underlyingHDWallet: IHDWallet<Wallet>;
 
+  private _hdWalletPathTemplate: string;
+
   /**
    * Initialize a new user instnace
    * @param password a secure password to encrypt/decrypt user's data
@@ -49,7 +51,8 @@ export class User implements IUser {
    */
   constructor(
     password: string,
-    options?: Partial<IUserOptions>
+    options?: Partial<IUserOptions>,
+    hdWalletPathTemplate?: string
   ) {
     options = options || {};
 
@@ -57,6 +60,7 @@ export class User implements IUser {
     this.validatePassword(password);
 
     this._pwdOptions = new PasswordOptions(password);
+    this._hdWalletPathTemplate = hdWalletPathTemplate || DEFAULT_COINT_PATH;
   }
 
   /**
@@ -77,7 +81,7 @@ export class User implements IUser {
     if (!keyPhrase) throw new Error("Key is required");
     if (!encryptionType) throw new Error("Type is required");
 
-    this._hdWalletInfo = new HDWalletInfo(keyPhrase, encryptionType);
+    this._hdWalletInfo = new HDWalletInfo(keyPhrase, encryptionType, this._hdWalletPathTemplate);
     this._hdWalletInfo.encryptedKeyPhrase = await this.encrypt(keyPhrase);
     this._underlyingHDWallet = null;
   }
@@ -240,6 +244,9 @@ export class User implements IUser {
         if (!keyPhrase) {
           throw new Error(`Unable to find a vaid key-phrase to process HD wallet`);
         }
+
+        this._hdWalletPathTemplate = obj.hdWallet.pathTemplate || DEFAULT_COINT_PATH;
+
         await this.setHDWallet(keyPhrase, obj.hdWallet.encryptionType);
 
         if (obj.hdWallet.derives) {
@@ -280,6 +287,7 @@ export class User implements IUser {
     if (!this._underlyingHDWallet) {
       this._underlyingHDWallet = new CasperHDWallet(
         this._hdWalletInfo.keySeed,
+        this._hdWalletInfo.pathTemplate,
         this._hdWalletInfo.encryptionType
       ); // ! Hardcoded to Casper for now
     }

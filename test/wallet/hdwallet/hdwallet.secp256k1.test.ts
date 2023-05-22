@@ -1,10 +1,10 @@
 import { EncryptionType } from "../../../src/cryptography/core";
 import { Hex, TypeUtils } from "../../../src/utils";
 import { Wallet } from "../../../src/wallet";
-import { CoinPath, CoinType, Purpose } from "../../../src/wallet/core";
+import { CoinPath, CoinType, DEFAULT_COINT_PATH, Purpose } from "../../../src/wallet/core";
 import { HDWallet } from "../../../src/wallet/hdwallet";
 
-const coinPath = new CoinPath(Purpose.BIP44, CoinType.Bitcoin);
+const coinPath = new CoinPath(DEFAULT_COINT_PATH, Purpose.BIP44, CoinType.Bitcoin);
 const testSeedSlip10Vector1 = "000102030405060708090a0b0c0d0e0f";
 const testSeedSlip10vector2 = "fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542";
 const testSeedBip32Vector1 = "000102030405060708090a0b0c0d0e0f";
@@ -33,32 +33,11 @@ test(("hd-wallet.Secp256k1.getMasterWallet"), async () => {
   expect(wallet.getKey().getPath()).toBe("m");
 });
 
-test(("hd-wallet.Secp256k1.getAccount.external"), async () => {
+test(("hd-wallet.Secp256k1.getAccount.0"), async () => {
   let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
-  let wallet = await hdWallet.getAccount(0, false);
+  let wallet = await hdWallet.getAccount(0);
 
-  expect(wallet.getKey().getPath()).toBe("m/44'/0'/0'/0");
-});
-
-test(("hd-wallet.Secp256k1.getAccount.internal"), async () => {
-  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
-  let wallet = await hdWallet.getAccount(0, true);
-
-  expect(wallet.getKey().getPath()).toBe("m/44'/0'/0'/1");
-});
-
-test(("hd-wallet.Secp256k1.getWallet.external.0"), async () => {
-  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
-  let wallet = await hdWallet.getWallet(0, false, 0);
-
-  expect(wallet.getKey().getPath()).toBe("m/44'/0'/0'/0/0");
-});
-
-test(("hd-wallet.Secp256k1.getWallet.1.internal.2"), async () => {
-  let hdWallet = new TestHDWallet(testSeedSlip10Vector1);
-  let wallet = await hdWallet.getWallet(1, true, 2);
-
-  expect(wallet.getKey().getPath()).toBe("m/44'/0'/1'/1/2");
+  expect(wallet.getKey().getPath()).toBe("m/44'/0'/0'");
 });
 
 test(("hd-wallet.Secp256k1.slip10-vector1-t1"), async () => {

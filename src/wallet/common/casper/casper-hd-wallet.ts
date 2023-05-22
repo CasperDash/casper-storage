@@ -28,10 +28,8 @@ export class CasperWallet extends Wallet {
  */
 export class CasperHDWallet extends HDWallet<CasperWallet> {
 
-  private static PATH = new CoinPath(Purpose.BIP44, CoinType.Casper);
-
-  constructor(masterSeed: Hex, encryptionType: EncryptionType = EncryptionType.Ed25519) {
-    super(CasperWallet, CasperHDWallet.PATH, encryptionType, masterSeed);
+  constructor(masterSeed: Hex, walletPathTemplate: string, encryptionType: EncryptionType) {
+    super(CasperWallet, new CoinPath(walletPathTemplate, Purpose.BIP44, CoinType.Casper), encryptionType, masterSeed);
   }
 
 }
