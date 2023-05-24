@@ -2,7 +2,7 @@ import { CoinType } from "./coin-type";
 import { Purpose } from "./purpose";
 
 export const DEFAULT_COINT_PATH = "m/PURPOSE'/COINT_TYPE'/INDEX'";
-export const DEFAULT_COINT_PATH_ALTER = "m/PURPOSE'/COINT_TYPE'/0'/0/INDEX";
+export const DEFAULT_COINT_PATH_FULL = "m/PURPOSE'/COINT_TYPE'/0'/0/INDEX";
 
 /**
  * Path levels:
@@ -46,7 +46,7 @@ export class CoinPath {
     }
 
     template = template.replace("PURPOSE", String(purpose));
-    template = template.replace("COINT_TYPE", String(coinType));
+  template = template.replace("COINT_TYPE", String(coinType));
 
     this._path = template;
   }

@@ -3,7 +3,7 @@ import { EncryptionType } from "../../src/cryptography";
 import { User } from "../../src/user";
 import { WalletDescriptor } from "../../src/user/wallet-info";
 import { TypeUtils, ValidationResult } from "../../src/utils";
-import { DEFAULT_COINT_PATH_ALTER, LegacyWallet } from "../../src/wallet";
+import { DEFAULT_COINT_PATH_FULL, LegacyWallet } from "../../src/wallet";
 
 const PASSWORD = "abcdAbcd123.";
 const testKeySlip10Vector1 =
@@ -194,7 +194,7 @@ test("user.hd-wallet-master-key-get-account-by-index", async () => {
 });
 
 test("user.hd-wallet.customPath.master-key-get-account-by-index", async () => {
-  const user = new User(PASSWORD, null, DEFAULT_COINT_PATH_ALTER);
+  const user = new User(PASSWORD, null, DEFAULT_COINT_PATH_FULL);
   
   await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
 
@@ -439,13 +439,13 @@ test("user.deserializeFrom", async () => {
 });
 
 test("user.deserializeFrom.customPath", async () => {
-  const user = await prepareTestUser(DEFAULT_COINT_PATH_ALTER);
+  const user = await prepareTestUser(DEFAULT_COINT_PATH_FULL);
 
   const encryptedUserInfo = await user.serialize();
 
   const user2 = await User.deserializeFrom(PASSWORD, encryptedUserInfo);
 
-  expect(user2.getHDWallet().pathTemplate).toBe(DEFAULT_COINT_PATH_ALTER);
+  expect(user2.getHDWallet().pathTemplate).toBe(DEFAULT_COINT_PATH_FULL);
 
   validateDecryptedUserInfo(user, user2);
 });
