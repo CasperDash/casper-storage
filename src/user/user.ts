@@ -48,6 +48,7 @@ export class User implements IUser {
    * Initialize a new user instnace
    * @param password a secure password to encrypt/decrypt user's data
    * @param options Options to work with user's instance
+   * @param hdWalletPathTemplate Option to define a custom derivation path of HD wallet (default is m/PURPOSE'/COINT_TYPE'/INDEX')
    */
   constructor(
     password: string,
