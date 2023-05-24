@@ -170,7 +170,7 @@ export class WalletInfo {
     if (parts.length < 4) {
       throw new Error("This is not a HD wallet account");
     }
-    const index = parseInt(parts[3]); // ' will be ignored
+    const index = parseInt(parts[parts.length - 1]); // ' will be ignored
     if (isNaN(index)) {
       throw new Error("This is not a HD wallet account");
     }
