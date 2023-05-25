@@ -56,16 +56,8 @@ export abstract class HDWallet<TWallet extends IWallet<IHDKey>> implements IHDWa
     return this.getWalletFromPath("m");
   }
 
-  public getAccount(index: number, internal?: boolean): Promise<TWallet> {
-    return this.getWalletFromPath(this.coinPath.createPath(index, internal));
-  }
-
-  public getWallet(accountIndex: number, internal: boolean, walletIndex: number): Promise<TWallet> {
-    if (walletIndex === null || walletIndex === undefined) {
-      walletIndex  = accountIndex;
-      accountIndex = 0;
-    }
-    return this.getWalletFromPath(this.coinPath.createPath(accountIndex, internal, walletIndex));
+  public getAccount(index: number): Promise<TWallet> {
+    return this.getWalletFromPath(this.coinPath.createPath(index));
   }
 
   public async getWalletFromPath(path: string): Promise<TWallet> {

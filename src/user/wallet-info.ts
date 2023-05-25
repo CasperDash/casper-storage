@@ -170,7 +170,7 @@ export class WalletInfo {
     if (parts.length < 4) {
       throw new Error("This is not a HD wallet account");
     }
-    const index = parseInt(parts[3]); // ' will be ignored
+    const index = parseInt(parts[parts.length - 1]); // ' will be ignored
     if (isNaN(index)) {
       throw new Error("This is not a HD wallet account");
     }
@@ -213,15 +213,17 @@ export class HDWalletInfo {
   private _keySeed: string;
   private _encryptionType: EncryptionType;
   private _derivedWallets: WalletInfo[];
+  private _pathTemplate: string;
 
   /**
    * Create a new HD wallet information with master key and encryption type
    * @param key 
    * @param encryptionType 
    */
-  constructor(key: string, encryptionType: EncryptionType) {
+  constructor(key: string, encryptionType: EncryptionType, pathTemplate: string) {
     if (!key) throw new Error("Key phrase (master key) is required");
     if (!encryptionType) throw new Error("Type is required");
+    if (!pathTemplate) throw new Error("HD wallet path template is required");
 
     if (key.indexOf(" ") > 0) {
       this._keySeed = KeyFactory.getInstance().toSeed(key);
@@ -230,6 +232,7 @@ export class HDWalletInfo {
     }
 
     this._encryptionType = encryptionType;
+    this._pathTemplate   = pathTemplate;
   }
 
   /**
@@ -265,6 +268,13 @@ export class HDWalletInfo {
    */
   public get keySeed(): string {
     return this._keySeed;
+  }
+
+  /**
+   * Gets the hd wallet path template
+   */
+  public get pathTemplate(): string {
+    return this._pathTemplate;
   }
 
   /**
@@ -311,7 +321,8 @@ export class HDWalletInfo {
       encryptedKeyPhrase: this.encryptedKeyPhrase,
       keySeed: this.keySeed,
       encryptionType: this.encryptionType,
-      derives: this.derivedWallets
+      derives: this.derivedWallets,
+      pathTemplate: this._pathTemplate
     }
   }
 }

@@ -1,12 +1,15 @@
 import { CoinType } from "./coin-type";
 import { Purpose } from "./purpose";
 
+export const DEFAULT_COINT_PATH = "m/PURPOSE'/COINT_TYPE'/INDEX'";
+export const DEFAULT_COINT_PATH_FULL = "m/PURPOSE'/COINT_TYPE'/0'/0/INDEX";
+
 /**
  * Path levels:
  * m / purpose' / coin_type' / account' / change / address_index
  * 
  * Purpose:
- *  A const set to 0x8000002C (44) following BIP43
+ * A const set to 0x8000002C (44) following BIP43
  * 
  * Coint types:
  *  https://github.com/satoshilabs/slips/blob/master/slip-0044.md
@@ -27,11 +30,25 @@ export class CoinPath {
 
   /**
    * Construct a base derivation path
+   * @param template
    * @param purpose
    * @param coinType 
    */
-  constructor(purpose: Purpose, coinType: CoinType) {
-    this._path = `m/${purpose}'/${coinType}'`;
+  constructor(template: string, purpose: Purpose, coinType: CoinType) {
+    if (template.indexOf("PURPOSE") <= 0) {
+      throw new Error("The template must contain PURPOSE");
+    }
+    if (template.indexOf("COINT_TYPE") <= 0) {
+      throw new Error("The template must contain COINT_TYPE");
+    }
+    if (template.indexOf("INDEX") <= 0) {
+      throw new Error("The template must contain INDEX");
+    }
+
+    template = template.replace("PURPOSE", String(purpose));
+  template = template.replace("COINT_TYPE", String(coinType));
+
+    this._path = template;
   }
 
   /**
@@ -44,23 +61,12 @@ export class CoinPath {
   /**
    * Derive a wallet path from account index, change (external or internal) and wallet index.
    * 
-   * @param accountIndex 
-   * @param internal 
-   * @param walletIndex 
+   * @param idx 
    * @returns 
    */
-  public createPath(accountIndex: number, internal?: boolean, walletIndex?: number): string {
-    accountIndex = accountIndex || 0;
-    if (internal != null) {
-      const change = internal ? 1 : 0;
-      if (walletIndex != null) {
-        return this._path + `/${accountIndex}'/${change}/${walletIndex}`
-      } else {
-        return this._path + `/${accountIndex}'/${change}`;
-      }
-    } else {
-      return this._path + `/${accountIndex}'`;
-    }
+  public createPath(idx: number): string {
+    const path = this._path.replace("INDEX", String(idx || 0));
+    return path;
   }
 
 }

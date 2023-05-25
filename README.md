@@ -270,14 +270,17 @@ import { User } from "casper-storage"
 const user = new User("user-password")
 ```
 
-- By default, user-password will be verified to ensure it is strong enough (at least 10 characters, including lowercase, uppercase, numeric and a special character)
-we can override the validator by giving user options
+- By default, user-password will be verified to ensure it is strong enough (at least 10 characters, including lowercase, uppercase, numeric and a special character). We can override the validator by giving user options
+
+- By default, the derivation path of HD wallet is `m/PURPOSE'/COINT_TYPE'/INDEX'`. We can override it by giving the third option e.g `m/PURPOSE'/COINT_TYPE'/0'/0/INDEX`
+
 ``` javascript
 // With a regex
 const user = new User("user-password", {
     passwordValidator: {
       validatorRegex: "passwordRegexValidation",
-    }
+    },
+    "m/PURPOSE'/COINT_TYPE'/INDEX'"
 });
 
 // or with a custom function
@@ -294,6 +297,7 @@ const user = new User("user-password", {
         }
       },
     },
+    "m/PURPOSE'/COINT_TYPE'/0'/0/INDEX"
 });
 
 // we can also update the password if needed

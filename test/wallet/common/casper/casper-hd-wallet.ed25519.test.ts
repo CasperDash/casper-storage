@@ -1,3 +1,4 @@
+import { DEFAULT_COINT_PATH } from "../../../../src";
 import { EncryptionType } from "../../../../src/cryptography/core";
 import { TypeUtils } from "../../../../src/utils";
 import { CasperHDWallet } from "../../../../src/wallet/common/casper";
@@ -5,7 +6,7 @@ import { CasperHDWallet } from "../../../../src/wallet/common/casper";
 const testSeed01 = "000102030405060708090a0b0c0d0e0f";
 
 test(("casper-hd-wallet.ed25519.master"), async () => {
-  let hdWallet = new CasperHDWallet(testSeed01, EncryptionType.Ed25519);
+  let hdWallet = new CasperHDWallet(testSeed01, DEFAULT_COINT_PATH, EncryptionType.Ed25519);
   let wallet = await hdWallet.getMasterWallet();
 
   expect(wallet.getKey().getPath()).toBe("m");
@@ -16,7 +17,7 @@ test(("casper-hd-wallet.ed25519.master"), async () => {
 });
 
 test(("casper-hd-wallet.ed25519.master.acc0"), async () => {
-  let hdWallet = new CasperHDWallet(TypeUtils.convertHexStringToArray(testSeed01), EncryptionType.Ed25519);
+  let hdWallet = new CasperHDWallet(TypeUtils.convertHexStringToArray(testSeed01), DEFAULT_COINT_PATH, EncryptionType.Ed25519);
   let wallet = await hdWallet.getWalletFromPath("m/0'");
 
   expect(wallet.getKey().getPath()).toBe("m/0'");
