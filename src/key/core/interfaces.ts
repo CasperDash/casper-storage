@@ -5,7 +5,7 @@ import { Hex } from "../../utils";
  */
 export interface IKeyManager {
   /**
-   * Generate a new key (entrophy of phrase)
+   * Generate a new key (entropy of phrase)
    * @param wordsLength number of words (default is 24), the words length should be from 12 to 24
    */
   generate(wordsLength?: number): Uint8Array;

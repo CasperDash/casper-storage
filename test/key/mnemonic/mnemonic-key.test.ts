@@ -57,8 +57,8 @@ test("generate.no-duplication", () => {
 });
 
 test("validate.true", () => {
-  const entrophy = mnKey.generate();
-  const key = mnKey.toKey(entrophy);
+  const entropy = mnKey.generate();
+  const key = mnKey.toKey(entropy);
   expect(mnKey.validate(key.join(" "))).toBe(true);
 });
 

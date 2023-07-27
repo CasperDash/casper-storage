@@ -69,7 +69,7 @@ export class MnemonicKey implements IKeyManager {
   }
 
   toSeed(key: string | Hex, password?: string): string {
-    const arr = bip39.mnemonicToSeedSync(this.parseEntrophyOrKeyToKey(key), password);
+    const arr = bip39.mnemonicToSeedSync(this.parseEntropyOrKeyToKey(key), password);
     return TypeUtils.convertArrayToHexString(arr);
   }
 
@@ -80,7 +80,7 @@ export class MnemonicKey implements IKeyManager {
   }
 
   toSeedArray(key: string | Hex, password?: string): Uint8Array {
-    return bip39.mnemonicToSeedSync(this.parseEntrophyOrKeyToKey(key), password);
+    return bip39.mnemonicToSeedSync(this.parseEntropyOrKeyToKey(key), password);
   }
 
   toSeedArrayAsync(key: string | Hex, password?: string): Promise<Uint8Array> {
@@ -105,16 +105,16 @@ export class MnemonicKey implements IKeyManager {
     }
   }
 
-  private parseEntrophyOrKeyToKey(keyOrEntrophy: string | Hex): string {
-    if (keyOrEntrophy instanceof Uint8Array) {
-      return this.toKey(keyOrEntrophy).join(" ");
+  private parseEntropyOrKeyToKey(keyOrEntropy: string | Hex): string {
+    if (keyOrEntropy instanceof Uint8Array) {
+      return this.toKey(keyOrEntropy).join(" ");
     }
-    if (keyOrEntrophy.indexOf(" ") > 0) {
-      return keyOrEntrophy;
+    if (keyOrEntropy.indexOf(" ") > 0) {
+      return keyOrEntropy;
     }
 
     // Hex
-    return this.toKey(TypeUtils.parseHexToArray(keyOrEntrophy)).join(" ");
+    return this.toKey(TypeUtils.parseHexToArray(keyOrEntropy)).join(" ");
   }
 
   private encode(val: string): string {

@@ -79,12 +79,12 @@ export class User implements IUser {
     if (keyPhrase) this._hdWalletInfo.encryptedKeyPhrase = await this.encrypt(keyPhrase);
   }
 
-  public async setHDWallet(keyEntrophy: Uint8Array, encryptionType: EncryptionType) {
-    if (!keyEntrophy) throw new Error("Key is required");
+  public async setHDWallet(keyEntropy: Uint8Array, encryptionType: EncryptionType) {
+    if (!keyEntropy) throw new Error("Key is required");
     if (!encryptionType) throw new Error("Type is required");
 
     const keyFactory = KeyFactory.getInstance();
-    const keyPhrase = keyFactory.toKey(keyEntrophy).join(" ");
+    const keyPhrase = keyFactory.toKey(keyEntropy).join(" ");
     this._hdWalletInfo = new HDWalletInfo(await this.encrypt(keyPhrase), keyFactory.toSeed(keyPhrase), encryptionType, this._hdWalletPathTemplate);
     this._underlyingHDWallet = null;
   }
