@@ -1,4 +1,3 @@
-import { KeyFactory } from "../key";
 import { CryptoUtils, EncoderUtils, EncryptionType } from "../cryptography";
 import { TypeUtils } from "../utils";
 
@@ -217,20 +216,18 @@ export class HDWalletInfo {
 
   /**
    * Create a new HD wallet information with master key and encryption type
-   * @param key 
+   * @param encryptionKeyPhrase 
+   * @param keySeed 
    * @param encryptionType 
    */
-  constructor(key: string, encryptionType: EncryptionType, pathTemplate: string) {
-    if (!key) throw new Error("Key phrase (master key) is required");
+  constructor(encryptionKeyPhrase: string, keySeed: string, encryptionType: EncryptionType, pathTemplate: string) {
+    if (!encryptionKeyPhrase) throw new Error("Key phrase (master key) is required");
+    if (!keySeed) throw new Error("Key phrase seed (master key) is required");
     if (!encryptionType) throw new Error("Type is required");
     if (!pathTemplate) throw new Error("HD wallet path template is required");
 
-    if (key.indexOf(" ") > 0) {
-      this._keySeed = KeyFactory.getInstance().toSeed(key);
-    } else {
-      this._keySeed = key;
-    }
-
+    this._encryptedKeyPhrase = encryptionKeyPhrase;
+    this._keySeed = keySeed;
     this._encryptionType = encryptionType;
     this._pathTemplate   = pathTemplate;
   }

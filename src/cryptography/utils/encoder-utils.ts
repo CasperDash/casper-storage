@@ -1,4 +1,4 @@
-import { base64 } from "@scure/base"
+import { base64, bytesToString, stringToBytes } from "@scure/base"
 import { sha256 } from "@noble/hashes/sha256";
 import { base58check } from "@scure/base";
 import { TypeUtils } from "../../utils";
@@ -33,15 +33,32 @@ export class EncoderUtils {
   }
 
   /**
+   * It encodes the data into a base64 string.
+   * @param {string} data - The data to be encoded.
+   * @returns The base64 encoded string.
+   */
+  public static encodeBase64(data: string): string {
+    return base64.encode(stringToBytes("utf8", data || ""));
+  }
+
+  /**
+   * It decodes the data from a base64 string.
+   * @param {string} data - The base64 data to be decoded.
+   * @returns The original string.
+   */
+  public static decodeBase64(data: string): string {
+    return bytesToString("utf8", base64.decode(data));
+  }
+
+  /**
    * It encodes the data into a base58 string.
    * @param {Uint8Array} data - The data to be encoded.
    * @returns The base58 encoded string.
    */
-  static encodeBase58(data: Uint8Array): string {
+ public static encodeBase58(data: Uint8Array): string {
     if (!data || !data.length) {
       throw new Error("Input data is required to encode base58");
     }
-
     return base58c.encode(data);
   }
 

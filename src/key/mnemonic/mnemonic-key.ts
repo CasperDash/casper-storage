@@ -1,6 +1,6 @@
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-import { CryptoUtils } from '../../cryptography';
+import { CryptoUtils, EncoderUtils } from '../../cryptography';
 import { IKeyManager } from "../../key/core";
 import { Hex, TypeUtils } from "../../utils";
 
@@ -26,63 +26,103 @@ const DEFAULT_WORDS_LENGTH = 24;
  */
 export class MnemonicKey implements IKeyManager {
 
-  generate(wordsLength?: number): string {
+  generate(wordsLength?: number): Uint8Array {
     if (wordsLength == null) {
       wordsLength = DEFAULT_WORDS_LENGTH;
     }
     if (!WORDS_LENGTH_STRENGTH_MAP.has(wordsLength)) {
       throw new Error(`Length of words must be in allowed list: ${Array.from(WORDS_LENGTH_STRENGTH_MAP.keys()).join(", ")}`)
     }
+
     const byteLength = WORDS_LENGTH_STRENGTH_MAP.get(wordsLength);
-    const entropy = CryptoUtils.randomBytes(byteLength / 8);
-    return bip39.entropyToMnemonic(entropy, wordlist);
+    return CryptoUtils.randomBytes(byteLength / 8);
   }
 
-  validate(key: string): boolean {
-    return bip39.validateMnemonic(key, this.getWordList());
+  validate(key: string | string[], encoded = false): boolean {
+    return bip39.validateMnemonic(this.parseKeyTokey(key, encoded), this.getWordList());
   }
 
-  toEntropy(key: string): Uint8Array {
-    return bip39.mnemonicToEntropy(key, this.getWordList());
+  toEntropy(key: string | string[], encoded = false): Uint8Array {
+    return bip39.mnemonicToEntropy(this.parseKeyTokey(key, encoded), this.getWordList());
   }
 
-  toEntropyAsync(key: string): Promise<Uint8Array> {
+  toEntropyAsync(key: string | string[], encoded = false): Promise<Uint8Array> {
     return new Promise((resolve) => {
-      resolve(this.toEntropy(key));
+      resolve(this.toEntropy(key, encoded));
     })
   }
 
-  toKey(entropy: Hex): string {
+  toKey(entropy: Hex, encode = false): string[] {
     const entropyArray = TypeUtils.parseHexToArray(entropy);
     const key = bip39.entropyToMnemonic(entropyArray, this.getWordList());
-    return key;
+    if (encode) {
+      return key.split(" ").map(x => this.encode(x));
+    } else {
+      return key.split(" ");
+    }
   }
 
-  toKeyAsync(entropy: Hex): Promise<string> {
+  toKeyAsync(entropy: Hex, encode = false): Promise<string[]> {
     return new Promise((resolve) => {
-      resolve(this.toKey(entropy));
+      resolve(this.toKey(entropy, encode));
     });
   }
 
-  toSeed(key: string, password?: string): string {
-    const arr = bip39.mnemonicToSeedSync(key, password);
+  toSeed(key: string | Hex, password?: string): string {
+    const arr = bip39.mnemonicToSeedSync(this.parseEntropyOrKeyToKey(key), password);
     return TypeUtils.convertArrayToHexString(arr);
   }
 
-  toSeedAsync(key: string, password?: string): Promise<string> {
+  toSeedAsync(key: string | Hex, password?: string): Promise<string> {
     return new Promise((resolve) => {
       resolve(this.toSeed(key, password));
     });
   }
 
-  toSeedArray(key: string, password?: string): Uint8Array {
-    return bip39.mnemonicToSeedSync(key, password);
+  toSeedArray(key: string | Hex, password?: string): Uint8Array {
+    return bip39.mnemonicToSeedSync(this.parseEntropyOrKeyToKey(key), password);
   }
 
-  toSeedArrayAsync(key: string, password?: string): Promise<Uint8Array> {
+  toSeedArrayAsync(key: string | Hex, password?: string): Promise<Uint8Array> {
     return new Promise((resolve) => {
       resolve(this.toSeedArray(key, password));
     });
+  }
+
+  private parseKeyTokey(key: string | string[], encoded = false): string {
+    if (key instanceof Array) {
+      if (encoded) {
+        return key.map(x => this.decode(x)).join(" ");
+      } else {
+        return key.join(" ");
+      }
+    } else {
+      if (encoded) {
+        return key.split(" ").map(x => this.decode(x)).join(" ");
+      } else {
+        return key;
+      }
+    }
+  }
+
+  private parseEntropyOrKeyToKey(keyOrEntropy: string | Hex): string {
+    if (keyOrEntropy instanceof Uint8Array) {
+      return this.toKey(keyOrEntropy).join(" ");
+    }
+    if (keyOrEntropy.indexOf(" ") > 0) {
+      return keyOrEntropy;
+    }
+
+    // Hex
+    return this.toKey(TypeUtils.parseHexToArray(keyOrEntropy)).join(" ");
+  }
+
+  private encode(val: string): string {
+    return EncoderUtils.encodeBase64(val);
+  }
+
+  private decode(val: string): string {
+    return EncoderUtils.decodeBase64(val);
   }
 
   /**

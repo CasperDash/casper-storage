@@ -1,3 +1,4 @@
+import { EncoderUtils } from "../../../src";
 import { MnemonicKey } from "../../../src/key/mnemonic";
 import { TypeUtils } from "../../../src/utils";
 
@@ -8,36 +9,36 @@ const NOT_STANDARD_KEY = "something random key from somewhere not know but it co
 
 test("generate.ok-default-24-words", () => {
   const key = mnKey.generate();
-  expect(key.split(" ").length).toBe(24);
+  expect(mnKey.toKey(key).length).toBe(24);
 });
 
 test("generate.ok-24-words", () => {
   const key = mnKey.generate(24);
-  expect(key.split(" ").length).toBe(24);
+  expect(mnKey.toKey(key).length).toBe(24);
 });
 
 test("generate.ok-15-words", () => {
   const key = mnKey.generate(15);
 
-  expect(key.split(" ").length).toBe(15);
+  expect(mnKey.toKey(key).length).toBe(15);
 });
 
 test("generate.ok-18-words", () => {
   const key = mnKey.generate(18);
 
-  expect(key.split(" ").length).toBe(18);
+  expect(mnKey.toKey(key).length).toBe(18);
 });
 
 test("generate.ok-21-words", () => {
   const key = mnKey.generate(21);
 
-  expect(key.split(" ").length).toBe(21);
+  expect(mnKey.toKey(key).length).toBe(21);
 });
 
 test("generate.ok-24-words", () => {
   const key = mnKey.generate(24);
 
-  expect(key.split(" ").length).toBe(24);
+  expect(mnKey.toKey(key).length).toBe(24);
 });
 
 test("generate.invalid-number-of-words", () => {
@@ -56,9 +57,9 @@ test("generate.no-duplication", () => {
 });
 
 test("validate.true", () => {
-  const key = mnKey.generate();
-
-  expect(mnKey.validate(key)).toBe(true);
+  const entropy = mnKey.generate();
+  const key = mnKey.toKey(entropy);
+  expect(mnKey.validate(key.join(" "))).toBe(true);
 });
 
 test("validate.false-short", () => {
@@ -71,10 +72,16 @@ test("validate.false-24-words", () => {
 });
 
 test("toEntropy-toKey", () => {
-  const key = mnKey.generate();
-  let entropy = mnKey.toEntropy(key);
-  let regeneratedkey = mnKey.toKey(entropy);
-  expect(regeneratedkey).toBe(key);
+  const entropy = mnKey.toEntropy(TEST_KEY_01);
+  const key = mnKey.toKey(entropy);
+  expect(key).toBe(key);
+});
+
+test("toEntropy-toKey_Encoded", () => {
+  const encodedKey = TEST_KEY_01.split(" ").map(x => EncoderUtils.encodeBase64(x)).join(" ");
+  const entropy = mnKey.toEntropy(encodedKey, true);
+  const key = mnKey.toKey(entropy, true);
+  expect(key).toBe(key);
 });
 
 test("toEntropy-toKey-not-valid-key", () => {
@@ -85,10 +92,10 @@ test("toEntropy-toKey-not-valid-key", () => {
 });
 
 test("toEntropyAsync-toKey", async () => {
-  const key = mnKey.generate();
+  const key = TEST_KEY_01;
   let entropy = await mnKey.toEntropyAsync(key);
   let regeneratedkey = mnKey.toKey(entropy);
-  expect(regeneratedkey).toBe(key);
+  expect(regeneratedkey.join(" ")).toBe(key);
 });
 
 test("toEntropyAsync-toKey-not-valid-key", async () => {
@@ -96,10 +103,10 @@ test("toEntropyAsync-toKey-not-valid-key", async () => {
 });
 
 test("toEntropyAsync-toKeyAsync", async () => {
-  const key = mnKey.generate();
+  const key = TEST_KEY_01;
   let entropy = await mnKey.toEntropyAsync(key);
   let regeneratedkey = await mnKey.toKeyAsync(entropy);
-  expect(regeneratedkey).toBe(key);
+  expect(regeneratedkey.join(" ")).toBe(key);
 });
 
 test("toSeed-ok", () => {

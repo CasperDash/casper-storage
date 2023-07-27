@@ -1,10 +1,11 @@
 import { IHDKey } from "../bips/bip32";
 import { CasperHDWallet, DEFAULT_COINT_PATH, IHDWallet, IWallet, Wallet } from "../wallet";
-import { EncryptionType, AESUtils, EncryptionResult } from "../cryptography";
+import { EncryptionType, AESUtils, EncryptionResult, EncoderUtils } from "../cryptography";
 import { IUser, IUserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex } from "../utils";
 import { defaultValidator, IPasswordValidator, PasswordOptions } from "../cryptography/password-options";
+import { KeyFactory } from "../key";
 
 /**
  * A user instance to manage HD wallet and legacy wallets with detailed information.
@@ -78,12 +79,13 @@ export class User implements IUser {
     if (keyPhrase) this._hdWalletInfo.encryptedKeyPhrase = await this.encrypt(keyPhrase);
   }
 
-  public async setHDWallet(keyPhrase: string, encryptionType: EncryptionType) {
-    if (!keyPhrase) throw new Error("Key is required");
+  public async setHDWallet(keyEntropy: Uint8Array, encryptionType: EncryptionType) {
+    if (!keyEntropy) throw new Error("Key is required");
     if (!encryptionType) throw new Error("Type is required");
 
-    this._hdWalletInfo = new HDWalletInfo(keyPhrase, encryptionType, this._hdWalletPathTemplate);
-    this._hdWalletInfo.encryptedKeyPhrase = await this.encrypt(keyPhrase);
+    const keyFactory = KeyFactory.getInstance();
+    const keyPhrase = keyFactory.toKey(keyEntropy).join(" ");
+    this._hdWalletInfo = new HDWalletInfo(await this.encrypt(keyPhrase), keyFactory.toSeed(keyPhrase), encryptionType, this._hdWalletPathTemplate);
     this._underlyingHDWallet = null;
   }
 
@@ -91,8 +93,11 @@ export class User implements IUser {
     return this._hdWalletInfo;
   }
 
-  public async getHDWalletKeyPhrase(): Promise<string> {
-    return await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase);
+  public async getHDWalletKeyPhrase(encode = false): Promise<string[]> {
+    const keyPhrase = await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase);
+    const parts = keyPhrase.split(" ");
+    if (encode) parts.map(x => EncoderUtils.encodeBase64(x));
+    return parts;
   }
 
   public getWalletAccount(index: number): Promise<IWallet<IHDKey>> {
@@ -248,7 +253,7 @@ export class User implements IUser {
 
         this._hdWalletPathTemplate = obj.hdWallet.pathTemplate || DEFAULT_COINT_PATH;
 
-        await this.setHDWallet(keyPhrase, obj.hdWallet.encryptionType);
+        await this.setHDWallet(KeyFactory.getInstance().toEntropy(keyPhrase), obj.hdWallet.encryptionType);
 
         if (obj.hdWallet.derives) {
           obj.hdWallet.derives.forEach((wl: WalletInfo) => {
