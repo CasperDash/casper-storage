@@ -96,7 +96,7 @@ export class User implements IUser {
   public async getHDWalletKeyPhrase(encode = false): Promise<string[]> {
     const keyPhrase = await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase);
     const parts = keyPhrase.split(" ");
-    if (encode) parts.map(x => EncoderUtils.encodeBase64(x));
+    if (encode) return parts.map(x => EncoderUtils.encodeBase64(x));
     return parts;
   }
 
