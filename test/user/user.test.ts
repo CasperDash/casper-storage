@@ -13,6 +13,8 @@ const PRIVATE_KEY_TEST_01 =
 const PRIVATE_KEY_TEST_02 =
   "3f76574b4cf46085ff9c887a21f6bca2e6ec162f7a0a72b4671c2d770da014a6";
 
+const keyFac = KeyFactory.getInstance();
+
 test("user.create-invalid-password", () => {
   expect(() => new User(null)).toThrowError("Password is required");
 });
@@ -118,17 +120,17 @@ test("user.updatePassword-success_update-storage", async () => {
 
 test("user.updatePassword-HDWallet-keyPhrase", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   await user.updatePassword("Test1234%^");
   
   const keyPhrase = await user.getHDWalletKeyPhrase();
-  expect(keyPhrase).toBe(testKeySlip10Vector1);
+  expect(keyPhrase.join(" ")).toBe(testKeySlip10Vector1);
 });
 
 test("user.hd-wallet-master-seed-get-account-0", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Secp256k1);
 
   const acc = await user.getWalletAccount(0);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/0'");
@@ -139,7 +141,7 @@ test("user.hd-wallet-master-seed-get-account-0", async () => {
 
 test("user.hd-wallet-master-seed-get-account-1", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Secp256k1);
 
   const acc = await user.getWalletAccount(1);
   expect(acc.getKey().getPath()).toBe("m/44'/506'/1'");
@@ -150,7 +152,7 @@ test("user.hd-wallet-master-seed-get-account-1", async () => {
 
 test("user.hd-wallet-master-key-get-account-0", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Secp256k1);
 
   expect(user.getHDWallet().keySeed).toBe(KeyFactory.getInstance().toSeed(testKeySlip10Vector1));
 
@@ -169,7 +171,7 @@ test("user.hd-wallet-master-key-get-account-0", async () => {
 
 test("user.hd-wallet-master-key-get-account-by-index", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Secp256k1);
 
   expect(user.getHDWallet().keySeed).toBe(KeyFactory.getInstance().toSeed(testKeySlip10Vector1));
   await user.addWalletAccount(0);
@@ -196,7 +198,7 @@ test("user.hd-wallet-master-key-get-account-by-index", async () => {
 test("user.hd-wallet.customPath.master-key-get-account-by-index", async () => {
   const user = new User(PASSWORD, null, DEFAULT_COINT_PATH_FULL);
   
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Secp256k1);
 
   expect(user.getHDWallet().keySeed).toBe(KeyFactory.getInstance().toSeed(testKeySlip10Vector1));
   await user.addWalletAccount(0);
@@ -215,7 +217,7 @@ test("user.hd-wallet.customPath.master-key-get-account-by-index", async () => {
 
 test("user.hd-wallet-master-key-get-accounts-ref-key", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Secp256k1);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Secp256k1);
 
   expect(user.getHDWallet().keySeed).toBe(KeyFactory.getInstance().toSeed(testKeySlip10Vector1));
   await user.addWalletAccount(0);
@@ -240,7 +242,7 @@ test("user.hd-wallet-master-key-get-accounts-ref-key", async () => {
 
 test("user.hd-wallet-set-wallet-info-acc-0", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   const acc = await user.getWalletAccount(0);
   user.setWalletInfo(
@@ -254,7 +256,7 @@ test("user.hd-wallet-set-wallet-info-acc-0", async () => {
 
 test("user.hd-wallet-get-wallet-info-by-id", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   const acc = await user.getWalletAccount(0);
   user.setWalletInfo(
@@ -270,7 +272,7 @@ test("user.hd-wallet-get-wallet-info-by-id", async () => {
 
 test("user.hd-wallet-get-wallet-info-by-uid", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   const acc = await user.getWalletAccount(0);
   user.setWalletInfo(
@@ -286,7 +288,7 @@ test("user.hd-wallet-get-wallet-info-by-uid", async () => {
 
 test("user.hd-wallet-remove-wallet-info-by-id", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   const acc = await user.getWalletAccount(0);
   user.setWalletInfo(
@@ -304,7 +306,7 @@ test("user.hd-wallet-remove-wallet-info-by-id", async () => {
 
 test("user.hd-wallet-remove-wallet-info-by-uid", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   const acc = await user.getWalletAccount(0);
   user.setWalletInfo(
@@ -322,10 +324,10 @@ test("user.hd-wallet-remove-wallet-info-by-uid", async () => {
 
 test("user.hd-wallet-get_keyPhrase", async () => {
   const user = new User(PASSWORD);
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   const keyPhrase = await user.getHDWalletKeyPhrase();
-  expect(keyPhrase).toBe(testKeySlip10Vector1);
+  expect(keyPhrase.join(" ")).toBe(testKeySlip10Vector1);
 });
 
 test("user.legacy-wallet-set-wallet-1", async () => {
@@ -473,7 +475,7 @@ test("user.deserializeFrom_LegacyKeyPhrase", async () => {
 async function prepareTestUser(walletPath: string = null) {
   const user = new User(PASSWORD, null, walletPath);
 
-  await user.setHDWallet(testKeySlip10Vector1, EncryptionType.Ed25519);
+  await user.setHDWallet(keyFac.toEntropy(testKeySlip10Vector1), EncryptionType.Ed25519);
 
   const wallet1 = new LegacyWallet(PRIVATE_KEY_TEST_01, EncryptionType.Ed25519);
   const wallet1Key = TypeUtils.parseHexToString(wallet1.getKey());

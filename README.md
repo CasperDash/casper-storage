@@ -319,7 +319,7 @@ user.updatePassword("new-user-password", {
 await user.setHDWallet("master-key", EncryptionType.Ed25519);
 
 // we can retrieve back the master key
-const masterKey = await user.getHDWalletKeyPhrase();
+const masterKey: string[] = await user.getHDWalletKeyPhrase();
 ```
 
 3. Add user's default first account <a name="user-add-wallets"></a>
