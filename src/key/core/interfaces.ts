@@ -15,19 +15,19 @@ export interface IKeyManager {
    * @param key 
    * @param encoded indicates that each word in key is encoded
    */
-  validate(key: string | string[], encoded?: boolean): boolean;
+  validate(key: string[], encoded?: boolean): boolean;
 
   /**
    * Convert the readable key to entropy value
    * @param key 
    */
-  toEntropy(key: string | string[], encoded?: boolean): Uint8Array;
+  toEntropy(key: string[], encoded?: boolean): Uint8Array;
 
   /**
    * Convert the readable key to entropy value async
    * @param key 
    */
-  toEntropyAsync(key: string | string[], encoded?: boolean): Promise<Uint8Array>;
+  toEntropyAsync(key: string[], encoded?: boolean): Promise<Uint8Array>;
 
   /**
    * Convert the entropy value to readable key
@@ -44,30 +44,30 @@ export interface IKeyManager {
   toKeyAsync(entropy: Hex, encode?: boolean): Promise<string[]>;
 
   /**
-   * Convert the key to heximal seed
-   * @param key 
+   * Convert the entropy of key to heximal seed
+   * @param entropy 
    * @param password optional password to protect seed key
    */
-  toSeed(key: string | Hex, password?: string): string;
+  toSeed(entropy: Uint8Array, password?: string): string;
 
   /**
-   * Convert the key to heximal seed async
-   * @param key 
+   * Convert the entropy of key to heximal seed async
+   * @param entropy 
    * @param password optional password to protect seed key
    */
-  toSeedAsync(key: string | Hex, password?: string): Promise<string>;
+  toSeedAsync(entropy: Uint8Array, password?: string): Promise<string>;
 
   /**
-   * Convert the key to Uint8Array array seed
-   * @param key 
+   * Convert the entropy of key to Uint8Array array seed
+   * @param entropy 
    * @param password optional password to protect seed key
    */
-  toSeedArray(key: string | Hex, password?: string): Uint8Array;
+  toSeedArray(entropy: Uint8Array, password?: string): Uint8Array;
 
   /**
-    * Convert the key to Uint8Array array seed async
-    * @param key
+    * Convert the entropy of key to Uint8Array array seed async
+    * @param entropy
     * @param password optional password to protect seed key
     */
-  toSeedArrayAsync(key: string | Hex, password?: string): Promise<Uint8Array>;
+  toSeedArrayAsync(entropy: Uint8Array, password?: string): Promise<Uint8Array>;
 }

@@ -1,5 +1,10 @@
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
+import { utils as baseUtils } from '@scure/base';
+import { sha256 } from '@noble/hashes/sha256';
+import { sha512 } from '@noble/hashes/sha512';
+import { pbkdf2 } from '@noble/hashes/pbkdf2';
+import { bytes as assertBytes } from '@noble/hashes/_assert';
 import { CryptoUtils, EncoderUtils } from '../../cryptography';
 import { IKeyManager } from "../../key/core";
 import { Hex, TypeUtils } from "../../utils";
@@ -21,6 +26,31 @@ const WORDS_LENGTH_STRENGTH_MAP = new Map<number, number>([
  */
 const DEFAULT_WORDS_LENGTH = 24;
 
+function calcChecksum(entropy: Uint8Array) {
+  // Checksum is ent.length/4 bits long
+  const bitsLeft = 8 - entropy.length / 4;
+  // Zero rightmost "bitsLeft" bits in byte
+  // For example: bitsLeft=4 val=10111101 -> 10110000
+  return new Uint8Array([(sha256(entropy)[0]! >> bitsLeft) << bitsLeft]);
+}
+
+function getCoder(wordlist: string[]) {
+  if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
+    throw new Error('Worlist: expected array of 2048 strings');
+  wordlist.forEach((i) => {
+    if (typeof i !== 'string') throw new Error(`Wordlist: non-string element: ${i}`);
+  });
+  return baseUtils.chain(
+    baseUtils.checksum(1, calcChecksum),
+    baseUtils.radix2(11, true),
+    baseUtils.alphabet(wordlist)
+  );
+}
+
+function assertEntropy(entropy: Uint8Array) {
+  assertBytes(entropy, 16, 20, 24, 28, 32);
+}
+
 /**
  * Wrapper to work with mnemonic
  */
@@ -38,28 +68,31 @@ export class MnemonicKey implements IKeyManager {
     return CryptoUtils.randomBytes(byteLength / 8);
   }
 
-  validate(key: string | string[], encoded = false): boolean {
+  validate(key: string[], encoded = false): boolean {
     return bip39.validateMnemonic(this.parseKeyTokey(key, encoded), this.getWordList());
   }
 
-  toEntropy(key: string | string[], encoded = false): Uint8Array {
+  toEntropy(key: string[], encoded = false): Uint8Array {
     return bip39.mnemonicToEntropy(this.parseKeyTokey(key, encoded), this.getWordList());
   }
 
-  toEntropyAsync(key: string | string[], encoded = false): Promise<Uint8Array> {
+  toEntropyAsync(key: string[], encoded = false): Promise<Uint8Array> {
     return new Promise((resolve) => {
       resolve(this.toEntropy(key, encoded));
     })
   }
 
   toKey(entropy: Hex, encode = false): string[] {
-    const entropyArray = TypeUtils.parseHexToArray(entropy);
-    const key = bip39.entropyToMnemonic(entropyArray, this.getWordList());
+    const entropyArr = TypeUtils.parseHexToArray(entropy);
+    assertEntropy(entropyArr);
+
+    const words = getCoder(wordlist).encode(entropyArr);
     if (encode) {
-      return key.split(" ").map(x => this.encode(x));
-    } else {
-      return key.split(" ");
+      const encodedWords = words.map(x => this.encode(x));
+      TypeUtils.clearArray(words);
+      return encodedWords;
     }
+    return words;
   }
 
   toKeyAsync(entropy: Hex, encode = false): Promise<string[]> {
@@ -68,53 +101,44 @@ export class MnemonicKey implements IKeyManager {
     });
   }
 
-  toSeed(key: string | Hex, password?: string): string {
-    const arr = bip39.mnemonicToSeedSync(this.parseEntropyOrKeyToKey(key), password);
-    return TypeUtils.convertArrayToHexString(arr);
+  toSeed(entropy: Uint8Array, password?: string): string {
+    return TypeUtils.convertArrayToHexString(this.toSeedArray(entropy, password));
   }
 
-  toSeedAsync(key: string | Hex, password?: string): Promise<string> {
+  toSeedAsync(entropy: Uint8Array, password?: string): Promise<string> {
     return new Promise((resolve) => {
-      resolve(this.toSeed(key, password));
+      resolve(this.toSeed(entropy, password));
     });
   }
 
-  toSeedArray(key: string | Hex, password?: string): Uint8Array {
-    return bip39.mnemonicToSeedSync(this.parseEntropyOrKeyToKey(key), password);
+  toSeedArray(entropy: Uint8Array, password?: string): Uint8Array {
+    const words = this.toKey(entropy);
+    const normalizedWords = words.map(x => x.normalize("NFKD"));
+    TypeUtils.clearArray(words);
+    
+    let bytes = EncoderUtils.encodeText(normalizedWords[0]);
+    const spaceBytes = EncoderUtils.encodeText(" ");
+    for (let i = 1; i < normalizedWords.length; i++) {
+      bytes = TypeUtils.concatBytes(bytes, spaceBytes, EncoderUtils.encodeText(normalizedWords[i]));
+    }
+
+    TypeUtils.clearArray(normalizedWords);
+
+    return pbkdf2(sha512, bytes, `mnemonic${password || ""}`.normalize("NFKD"), { c: 2048, dkLen: 64 });
   }
 
-  toSeedArrayAsync(key: string | Hex, password?: string): Promise<Uint8Array> {
+  toSeedArrayAsync(entropy: Uint8Array, password?: string): Promise<Uint8Array> {
     return new Promise((resolve) => {
-      resolve(this.toSeedArray(key, password));
+      resolve(this.toSeedArray(entropy, password));
     });
   }
 
-  private parseKeyTokey(key: string | string[], encoded = false): string {
-    if (key instanceof Array) {
-      if (encoded) {
-        return key.map(x => this.decode(x)).join(" ");
-      } else {
-        return key.join(" ");
-      }
+  private parseKeyTokey(key: string[], encoded = false): string {
+    if (encoded) {
+      return key.map(x => this.decode(x)).join(" ");
     } else {
-      if (encoded) {
-        return key.split(" ").map(x => this.decode(x)).join(" ");
-      } else {
-        return key;
-      }
+      return key.join(" ");
     }
-  }
-
-  private parseEntropyOrKeyToKey(keyOrEntropy: string | Hex): string {
-    if (keyOrEntropy instanceof Uint8Array) {
-      return this.toKey(keyOrEntropy).join(" ");
-    }
-    if (keyOrEntropy.indexOf(" ") > 0) {
-      return keyOrEntropy;
-    }
-
-    // Hex
-    return this.toKey(TypeUtils.parseHexToArray(keyOrEntropy)).join(" ");
   }
 
   private encode(val: string): string {
@@ -132,5 +156,4 @@ export class MnemonicKey implements IKeyManager {
   private getWordList() {
     return wordlist;
   }
-
 }

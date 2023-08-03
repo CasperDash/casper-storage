@@ -1,6 +1,6 @@
 import { IHDKey } from "../bips/bip32";
 import { CasperHDWallet, DEFAULT_COINT_PATH, IHDWallet, IWallet, Wallet } from "../wallet";
-import { EncryptionType, AESUtils, EncryptionResult, EncoderUtils } from "../cryptography";
+import { EncryptionType, AESUtils, EncryptionResult } from "../cryptography";
 import { IUser, IUserOptions } from "./core";
 import { HDWalletInfo, WalletDescriptor, WalletInfo } from "./wallet-info";
 import { Hex } from "../utils";
@@ -71,21 +71,15 @@ export class User implements IUser {
    * @param password
    */
   public async updatePassword(password: string) {
-    const keyPhrase = this._hdWalletInfo ? await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase) : null;
-
     this.validatePassword(password);
     this._pwdOptions = new PasswordOptions(password);
-
-    if (keyPhrase) this._hdWalletInfo.encryptedKeyPhrase = await this.encrypt(keyPhrase);
   }
 
   public async setHDWallet(keyEntropy: Uint8Array, encryptionType: EncryptionType) {
     if (!keyEntropy) throw new Error("Key is required");
     if (!encryptionType) throw new Error("Type is required");
 
-    const keyFactory = KeyFactory.getInstance();
-    const keyPhrase = keyFactory.toKey(keyEntropy).join(" ");
-    this._hdWalletInfo = new HDWalletInfo(await this.encrypt(keyPhrase), keyFactory.toSeed(keyPhrase), encryptionType, this._hdWalletPathTemplate);
+    this._hdWalletInfo = new HDWalletInfo(keyEntropy, encryptionType, this._hdWalletPathTemplate);
     this._underlyingHDWallet = null;
   }
 
@@ -94,10 +88,7 @@ export class User implements IUser {
   }
 
   public async getHDWalletKeyPhrase(encode = false): Promise<string[]> {
-    const keyPhrase = await this.decrypt(this._hdWalletInfo.encryptedKeyPhrase);
-    const parts = keyPhrase.split(" ");
-    if (encode) return parts.map(x => EncoderUtils.encodeBase64(x));
-    return parts;
+    return KeyFactory.getInstance().toKey(this._hdWalletInfo.keyEntropy, encode);
   }
 
   public getWalletAccount(index: number): Promise<IWallet<IHDKey>> {
@@ -243,17 +234,28 @@ export class User implements IUser {
     try {
       const obj = JSON.parse(decryptedValue);
       if (obj.hdWallet) {
-        let keyPhrase = obj.hdWallet.keyPhrase;
-        if (!keyPhrase && obj.hdWallet.encryptedKeyPhrase) {
-          keyPhrase = await this.decrypt(obj.hdWallet.encryptedKeyPhrase);
+        let keyEntropy = obj.hdWallet.keyEntropy;
+
+        // Try to migrate from previous versions
+        if (keyEntropy) {
+          keyEntropy = new Uint8Array(keyEntropy);
+        } else {
+          let keyPhrase: string = obj.hdWallet.keyPhrase;
+          if (!keyPhrase && obj.hdWallet.encryptedKeyPhrase) {
+            keyPhrase = await this.decrypt(obj.hdWallet.encryptedKeyPhrase);
+          }
+          if (keyPhrase) {
+            keyEntropy = KeyFactory.getInstance().toEntropy(keyPhrase.split(" "))
+          }
         }
-        if (!keyPhrase) {
-          throw new Error(`Unable to find a vaid key-phrase to process HD wallet`);
+        
+        if (!keyEntropy) {
+          throw new Error(`Unable to find a vaid the key entropy to process HD wallet`);
         }
 
         this._hdWalletPathTemplate = obj.hdWallet.pathTemplate || DEFAULT_COINT_PATH;
 
-        await this.setHDWallet(KeyFactory.getInstance().toEntropy(keyPhrase), obj.hdWallet.encryptionType);
+        await this.setHDWallet(keyEntropy, obj.hdWallet.encryptionType);
 
         if (obj.hdWallet.derives) {
           obj.hdWallet.derives.forEach((wl: WalletInfo) => {
@@ -291,8 +293,9 @@ export class User implements IUser {
     }
 
     if (!this._underlyingHDWallet) {
+      const keySeed = KeyFactory.getInstance().toSeedArray(this._hdWalletInfo.keyEntropy);
       this._underlyingHDWallet = new CasperHDWallet(
-        this._hdWalletInfo.keySeed,
+        keySeed,
         this._hdWalletInfo.pathTemplate,
         this._hdWalletInfo.encryptionType
       ); // ! Hardcoded to Casper for now
