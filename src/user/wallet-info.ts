@@ -208,8 +208,7 @@ export class WalletInfo {
  * With the master key and specific encryption type
  */
 export class HDWalletInfo {
-  private _encryptedKeyPhrase: string;
-  private _keySeed: string;
+  private _keyEntropy: Uint8Array;
   private _encryptionType: EncryptionType;
   private _derivedWallets: WalletInfo[];
   private _pathTemplate: string;
@@ -220,30 +219,21 @@ export class HDWalletInfo {
    * @param keySeed 
    * @param encryptionType 
    */
-  constructor(encryptionKeyPhrase: string, keySeed: string, encryptionType: EncryptionType, pathTemplate: string) {
-    if (!encryptionKeyPhrase) throw new Error("Key phrase (master key) is required");
-    if (!keySeed) throw new Error("Key phrase seed (master key) is required");
+  constructor(keyEntropy: Uint8Array, encryptionType: EncryptionType, pathTemplate: string) {
+    if (!keyEntropy) throw new Error("Key enptropy (master key) is required");
     if (!encryptionType) throw new Error("Type is required");
     if (!pathTemplate) throw new Error("HD wallet path template is required");
 
-    this._encryptedKeyPhrase = encryptionKeyPhrase;
-    this._keySeed = keySeed;
+    this._keyEntropy = keyEntropy;
     this._encryptionType = encryptionType;
     this._pathTemplate   = pathTemplate;
   }
 
   /**
-   * Get encrypted key-phrase
+   * Get master key entropy
    */
-   public get encryptedKeyPhrase() {
-    return this._encryptedKeyPhrase;
-  }
-
-  /**
-   * Set encrypted key-phrase
-   */
-   public set encryptedKeyPhrase(value: string) {
-    this._encryptedKeyPhrase = value;
+   public get keyEntropy(): Uint8Array {
+    return this._keyEntropy;
   }
 
   /**
@@ -258,13 +248,6 @@ export class HDWalletInfo {
    */
   public get derivedWallets() {
     return this._derivedWallets;
-  }
-
-  /**
-   * Get the key-seed (from the keyphrase)
-   */
-  public get keySeed(): string {
-    return this._keySeed;
   }
 
   /**
@@ -311,15 +294,14 @@ export class HDWalletInfo {
   }
 
   /**
-   * Override the JSOn stringify behavior to have properly properties
+   * Override the JSON stringify behavior to have properly properties
    */
   public toJSON() {
     return {
-      encryptedKeyPhrase: this.encryptedKeyPhrase,
-      keySeed: this.keySeed,
+      keyEntropy: Array.from(this.keyEntropy),
       encryptionType: this.encryptionType,
       derives: this.derivedWallets,
-      pathTemplate: this._pathTemplate
+      pathTemplate: this.pathTemplate
     }
   }
 }

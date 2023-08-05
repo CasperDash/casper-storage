@@ -71,7 +71,8 @@ export class EncoderUtils {
     if (!TypeUtils.isString(input)) {
       throw new TypeError(`Expected string, got ${typeof input}`);
     }
-    return new TextEncoder().encode(input);
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1681809
+    return new Uint8Array(new TextEncoder().encode(input));
   }
   
   /**
