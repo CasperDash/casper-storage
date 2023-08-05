@@ -1,5 +1,5 @@
 import * as bip39 from '@scure/bip39';
-import { wordlist } from '@scure/bip39/wordlists/english';
+import { wordlist as WORDLIST } from '@scure/bip39/wordlists/english';
 import { Coder, utils } from '@scure/base';
 import { sha256 } from '@noble/hashes/sha256';
 import { sha512 } from '@noble/hashes/sha512';
@@ -25,6 +25,7 @@ const WORDS_LENGTH_STRENGTH_MAP = new Map<number, number>([
  * Let's use the longest available length
  */
 const DEFAULT_WORDS_LENGTH = 24;
+const SPACE_BYTES = EncoderUtils.encodeText(" ");
 
 /**
  * Wrapper to work with mnemonic
@@ -67,9 +68,13 @@ export class MnemonicKey implements IKeyManager {
     const words = this.getWordListCoder().encode(entropyArr);
     if (encode) {
       const encodedWords = words.map(x => this.encode(x));
+
+      // Clear the sensitive value
       TypeUtils.clearArray(words);
+
       return encodedWords;
     }
+
     return words;
   }
 
@@ -82,8 +87,13 @@ export class MnemonicKey implements IKeyManager {
   getWordAt(entropy: Hex, index: number, encode = false): string {
     const entropyArr = TypeUtils.parseHexToArray(entropy);
     assertEntropy(entropyArr);
+
     const indices: number[] = this.getWordListIndexCoder().encode(entropyArr);
     const word = this.getWordList()[indices[index]];
+  
+    // Clear the sensitive value
+    TypeUtils.clearArray(indices);
+
     return encode ? this.encode(word) : word;
   }
 
@@ -98,19 +108,24 @@ export class MnemonicKey implements IKeyManager {
   }
 
   toSeedArray(entropy: Uint8Array, password?: string): Uint8Array {
-    const words = this.toKey(entropy);
-    const normalizedWords = words.map(x => x.normalize("NFKD"));
-    TypeUtils.clearArray(words);
-    
-    let bytes = EncoderUtils.encodeText(normalizedWords[0]);
-    const spaceBytes = EncoderUtils.encodeText(" ");
-    for (let i = 1; i < normalizedWords.length; i++) {
-      bytes = TypeUtils.concatBytes(bytes, spaceBytes, EncoderUtils.encodeText(normalizedWords[i]));
+    const entropyArr = TypeUtils.parseHexToArray(entropy);
+    assertEntropy(entropyArr);
+
+    const words = this.getWordList();
+    const indices: number[] = this.getWordListIndexCoder().encode(entropyArr);
+
+    let bytes = EncoderUtils.encodeText(words[indices[0]].normalize("NFKD"));
+    for (let i = 1; i < indices.length; i++) {
+      bytes = TypeUtils.concatBytes(bytes, SPACE_BYTES, EncoderUtils.encodeText(words[indices[i]].normalize("NFKD")));
     }
 
-    TypeUtils.clearArray(normalizedWords);
+    const seed = pbkdf2(sha512, bytes, `mnemonic${password || ""}`.normalize("NFKD"), { c: 2048, dkLen: 64 });
 
-    return pbkdf2(sha512, bytes, `mnemonic${password || ""}`.normalize("NFKD"), { c: 2048, dkLen: 64 });
+    // Clear the sensitive values
+    TypeUtils.clearArray(indices);
+    TypeUtils.clearArray(bytes);
+
+    return seed;
   }
 
   toSeedArrayAsync(entropy: Uint8Array, password?: string): Promise<Uint8Array> {
@@ -140,7 +155,7 @@ export class MnemonicKey implements IKeyManager {
    * @returns 
    */
   private getWordList() {
-    return wordlist;
+    return WORDLIST;
   }
 
   private getWordListCoder() {

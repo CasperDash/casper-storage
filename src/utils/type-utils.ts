@@ -129,7 +129,7 @@ export class TypeUtils {
    * Clear all elements of the given array
    * @param input 
    */
-  public static clearArray<T>(input: T[]) {
+  public static clearArray<T>(input: T[] | Uint8Array) {
     if (input) {
       for (let i = 0; i < input.length; i++) {
         input[i] = undefined;
