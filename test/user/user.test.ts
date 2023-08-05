@@ -125,8 +125,8 @@ test("user.updatePassword-HDWallet-keyPhrase", async () => {
   await user.setHDWallet(testKeySlip10Vector1Entropy, EncryptionType.Ed25519);
 
   await user.updatePassword("Test1234%^");
-  
-  const keyPhrase = await user.getHDWalletKeyPhrase();
+  const keyEntropy = user.getHDWallet().keyEntropy;
+  const keyPhrase = keyFac.toKey(keyEntropy);
   expect(keyPhrase.join(" ")).toBe(testKeySlip10Vector1.join(" "));
 });
 
@@ -328,7 +328,8 @@ test("user.hd-wallet-get_keyPhrase", async () => {
   const user = new User(PASSWORD);
   await user.setHDWallet(testKeySlip10Vector1Entropy, EncryptionType.Ed25519);
 
-  const keyPhrase = await user.getHDWalletKeyPhrase();
+  const keyEntropy = user.getHDWallet().keyEntropy;
+  const keyPhrase = keyFac.toKey(keyEntropy);
   expect(keyPhrase.join(" ")).toBe(testKeySlip10Vector1.join(" "));
 });
 

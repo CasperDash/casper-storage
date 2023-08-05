@@ -1,6 +1,6 @@
 import * as bip39 from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-import { utils as baseUtils } from '@scure/base';
+import { Coder, utils } from '@scure/base';
 import { sha256 } from '@noble/hashes/sha256';
 import { sha512 } from '@noble/hashes/sha512';
 import { pbkdf2 } from '@noble/hashes/pbkdf2';
@@ -26,38 +26,16 @@ const WORDS_LENGTH_STRENGTH_MAP = new Map<number, number>([
  */
 const DEFAULT_WORDS_LENGTH = 24;
 
-function calcChecksum(entropy: Uint8Array) {
-  // Checksum is ent.length/4 bits long
-  const bitsLeft = 8 - entropy.length / 4;
-  // Zero rightmost "bitsLeft" bits in byte
-  // For example: bitsLeft=4 val=10111101 -> 10110000
-  return new Uint8Array([(sha256(entropy)[0]! >> bitsLeft) << bitsLeft]);
-}
-
-function getCoder(wordlist: string[]) {
-  if (!Array.isArray(wordlist) || wordlist.length !== 2048 || typeof wordlist[0] !== 'string')
-    throw new Error('Worlist: expected array of 2048 strings');
-  wordlist.forEach((i) => {
-    if (typeof i !== 'string') throw new Error(`Wordlist: non-string element: ${i}`);
-  });
-  return baseUtils.chain(
-    baseUtils.checksum(1, calcChecksum),
-    baseUtils.radix2(11, true),
-    baseUtils.alphabet(wordlist)
-  );
-}
-
-function assertEntropy(entropy: Uint8Array) {
-  assertBytes(entropy, 16, 20, 24, 28, 32);
-}
-
 /**
  * Wrapper to work with mnemonic
  */
 export class MnemonicKey implements IKeyManager {
 
+  private _wordListCoder: Coder<Uint8Array, string[]>;
+  private _wordListIndexCoder: Coder<Uint8Array, number[]>;
+
   generate(wordsLength?: number): Uint8Array {
-    if (wordsLength == null) {
+    if (!wordsLength) {
       wordsLength = DEFAULT_WORDS_LENGTH;
     }
     if (!WORDS_LENGTH_STRENGTH_MAP.has(wordsLength)) {
@@ -86,7 +64,7 @@ export class MnemonicKey implements IKeyManager {
     const entropyArr = TypeUtils.parseHexToArray(entropy);
     assertEntropy(entropyArr);
 
-    const words = getCoder(wordlist).encode(entropyArr);
+    const words = this.getWordListCoder().encode(entropyArr);
     if (encode) {
       const encodedWords = words.map(x => this.encode(x));
       TypeUtils.clearArray(words);
@@ -99,6 +77,14 @@ export class MnemonicKey implements IKeyManager {
     return new Promise((resolve) => {
       resolve(this.toKey(entropy, encode));
     });
+  }
+
+  getWordAt(entropy: Hex, index: number, encode = false): string {
+    const entropyArr = TypeUtils.parseHexToArray(entropy);
+    assertEntropy(entropyArr);
+    const indices: number[] = this.getWordListIndexCoder().encode(entropyArr);
+    const word = this.getWordList()[indices[index]];
+    return encode ? this.encode(word) : word;
   }
 
   toSeed(entropy: Uint8Array, password?: string): string {
@@ -156,4 +142,53 @@ export class MnemonicKey implements IKeyManager {
   private getWordList() {
     return wordlist;
   }
+
+  private getWordListCoder() {
+    if (!this._wordListCoder) {
+      this._wordListCoder = produceWordListCoder(this.getWordList());
+    }
+    return this._wordListCoder;
+  }
+
+  private getWordListIndexCoder() {
+    if (!this._wordListIndexCoder) {
+      this._wordListIndexCoder = produceWordListIndexCoder();
+    }
+    return this._wordListIndexCoder;
+  }
+}
+
+function produceWordListCoder(words: string[]) {
+  if (!Array.isArray(words) || words.length !== 2048 || typeof words[0] !== 'string') {
+    throw new Error('Worlist: expected array of 2048 strings');
+  }
+  return utils.chain(
+    utils.checksum(1, calcChecksum),
+    utils.radix2(11, true),
+    utils.alphabet(words)
+  );
+}
+
+function produceWordListIndexCoder() {
+  return utils.chain(
+    utils.checksum(1, calcChecksum),
+    utils.radix2(11, true),{
+      encode: (input: number[]) => input,
+      decode: (input: number[]) => {
+        throw new Error(`Decode is not supported - ${input}`);
+      },
+    }
+  );
+}
+
+function calcChecksum(entropy: Uint8Array) {
+  // Checksum is entropy.length / 4 bits long
+  const bitsLeft = 8 - (entropy.length / 4);
+  // Zero rightmost "bitsLeft" bits in byte
+  // For example: bitsLeft=4 val=10111101 -> 10110000
+  return new Uint8Array([(sha256(entropy)[0]! >> bitsLeft) << bitsLeft]);
+}
+
+function assertEntropy(entropy: Uint8Array) {
+  assertBytes(entropy, 16, 20, 24, 28, 32);
 }

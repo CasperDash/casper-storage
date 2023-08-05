@@ -109,6 +109,28 @@ test("toEntropyAsync-toKeyAsync", async () => {
   expect(regeneratedkey.join(" ")).toBe(key.join(" "));
 });
 
+test("getWordAt-first", async () => {
+  const key = TEST_KEY_01;
+  let entropy = await mnKey.toEntropyAsync(key);
+  let word = mnKey.getWordAt(entropy, 0);
+  expect(word).toBe(key[0]);
+});
+
+test("getWordAt-middle", async () => {
+  const key = TEST_KEY_01;
+  let entropy = await mnKey.toEntropyAsync(key);
+  let index = key.length - 4;
+  let word = mnKey.getWordAt(entropy, index);
+  expect(word).toBe(key[index]);
+});
+
+test("getWordAt-last", async () => {
+  const key = TEST_KEY_01;
+  let entropy = await mnKey.toEntropyAsync(key);
+  let word = mnKey.getWordAt(entropy, key.length - 1);
+  expect(word).toBe(key[key.length - 1]);
+});
+
 test("toSeed-ok", () => {
   const seed = mnKey.toSeed(mnKey.toEntropy(TEST_KEY_01))
   expect(seed).toBe(TEST_SEED_01);

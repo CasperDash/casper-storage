@@ -87,10 +87,6 @@ export class User implements IUser {
     return this._hdWalletInfo;
   }
 
-  public async getHDWalletKeyPhrase(encode = false): Promise<string[]> {
-    return KeyFactory.getInstance().toKey(this._hdWalletInfo.keyEntropy, encode);
-  }
-
   public getWalletAccount(index: number): Promise<IWallet<IHDKey>> {
     return this.getWallet().getAccount(index);
   }

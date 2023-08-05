@@ -44,6 +44,15 @@ export interface IKeyManager {
   toKeyAsync(entropy: Hex, encode?: boolean): Promise<string[]>;
 
   /**
+   * Get a word at a specific index of the given entropy.
+   * If the index is not available, undefined will be returned
+   * @param entropy 
+   * @param index 
+   * @param encode
+   */
+  getWordAt(entropy: Hex, index: number, encode: boolean): string;
+
+  /**
    * Convert the entropy of key to heximal seed
    * @param entropy 
    * @param password optional password to protect seed key

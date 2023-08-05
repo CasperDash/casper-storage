@@ -33,12 +33,6 @@ export interface IUser {
   setHDWallet(key: Uint8Array, type: EncryptionType): Promise<void>;
 
   /**
-   * Get the key-phrase of HD wallet
-   * @param encode to encode each word in the  result
-   */
-   getHDWalletKeyPhrase(encode?: boolean): Promise<string[]>;
-
-  /**
    * Get the HD wallet
    */
   getHDWallet(): HDWalletInfo;
